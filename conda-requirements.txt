@@ -4,3 +4,4 @@ numpy=1.9.1=py27_0
 dateutil=2.1=py27_0
 six=1.9.0=py27_0
 pytz=2014.9=py27_0
+lxml=3.4.1=py27_0
