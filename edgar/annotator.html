@@ -10,20 +10,6 @@ ul.ui-autocomplete {
 </style>
 <script>
 jQuery(function ($) {
-  $('body').annotator().annotator('addPlugin', 'Tags');
-
-  var availableTags = [
-    "james_e_taylor",
-    "stephen_s_burns",
-    "martin_j_rucidlo",
-    "julio_c_rodriguez",
-    "raymond_j_chess",
-    "other"
-  ];
-
-  $('body').data('annotator').plugins.Tags.input.autocomplete({
-    source: availableTags
-  });
-
+  $('body').annotator();
 });
 </script>
