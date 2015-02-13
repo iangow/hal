@@ -1,1 +1,2 @@
 BeautifulSoup==3.2.1
+django-toolbelt==0.0.1
