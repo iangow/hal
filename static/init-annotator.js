@@ -1,6 +1,6 @@
-function init(l) {
+function init(module, l) {
 
-    Annotator.Plugin.Tagger = function (element) {
+    module.Plugin.Tagger = function (element) {
         return {
             pluginInit: function () {
                 var textarea = $('#annotator-field-0');
