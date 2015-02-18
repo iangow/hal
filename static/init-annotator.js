@@ -1,36 +1,29 @@
-jQuery(function ($) {
+function init(l) {
 
-Annotator.Plugin.StoreLogger = function (element) {
-  return {
-    pluginInit: function () {
-      this.annotator
-          .subscribe("annotationCreated", function (annotation) {
-            console.info("The annotation: %o has just been created!", annotation)
-          })
-          .subscribe("annotationUpdated", function (annotation) {
-            console.info("The annotation: %o has just been updated!", annotation)
-          })
-          .subscribe("annotationDeleted", function (annotation) {
-            console.info("The annotation: %o has just been deleted!", annotation)
-          });
+    Annotator.Plugin.Tagger = function (element) {
+        return {
+            pluginInit: function () {
+                var textarea = $('#annotator-field-0');
+                textarea.attr('readonly', true);
+                textarea.attr('placeholder', '');
 
-var select = $('<ol id="my-select" />')
-$('#annotator-field-0').after(select);
-
-var selectValues = { "1": "test 1", "2": "test 2" };
-$.each(selectValues, function(key, value) {   
-     $('#my-select')
-         .append($('<li class="ui-widget-content" />')
-         .text(value)); 
-});
-
-$('#my-select').selectable();
-
-    }
-  }
-};
-
-var content = $('body').annotator();
-content.annotator('addPlugin', 'StoreLogger');
-
-});
+                var e = $('<ol id="my-select" />')
+                textarea.after(e);
+                var select = $('#my-select')
+    
+                $.each(l, function(key, value) {   
+                    select.append($('<li class="ui-widget-content" />').text(value));
+                });
+    
+                select.selectable({
+                    selected: function( event, ui ) {
+                        textarea.val(ui.selected.textContent);
+                    }
+                });
+            }
+        }
+    };
+    
+    var content = $('body').annotator();
+    content.annotator('addPlugin', 'Tagger');
+}
