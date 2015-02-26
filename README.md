@@ -1,7 +1,5 @@
 # HAL
 
-![HAL9000](http://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/HAL9000.svg/256px-HAL9000.svg.png)
-
 I want to create a program that consumes highlighted documents, learns from the corpus, and does a reasonable job at highlighting future documents. To start I need to figure out how to pull data out of `ElasticSearch`.
 
 ## Highlighter
