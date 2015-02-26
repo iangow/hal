@@ -2,7 +2,6 @@ from django.db import models
 import requests
 import pandas as pd
 import re
-from BeautifulSoup import BeautifulSoup
 
 def index_url(folder_url):
     '''
@@ -37,17 +36,3 @@ class Filing(models.Model):
                 def_14a_url(prefix + self.folder)
             )
             self.text = response.text
-
-    def set_html(self):
-        self.set_text()
-        tree = BeautifulSoup(self.text)
-        l = tree.findAll('html')
-        assert len(l) == 1
-        html = l[0]
-
-        with open('edgar/annotator.html') as f:
-            text = f.read()
-        annotator = BeautifulSoup(text)
-        html.head.insert(0, annotator)
-
-        self.html = html.prettify()
