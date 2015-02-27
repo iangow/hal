@@ -2,3 +2,5 @@
 /db.sqlite3
 /.env
 /staticfiles/
+/elasticsearch-1.4.4/
+/annotator-store/
