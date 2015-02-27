@@ -20,3 +20,13 @@ $(ES_DIR):
 	rm $(ES_DIR).zip
 
 install: env $(AS_DIR) $(ES_DIR)
+
+EXPORT_VARS = $(shell cat .env | sed 's/^/export /' | tr '\n' ';')
+start:
+	cd $(ES_DIR); screen -S elastic-search -d -m bin/elasticsearch
+	sleep 10 # Need to wait for elastic search server to boot up.
+	source activate $(ENV_NAME); cd $(AS_DIR); screen -S annotator-store -d -m python run.py
+	$(EXPORT_VARS); source activate $(ENV_NAME); screen -S hal -d -m python manage.py runserver
+
+stop:
+	screen -ls | grep Detached | cut -d. -f1 | awk '{print $1}' | xargs -n 1 pkill -TERM -P
