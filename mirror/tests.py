@@ -1,20 +1,17 @@
 from django.test import TestCase
-from models import Site, File
+from models import File
 import os
 
 
 class MyTestCase(TestCase):
 
     def setUp(self):
-        self.path = '769397/000076939713000018/0000769397-13-000018.hdr.sgml'
+        self.url = 'http://www.sec.gov/Archives/edgar/data/769397/000076939713000018/0000769397-13-000018.hdr.sgml'
 
     def test_download(self):
-        s = Site.objects.create(
-            local_path='edgar-files',
-            remote_url='http://www.sec.gov/Archives/edgar/data/'
-        )
         f = File.objects.create(
-            site=s, path=self.path
+            remote_url=self.url
         )
         f.download()
+        assert os.path.exists(f.local_path())
         os.remove(f.local_path())
