@@ -30,3 +30,6 @@ start:
 
 stop:
 	screen -ls | grep Detached | cut -d. -f1 | awk '{print $1}' | xargs -n 1 pkill -TERM -P
+
+edgar/filings/filings.txt:
+	cd edgar/filings; make filings.txt
