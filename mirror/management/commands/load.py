@@ -10,7 +10,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         n = len(args)
         for i, folder in enumerate(args):
-            f = load(folder)
+            try:
+                f = load(folder)
+            except:
+                print folder
+                sys.exit(255)
             path = f.local_path()
             counter = i + 1
             message = '\r[%(counter)d / %(n)d] %(path)s' % locals()

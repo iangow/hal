@@ -33,3 +33,9 @@ stop:
 
 edgar/filings/filings.txt:
 	cd edgar/filings; make filings.txt
+
+test:
+	python manage.py test --with-doctest
+
+load:
+	cat mirror/filings/filings.txt | xargs python manage.py load
