@@ -5,17 +5,14 @@ import os
 
 class File(models.Model):
 
-    MIRRORS = {
-        'http://www.sec.gov/Archives/edgar/data': 'edgar-data'
-    }
+    REMOTE_ROOT = 'http://www.sec.gov/Archives/edgar/data'
+    LOCAL_ROOT = os.environ.get('LOCAL_ROOT', 'edgar-data')
 
     remote_url = models.CharField(max_length=200, unique=True)
 
     def local_path(self):
-        for k, v in self.MIRRORS.items():
-            if self.remote_url.startswith(k):
-                return self.remote_url.replace(k, v)
-        raise Exception('Unexpected url', self.remote_url)
+        assert self.remote_url.startswith(self.REMOTE_ROOT)
+        return self.remote_url.replace(self.REMOTE_ROOT, self.LOCAL_ROOT)
 
     def download(self):
         path = self.local_path()
