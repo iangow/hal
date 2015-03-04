@@ -2,7 +2,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import scan
 import json
 
-def _dict(doc, keys=['quote', 'text', 'uri', 'ranges']):
+def _dict(doc, keys=['uri', 'ranges']):
     return dict(
         [(k, doc['_source'].get(k)) for k in keys]
     )
