@@ -1,7 +1,7 @@
 from django.db import models
 import requests
 import os
-from sec_utils import def_14a_url
+from sec_utils import Filing
 
 
 class File(models.Model):
@@ -40,7 +40,9 @@ def load(folder):
     assert count in [0, 1]
     if count == 1:
         return matches[0]
+
+    filing = Filing(folder)
+    if filing.is_def_14a:
+        return File.objects.create(remote_url=filing.def_14a_url)
     else:
-        doc_url = def_14a_url(folder_url)
-        f = File.objects.create(remote_url=doc_url)
-        return f
+        return filing

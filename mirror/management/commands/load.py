@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
-from mirror.models import load
+from mirror.models import File, load
 import sys
+import json
 
 
 class Command(BaseCommand):
@@ -15,7 +16,7 @@ class Command(BaseCommand):
             except:
                 print folder
                 sys.exit(255)
-            path = f.local_path()
+            path = (f.local_path() if type(f) == File else json.dumps(f._doc))
             counter = i + 1
             message = '\r[%(counter)d / %(n)d] %(path)s' % locals()
             sys.stdout.write(message)
