@@ -5,6 +5,9 @@ env:
 	conda install --file conda-requirements.txt -y; \
 	pip install -r requirements.txt
 
+activate:
+	echo "source activate $(ENV_NAME)"
+
 AS_DIR = annotator-store
 $(AS_DIR):
 	git clone https://github.com/openannotation/annotator-store.git $(AS_DIR)
@@ -38,4 +41,4 @@ test:
 	python manage.py test --with-doctest
 
 load:
-	cat mirror/filings/filings.txt | xargs python manage.py load
+	cat mirror/filings/filings.txt | xargs -P 20 python manage.py load

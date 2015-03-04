@@ -1,4 +1,6 @@
 import pandas as pd
+import re
+import sys
 
 
 class Filing(dict):
@@ -8,7 +10,7 @@ class Filing(dict):
     def __init__(self, folder):
         self.url = self.PREFIX + folder
         self._set_index_url()
-        self._set_doc()
+        self._set_files()
         self._set_def_14a_url()
 
     def _set_index_url(self):
@@ -22,33 +24,12 @@ class Filing(dict):
         filename = df.Name[df.is_index].values[0]
         self.index_url = '/'.join([self.url, filename])
 
-    def _set_doc(self):
+    def _set_files(self):
         '''
-        Returns the html document submitted to edgar. Ignores images and
-        the complete submission file.
-
-        >>> Filing('769397/000076939713000018')._doc
-        {u'Document': u'proxydocument.htm', u'Type': u'DEF 14A', u'Description': u'DEF 14A', u'Seq': 1.0, u'Size': 2205821}
-
-        >>> Filing('54991/000095015202009613')._doc
-        {u'Document': u'l97695bdef14a.htm', u'Type': u'DEF 14A', u'Description': u'KEITHLEY INSTRUMENTS DEFINITIVE PROXY', u'Seq': 1.0, u'Size': 187133}
+        >>> Filing('769397/000076939713000018').files.shape
+        (23, 7)
         '''
-        exclude = {
-            'Type': ['GRAPHIC', 'EX-99', 'EX-99.1'],
-            'Description': ['Complete submission text file']
-        }
-        df = pd.read_html(self.index_url, header=0)[0]
-        for k, l in exclude.items():
-            for v in l:
-                drop = df[k] == v
-                df = df[-drop]
-
-        # Drop pdf files
-        pdf_file = df.Document.map(lambda s: s.endswith('.pdf'))
-        df = df[-pdf_file]
-
-        assert df.shape[0] == 1, df
-        self._doc = df.ix[0].to_dict()
+        self.files = pd.read_html(self.index_url, header=0)[0]
 
     def _set_def_14a_url(self):
         '''
@@ -57,13 +38,24 @@ class Filing(dict):
 
         >>> Filing('1084869/000108486908000022').def_14a_url
         u'http://www.sec.gov/Archives/edgar/data/1084869/000108486908000022/proxy.txt'
-        '''
-        d = self._doc
 
-        self.is_def_14a = d['Type'] == 'DEF 14A' or d['Description'] == 'DEF 14A'
+        >>> Filing('1364742/000134100410000059').is_def_14a
+        False
+        '''
+        df = self.files
+        df['pdf_file'] = df.Document.map(lambda s: s.endswith('.pdf'))
+        flag = 'DEF 14A'
+        df['def_14a'] = ((df.Type == flag) | (df.Document == flag)) & -df.pdf_file
+
+        count = df.def_14a.sum()
+        assert count in [0, 1], df
+        self.is_def_14a = count == 1
 
         if self.is_def_14a:
-            self.def_14a_url = '/'.join([self.url, d['Document']])
+            filename = df.Document[df.def_14a].values[0]
+            self.def_14a_url = '/'.join([self.url, filename])
         else:
-            # TODO: Betting logging system.
-            print d
+            # TODO: Better logging system.
+            # sys.stderr.write(str(df.Type.values))
+            # sys.stderr.write('\n')
+            pass

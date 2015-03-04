@@ -16,7 +16,7 @@ class Command(BaseCommand):
             except:
                 print folder
                 sys.exit(255)
-            path = (f.local_path() if type(f) == File else json.dumps(f._doc))
+            path = (f.local_path() if type(f) == File else '')
             counter = i + 1
             message = '\r[%(counter)d / %(n)d] %(path)s' % locals()
             sys.stdout.write(message)
