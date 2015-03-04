@@ -11,6 +11,9 @@ class File(models.Model):
 
     remote_url = models.CharField(max_length=200, unique=True)
 
+    def path(self):
+        return self.remote_url.replace(self.REMOTE_ROOT, '')[1:]
+
     def local_path(self):
         assert self.remote_url.startswith(self.REMOTE_ROOT)
         return self.remote_url.replace(self.REMOTE_ROOT, self.LOCAL_ROOT)
