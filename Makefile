@@ -42,3 +42,8 @@ test:
 
 load:
 	cat mirror/filings/filings.txt | xargs -P 20 python manage.py load
+
+filings.txt: filings.R
+        Rscript filings.R > filings.txt
+        # Remove NAs
+        sed -i '/NA/d' filings.txt
