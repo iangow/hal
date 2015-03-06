@@ -21,7 +21,7 @@ def files(url):
     '''
     return pd.read_html(index_url(url), header=0)[0]
 
-def def_14a_url(url):
+def _def_14a_url(url):
     '''
     >>> def_14a_url('http://www.sec.gov/Archives/edgar/data/769397/000076939713000018')
     u'http://www.sec.gov/Archives/edgar/data/769397/000076939713000018/proxydocument.htm'
@@ -45,3 +45,10 @@ def def_14a_url(url):
         return _join(url, filename)
     else:
         return None
+
+def def_14a_url(url):
+    try:
+        result = _def_14a_url(url)
+    except:
+        result = ''
+    return result

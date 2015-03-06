@@ -1,4 +1,5 @@
 import os
+from multiprocessing import Pool
 import pandas as pd
 import requests
 import sec
@@ -37,12 +38,14 @@ class Filing(Base):
 
 class Loader(object):
 
-    def __init__(self, db):
+    def __init__(self, db, block_size=1000, processes=32):
         self.db = db
         engine = create_engine('sqlite:///' + db)
         Base.metadata.create_all(engine)
         Session = sessionmaker(bind=engine)
         self.session = Session()
+        self.block_size = block_size
+        self.pool = Pool(processes)
 
     def _new_urls(self):
         unique_urls = '''
@@ -66,8 +69,19 @@ class Loader(object):
         for i, url in enumerate(df.url.values):
             f = Filing(url=url)
             self.session.add(f)
-            if i % 1000 == 0:
+            if i % self.block_size == 0:
                 self.session.flush()
+        self.session.commit()
+
+    def set_def_14a_urls(self):
+        qs = self.session.query(Filing).filter(Filing.def_14a_url=='')
+        filings = list(qs)
+        urls = [f.url for f in filings]
+        def_14a_urls = self.pool.map(sec.def_14a_url, urls)
+        
+        for f, def_14a in zip(filings, def_14a_urls):
+            f.def_14a_url = def_14a
+            self.session.add(f)
         self.session.commit()
 
 def load(folder):
@@ -87,4 +101,5 @@ def load(folder):
 if __name__ == '__main__':
     script, db = sys.argv
     loader = Loader(db)
-    loader.load_urls()
+    # loader.load_urls()
+    loader.set_def_14a_urls()
