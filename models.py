@@ -1,22 +1,14 @@
-import requests
 import os
-import sqlite3
 import pandas as pd
-import sys
+import requests
+import sec
 from sqlalchemy import create_engine
 from sqlalchemy import Column, String, Integer, Text
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
-
-def all_urls(db):
-    query = '''
-        SELECT url FROM equilar_director_filings
-        WHERE url IS NOT NULL
-        GROUP BY url
-    '''
-    with sqlite3.connect(db) as con:
-        df = pd.read_sql(query, con)
-    return df
+from sqlalchemy.orm import sessionmaker
+import sqlite3
+import sys
 
 class Filing(Base):
 
@@ -43,6 +35,41 @@ class Filing(Base):
         with open(self.local_path()) as f:
             return f.read()
 
+class Loader(object):
+
+    def __init__(self, db):
+        self.db = db
+        engine = create_engine('sqlite:///' + db)
+        Base.metadata.create_all(engine)
+        Session = sessionmaker(bind=engine)
+        self.session = Session()
+
+    def _new_urls(self):
+        unique_urls = '''
+            SELECT url FROM equilar_director_filings
+            WHERE url IS NOT NULL
+            GROUP BY url
+        '''
+        query = '''
+            SELECT url
+            FROM (%s)
+            LEFT JOIN filings USING (url)
+            WHERE filings.id IS NULL;
+        ''' % unique_urls
+
+        with sqlite3.connect(self.db) as con:
+            df = pd.read_sql(query, con)
+        return df
+
+    def load_urls(self):
+        df = self._new_urls()
+        for i, url in enumerate(df.url.values):
+            f = Filing(url=url)
+            self.session.add(f)
+            if i % 1000 == 0:
+                self.session.flush()
+        self.session.commit()
+
 def load(folder):
     folder_url = '/'.join([Filing.REMOTE_ROOT, folder])
     matches = list(Filing.objects.filter(remote_url__startswith=folder_url))
@@ -58,8 +85,6 @@ def load(folder):
         return filing
 
 if __name__ == '__main__':
-    # script, db = sys.argv
-    db = 'db.sqlite'
-    # engine = create_engine('sqlite:///' + db)
-    urls = all_urls(db)
-    print urls.head()
+    script, db = sys.argv
+    loader = Loader(db)
+    loader.load_urls()
