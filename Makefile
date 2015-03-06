@@ -1,3 +1,9 @@
+DATABASE = db.sqlite
+
+sync_raw_data:
+	Rscript 1_equilar_director_filings.R $(DATABASE)
+	touch .raw-data
+
 ENV_NAME = hal
 env:
 	-conda create -n $(ENV_NAME) python -y
@@ -44,6 +50,6 @@ load:
 	cat mirror/filings/filings.txt | xargs -P 20 python manage.py load
 
 filings.txt: filings.R
-        Rscript filings.R > filings.txt
-        # Remove NAs
-        sed -i '/NA/d' filings.txt
+	Rscript filings.R > filings.txt
+	# Remove NAs
+	sed -i '/NA/d' filings.txt

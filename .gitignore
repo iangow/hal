@@ -6,3 +6,5 @@
 /annotator-store/
 /edgar-data/
 *~
+/config.R
+/.raw-data

@@ -1,3 +1,9 @@
+# New plan of attack
+
+Pull raw data from postgres server and save it locally.
+
+    make sync_raw_data
+
 # HAL
 
 HAL (Highlighting Assistant Legend) will be designed to make highlighting thousands of documents easy. HAL has a number of components:

@@ -11,7 +11,7 @@ con <- do.call(dbConnect, config)
 retcode <- dbDisconnect(con)
 
 ## save to sqlite database
-outfile <- '../db.sqlite'
+outfile <- commandArgs(trailingOnly=TRUE)
 create <- !file.exists(outfile)
 db <- src_sqlite(outfile, create=create)
 db_drop_table(db$con, 'equilar_director_filings', force=TRUE)
