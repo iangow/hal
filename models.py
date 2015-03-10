@@ -8,6 +8,7 @@ Base = declarative_base()
 from sqlalchemy.orm import sessionmaker
 import sqlite3
 import sys
+import time
 
 class Filing(Base):
 
@@ -71,7 +72,14 @@ class Loader(object):
         urls = self._new_urls()
         n = len(urls) / self.block_size
         for i, block in enumerate(self._blocks(urls)):
-            filings = self.pool.map(create_filing, block)
+            successful = False
+            while not successful:
+                try:
+                    filings = self.pool.map(create_filing, block)
+                    successful = True
+                except EOFError:
+                    print 'I think the program has too many ftp session open. Let us wait thirty seconds and try again.'
+                    time.sleep(30)
             self.session.add_all(filings)
             self.session.commit()
             print '\r [%d / %d]' % (i, n)
