@@ -54,13 +54,13 @@ class Client(object):
         self.buffer.close()
         return text
 
-    def read(self, cmd):
+    def retr(self, cmd):
         self._open_buffer()
         self.ftp.retrbinary(cmd, self._write_buffer)
         return self._close_buffer()
 
-    def load(self, path):
-        text = self.read('LIST %s' % path)
+    def load(self, folder):
+        text = self.retr('LIST %(folder)s' % locals())
         self.files = pd.read_fwf(StringIO(text), header=None)
 
         df = self.files
@@ -68,10 +68,10 @@ class Client(object):
         is_index = filenames.map(lambda s: hasattr(s, 'endswith') and s.endswith('index.htm'))
         assert is_index.sum() == 1
         filename = filenames[is_index].values[0]
-        self.index_path = _join(path, filename)
+        self.index_path = _join(folder, filename)
 
         cmd = 'RETR %s' % self.index_path
-        text = self.read(cmd)
+        text = self.retr(cmd)
         soup1 = BeautifulSoup(text)
         soup2 = BeautifulSoup(soup1.text)
         get_text = lambda e: e.contents[0].strip()
@@ -90,12 +90,19 @@ class Client(object):
         assert count in [0, 1], df
         if count == 1:
             filename = df.Document[df.is_form].values[0]
-            self.form_path = _join(path, filename)
+            self.form_path = _join(folder, filename)
         else:
             self.form_path = None
 
         if self.form_path is not None:
             cmd = 'RETR %s' % self.form_path
-            self.form_html = self.read(cmd)
+            self.form_html = self.retr(cmd)
         else:
             self.form_html = None
+
+def get_form(folder):
+    c = Client()
+    c.login()
+    c.load(folder)
+    c.logout()
+    return c.form_html

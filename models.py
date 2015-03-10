@@ -38,12 +38,15 @@ class Filing(Base):
 
 class Loader(object):
 
-    def __init__(self, db, block_size=1000, processes=32):
+    HTTP_ROOT = 'http://www.sec.gov/Archives/edgar/data/'
+
+    def __init__(self, db, block_size=30, processes=30):
         self.db = db
         engine = create_engine('sqlite:///' + db)
         Base.metadata.create_all(engine)
         Session = sessionmaker(bind=engine)
         self.session = Session()
+
         self.block_size = block_size
         self.pool = Pool(processes)
 
@@ -62,27 +65,34 @@ class Loader(object):
 
         with sqlite3.connect(self.db) as con:
             df = pd.read_sql(query, con)
-        return df
+        return df.url
+
+    def _blocks(self, l):
+        for start in xrange(0, len(l), self.block_size):
+            yield l[start:start+self.block_size]
 
     def load_urls(self):
-        df = self._new_urls()
-        for i, url in enumerate(df.url.values):
-            f = Filing(url=url)
-            self.session.add(f)
-            if i % self.block_size == 0:
-                self.session.flush()
-        self.session.commit()
+        urls = self._new_urls()
+        for block in self._blocks(urls):
+            for url in block:
+                f = Filing(url=url)
+                self.session.add(f)
+            self.session.commit()
 
     def set_def_14a_urls(self):
         qs = self.session.query(Filing).filter(Filing.def_14a_url=='')
         filings = list(qs)
-        urls = [f.url for f in filings]
-        def_14a_urls = self.pool.map(sec.def_14a_url, urls)
+
+        for block in self._blocks(filings):
+            urls = [f.url for f in block]
+            folders = [u.replace(self.HTTP_ROOT, '') for u in urls]
+            def_14a_urls = self.pool.map(sec.get_form, folders)
         
-        for f, def_14a in zip(filings, def_14a_urls):
-            f.def_14a_url = def_14a
-            self.session.add(f)
-        self.session.commit()
+            for f, def_14a in zip(filings, def_14a_urls):
+                f.def_14a_url = def_14a
+                self.session.add(f)
+            self.session.commit()
+            print 'Saved block'
 
 def load(folder):
     folder_url = '/'.join([Filing.REMOTE_ROOT, folder])
