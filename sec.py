@@ -11,29 +11,27 @@ class Client(object):
     '''
     >>> c = Client()
     >>> c.login()
-    >>> c.load('769397/000076939713000018')
-    >>> c.files.shape
-    (25, 9)
+    >>> d = c.load('769397/000076939713000018')
 
-    >>> c.index_path
+    >>> d['index_path']
     '769397/000076939713000018/0000769397-13-000018-index.htm'
     
-    >>> c.form_path
+    >>> d['form_path']
     u'769397/000076939713000018/proxydocument.htm'
     
-    >>> c.load('1084869/000108486908000022')
-    >>> c.form_path
+    >>> c.load('1084869/000108486908000022')['form_path']
     u'1084869/000108486908000022/proxy.txt'
     
-    >>> c.load('1364742/000134100410000059')
-    >>> c.form_path is None
-    True
+    >>> c.load('1364742/000134100410000059')['type']
+    u'DEF 14C'
+
+    >>> c.load('1001871/000115752306006856')['form_path']
+    u'1001871/000115752306006856/a5187774.txt'
     
     >>> c.logout()
     '''
 
-    def __init__(self, form='DEF 14A'):
-        self.form = form
+    TYPES = ['DEF 14A', 'DEF 14C']
 
     def login(self, host='ftp.sec.gov', user='anonymous', passwd='amarder@hbs.edu', cwd='/edgar/data/'):
         self.ftp = FTP(host)
@@ -60,49 +58,38 @@ class Client(object):
         return self._close_buffer()
 
     def load(self, folder):
-        text = self.retr('LIST %(folder)s' % locals())
-        self.files = pd.read_fwf(StringIO(text), header=None)
-
-        df = self.files
+        result = {'folder': folder}
+        
+        text = self.retr('LIST %(folder)s' % result)
+        df = pd.read_fwf(StringIO(text), header=None)
         filenames = df[8]
         is_index = filenames.map(lambda s: hasattr(s, 'endswith') and s.endswith('index.htm'))
         assert is_index.sum() == 1
         filename = filenames[is_index].values[0]
-        self.index_path = _join(folder, filename)
+        result['index_path'] = _join(folder, filename)
 
-        cmd = 'RETR %s' % self.index_path
+        cmd = 'RETR %(index_path)s' % result
         text = self.retr(cmd)
         soup1 = BeautifulSoup(text)
         soup2 = BeautifulSoup(soup1.text)
         get_text = lambda e: e.contents[0].strip()
         get_type = lambda d: get_text(d.type)
         get_filename = lambda d: get_text(d.type.sequence.filename)
-        self.file_types = pd.DataFrame([
+        df = pd.DataFrame([
             {'Type': get_type(d), 'Document': get_filename(d)}
             for d in soup2.findAll('document')
         ])
+        keep = (
+            df.Type.isin(self.TYPES) &
+            df.Document.map(lambda s: not s.endswith('.pdf'))
+            )
+        count = keep.sum()
+        assert count == 1, df
 
-        df = self.file_types
-        df['pdf_file'] = df.Document.map(lambda s: s.endswith('.pdf'))
-        flag = self.form
-        df['is_form'] = ((df.Type == flag) | (df.Document == flag)) & -df.pdf_file
-        count = df.is_form.sum()
-        assert count in [0, 1], df
-        if count == 1:
-            filename = df.Document[df.is_form].values[0]
-            self.form_path = _join(folder, filename)
-        else:
-            self.form_path = None
+        filename = df.Document[keep].values[0]
+        result['form_path'] = _join(folder, filename)
+        result['type'] = df.Type[keep].values[0]
 
-        if self.form_path is not None:
-            cmd = 'RETR %s' % self.form_path
-            self.form_html = self.retr(cmd)
-        else:
-            self.form_html = None
-
-def get_form(folder):
-    c = Client()
-    c.login()
-    c.load(folder)
-    c.logout()
-    return c.form_html
+        cmd = 'RETR %(form_path)s' % result
+        result['html'] = self.retr(cmd)
+        return result
