@@ -3,6 +3,7 @@ import pandas as pd
 from StringIO import StringIO
 from io import BytesIO
 from ftplib import FTP
+import re
 
 def _join(*args):
     return '/'.join(args)
@@ -27,6 +28,9 @@ class Client(object):
 
     >>> c.load('1001871/000115752306006856')['form_path']
     u'1001871/000115752306006856/a5187774.txt'
+
+    >>> c.load('1100663/000119312509185679')['form_path']
+    u'1100663/000119312509185679/ddef14a.htm'
 
     >>> c.logout()
     '''
@@ -73,18 +77,28 @@ class Client(object):
         filename = filenames[is_index].values[0]
         self.filing['index_path'] = _join(self.filing['folder'], filename)
 
-    def _load_index(self):
+    def _lowercase_tags(self, text):
+        return re.sub('<[^>]*?>', lambda m: m.group(0).lower(), text)
+        
+    def _get_document_info(self):
         cmd = 'RETR %(index_path)s' % self.filing
         text = self.retr(cmd)
         soup1 = BeautifulSoup(text)
-        soup2 = BeautifulSoup(soup1.text)
+        sgml = self._lowercase_tags(soup1.text)
+        documents_text = re.search('<document>.*</document>', sgml.replace('\n', '')).group(0)
+        soup2 = BeautifulSoup(documents_text)
         get_text = lambda e: e.contents[0].strip()
         get_type = lambda d: get_text(d.type)
         get_filename = lambda d: get_text(d.type.sequence.filename)
+        documents = soup2.findAll('document')
         data = [
             {'Type': get_type(d), 'Document': get_filename(d)}
-            for d in soup2.findAll('document')
+            for d in documents
         ]
+        return data
+    
+    def _load_index(self):
+        data = self._get_document_info()
         df = pd.DataFrame(data)
         keep = (
             df.Type.isin(self.TYPES) &
@@ -100,9 +114,3 @@ class Client(object):
     def _load_form(self):
         cmd = 'RETR %(form_path)s' % self.filing
         self.filing['html'] = self.retr(cmd)
-
-if __name__ == '__main__':
-    c = Client()
-    c.login()
-    c.load('1100663/000119312509185679')
-    c.logout()
