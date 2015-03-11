@@ -27,7 +27,7 @@ class Client(object):
 
     >>> c.load('1001871/000115752306006856')['form_path']
     u'1001871/000115752306006856/a5187774.txt'
-    
+
     >>> c.logout()
     '''
 
@@ -58,27 +58,34 @@ class Client(object):
         return self._close_buffer()
 
     def load(self, folder):
-        result = {'folder': folder}
-        
-        text = self.retr('LIST %(folder)s' % result)
+        self.filing = {'folder': folder}
+        self._load_dir()
+        self._load_index()
+        self._load_form()
+        return self.filing
+
+    def _load_dir(self):
+        text = self.retr('LIST %(folder)s' % self.filing)
         df = pd.read_fwf(StringIO(text), header=None)
         filenames = df[8]
         is_index = filenames.map(lambda s: hasattr(s, 'endswith') and s.endswith('index.htm'))
         assert is_index.sum() == 1
         filename = filenames[is_index].values[0]
-        result['index_path'] = _join(folder, filename)
+        self.filing['index_path'] = _join(self.filing['folder'], filename)
 
-        cmd = 'RETR %(index_path)s' % result
+    def _load_index(self):
+        cmd = 'RETR %(index_path)s' % self.filing
         text = self.retr(cmd)
         soup1 = BeautifulSoup(text)
         soup2 = BeautifulSoup(soup1.text)
         get_text = lambda e: e.contents[0].strip()
         get_type = lambda d: get_text(d.type)
         get_filename = lambda d: get_text(d.type.sequence.filename)
-        df = pd.DataFrame([
+        data = [
             {'Type': get_type(d), 'Document': get_filename(d)}
             for d in soup2.findAll('document')
-        ])
+        ]
+        df = pd.DataFrame(data)
         keep = (
             df.Type.isin(self.TYPES) &
             df.Document.map(lambda s: not s.endswith('.pdf'))
@@ -87,9 +94,15 @@ class Client(object):
         assert count == 1, df
 
         filename = df.Document[keep].values[0]
-        result['form_path'] = _join(folder, filename)
-        result['type'] = df.Type[keep].values[0]
+        self.filing['form_path'] = _join(self.filing['folder'], filename)
+        self.filing['type'] = df.Type[keep].values[0]
 
-        cmd = 'RETR %(form_path)s' % result
-        result['html'] = self.retr(cmd)
-        return result
+    def _load_form(self):
+        cmd = 'RETR %(form_path)s' % self.filing
+        self.filing['html'] = self.retr(cmd)
+
+if __name__ == '__main__':
+    c = Client()
+    c.login()
+    c.load('1100663/000119312509185679')
+    c.logout()
