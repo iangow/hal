@@ -22,19 +22,6 @@ class Filing(Base):
     text = Column(Text, default='')
     bios = Column(Text, default='')
 
-def create_filing(url):
-    filing = Filing(url=url)
-    folder = url.replace(Filing.HTTP_ROOT, '')
-
-    client = sec.Client()
-    client.login()
-    d = client.load(folder)
-    client.logout()
-
-    for k in ['type', 'html']:
-        setattr(filing, k, d[k])
-    return filing
-
 class Loader(object):
 
     def __init__(self, db, block_size=10, processes=10):
@@ -45,7 +32,7 @@ class Loader(object):
         self.session = Session()
 
         self.block_size = block_size
-        self.pool = Pool(processes)
+        # self.pool = Pool(processes)
 
     def _new_urls(self):
         unique_urls = '''
@@ -68,21 +55,32 @@ class Loader(object):
         for start in xrange(0, len(l), self.block_size):
             yield l[start:start+self.block_size]
 
+    def _create_filing(self, url):
+        print url
+        
+        if not hasattr(self, 'client'):
+            self.client = sec.Client()
+            self.client.login()
+
+        filing = Filing(url=url)
+        folder = url.replace(Filing.HTTP_ROOT, '')
+
+        d = self.client.load(folder)
+
+        for k in ['type', 'html']:
+            setattr(filing, k, d[k])
+        return filing
+
     def load_filings(self):
         urls = self._new_urls()
         n = len(urls) / self.block_size
+
         for i, block in enumerate(self._blocks(urls)):
-            successful = False
-            while not successful:
-                try:
-                    filings = self.pool.map(create_filing, block)
-                    successful = True
-                except EOFError:
-                    print 'I think the program has too many ftp session open. Let us wait thirty seconds and try again.'
-                    time.sleep(30)
+            filings = map(self._create_filing, block)
             self.session.add_all(filings)
             self.session.commit()
-            print '\r [%d / %d]' % (i, n)
+            print '[%d / %d]' % (i, n)
+        self.client.logout()
 
 if __name__ == '__main__':
     script, db = sys.argv
