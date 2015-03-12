@@ -32,6 +32,9 @@ class Client(object):
     >>> c.load('1100663/000119312509185679')['form_path']
     u'1100663/000119312509185679/ddef14a.htm'
 
+    >>> c.load('310354/000031035412000032')['form_path']
+    u'310354/000031035412000032/proxy.htm'
+
     >>> c.logout()
     '''
 
@@ -70,7 +73,8 @@ class Client(object):
 
     def _load_dir(self):
         text = self.retr('LIST %(folder)s' % self.filing)
-        df = pd.read_fwf(StringIO(text), header=None)
+        df = pd.read_csv(StringIO(text), sep=' +', header=None, engine='python')
+        assert df.shape[1] == 9
         filenames = df[8]
         is_index = filenames.map(lambda s: hasattr(s, 'endswith') and s.endswith('index.htm'))
         assert is_index.sum() == 1
