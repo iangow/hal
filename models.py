@@ -1,4 +1,3 @@
-from multiprocessing import Pool
 import pandas as pd
 import sec
 from sqlalchemy import create_engine
@@ -8,7 +7,6 @@ Base = declarative_base()
 from sqlalchemy.orm import sessionmaker
 import sqlite3
 import sys
-import time
 
 class Filing(Base):
 
@@ -56,8 +54,6 @@ class Loader(object):
             yield l[start:start+self.block_size]
 
     def _create_filing(self, url):
-        print url
-        
         if not hasattr(self, 'client'):
             self.client = sec.Client()
             self.client.login()
@@ -80,7 +76,9 @@ class Loader(object):
             self.session.add_all(filings)
             self.session.commit()
             print '[%d / %d]' % (i, n)
-        self.client.logout()
+
+        if len(urls) > 0:
+            self.client.logout()
 
 if __name__ == '__main__':
     script, db = sys.argv

@@ -38,7 +38,7 @@ class Client(object):
     >>> c.logout()
     '''
 
-    TYPES = ['DEF 14A', 'DEF 14C']
+    TYPES = ['DEF 14A', 'DEF 14C', 'PRE 14A']
 
     def login(self, host='ftp.sec.gov', user='anonymous', passwd='amarder@hbs.edu', cwd='/edgar/data/'):
         self.ftp = FTP(host)
@@ -74,7 +74,7 @@ class Client(object):
     def _load_dir(self):
         text = self.retr('LIST %(folder)s' % self.filing)
         df = pd.read_csv(StringIO(text), sep=' +', header=None, engine='python')
-        assert df.shape[1] == 9
+        assert df.shape[1] == 9, 'File name has spaces, need to collapse columns.'
         filenames = df[8]
         is_index = filenames.map(lambda s: hasattr(s, 'endswith') and s.endswith('index.htm'))
         assert is_index.sum() == 1
