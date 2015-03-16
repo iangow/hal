@@ -31,7 +31,7 @@ def clean(html):
     >>> print clean('<b>heading</b>').strip()
     **heading**
     '''
-    args = ['pandoc', '--from=html', '--to=markdown']
+    args = ['pandoc', '--from=html', '--to=markdown_strict']
     p = subprocess.Popen(
         args,
         stdin=subprocess.PIPE,
@@ -47,8 +47,12 @@ def write(filing):
         f.write(clean(filing.html))
     print path
 
+def get_filing(session, folder):
+    url = Filing.HTTP_ROOT + folder
+    return session.query(Filing).filter(Filing.url==url)[0]
+
 if __name__ == '__main__':
-    n = 8
+    n = 10
     r = Randomizer(db='db.sqlite')
     for i in range(n):
         write(r.get_filing())
