@@ -12,14 +12,19 @@ import random
 import re
 import subprocess
 
+def get_engine_and_session(db):
+    engine = create_engine('sqlite:///' + db)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    return engine, session
+
 class Randomizer(object):
 
     def __init__(self, db):
         query = 'SELECT id, type FROM filings;'
-        engine = create_engine('sqlite:///' + db)
-        Session = sessionmaker(bind=engine)
-        self.ids = pd.read_sql(query, engine)
-        self.session = Session()
+        e, s = get_engine_and_session(db)
+        self.ids = pd.read_sql(query, e)
+        self.session = s
 
     def get_filing(self):
         df = self.ids
@@ -40,9 +45,11 @@ def clean(html):
     stdoutdata, stderrdata = p.communicate(html)
     return stdoutdata
 
+target_md = lambda s: re.sub(Filing.HTTP_ROOT, '', s).replace('/', '-') + '.md'
+target_path = lambda s: os.path.join('targets', target_md(s))
+
 def write(filing):
-    filename = re.sub(Filing.HTTP_ROOT, '', filing.url).replace('/', '-') + '.md'
-    path = os.path.join('targets', filename)
+    path = target_path(filing.url)
     with open(path, 'w') as f:
         f.write(clean(filing.html))
     print path
