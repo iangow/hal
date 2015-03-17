@@ -32,4 +32,14 @@ def compare_all():
         compare(path2folder(path))
         break
 
-compare_all()
+def save_html():
+    targets = glob.glob('./targets/*.md')
+    for path in targets:
+        print path
+        html_path = path.replace('md', 'html')
+        folder = path2folder(path)
+        filing = get_filing(session, folder)
+        with open(html_path, 'w') as f:
+            f.write(filing.html)
+
+save_html()
