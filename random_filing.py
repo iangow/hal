@@ -31,23 +31,6 @@ class Randomizer(object):
         pk = int(random.choice(df.id[df.type == 'DEF 14A']))
         return self.session.query(Filing).get(pk)
 
-def clean(html):
-    '''
-    >>> print clean('<b>heading</b>').strip()
-    **heading**
-    '''
-    args = ['pandoc', '--from=html', '--to=markdown_strict']
-    p = subprocess.Popen(
-        args,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE
-    )
-    stdoutdata, stderrdata = p.communicate(html)
-    return stdoutdata
-
-target_md = lambda s: re.sub(Filing.HTTP_ROOT, '', s).replace('/', '-') + '.md'
-target_path = lambda s: os.path.join('targets', target_md(s))
-
 def write(filing):
     path = target_path(filing.url)
     with open(path, 'w') as f:
