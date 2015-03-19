@@ -1,12 +1,8 @@
-from fuzzywuzzy import fuzz
-from multiprocessing import Pool
 from sqlalchemy import Column, String, Integer, Text
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from unittest import TestCase
-import codecs
-import glob
 import os
 import pandas as pd
 import re
@@ -44,6 +40,7 @@ class Filing(Base):
         'holds',
         'College',
         'MBA',
+        'age',
     ]
 
     def director_bios(self):
@@ -89,24 +86,6 @@ def matching_paragraphs(text, last_names):
     matching = [p for p in paragraphs(text) if re.search(pattern, p, re.IGNORECASE)]
     return matching
 
-target_md = lambda s: re.sub(Filing.HTTP_ROOT, '', s).replace('/', '-') + '.md'
-target_path = lambda s: os.path.join('targets', target_md(s))
-path2folder = lambda s: re.sub('[^-0-9]', '', s).replace('-', '/')
-
-def benchmark(folder):
-    path = target_path(folder)
-    with codecs.open(path, encoding='utf-8') as f:
-        target = f.read()
-
-    f = Filing.get(folder)
-    actual = f.director_bios()
-
-    d = {
-        'ratio': fuzz.ratio(actual, target),
-        'folder': folder,
-    }
-    return d
-
 class TestExtract(TestCase):
 
     def test_paragraphs(self):
@@ -130,10 +109,6 @@ class TestExtract(TestCase):
         last_names = ['Durst', 'Digby']
         self.assertEquals(matching_paragraphs(text, last_names), paragraphs(text)[1:3])
 
-if __name__ == '__main__':
-    paths = glob.glob('targets/*.md')
-    folders = map(path2folder, paths)
-    pool = Pool(len(folders))
-    l = pool.map(benchmark, folders)
-    df = pd.DataFrame(l)
-    print df.sort('ratio')
+def print_example(folder='820774/000093639206000657'):
+    f = Filing.get(folder)
+    print f.director_bios()
