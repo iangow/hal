@@ -43,9 +43,12 @@ class Filing(Base):
         'age',
     ]
 
+    def text(self):
+        return clean(self.html.encode('utf-8')).decode('utf-8')
+
     def director_bios(self):
         last_names = map(last_name, self.directors())
-        text = clean(self.html.encode('utf-8')).decode('utf-8')
+        text = self.text()
         matching = matching_paragraphs(text, last_names)
         rejoined = '\n\n'.join(matching)
         matching = matching_paragraphs(rejoined, self.BIO_WORDS)
@@ -108,7 +111,3 @@ class TestExtract(TestCase):
         '''
         last_names = ['Durst', 'Digby']
         self.assertEquals(matching_paragraphs(text, last_names), paragraphs(text)[1:3])
-
-def print_example(folder='820774/000093639206000657'):
-    f = Filing.get(folder)
-    print f.director_bios()
