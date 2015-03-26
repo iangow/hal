@@ -6,6 +6,8 @@ that filing to stdout.
 from models import Filing, engine, session
 import pandas as pd
 import random
+import nltk
+import re
 
 class Randomizer(object):
 
@@ -19,9 +21,12 @@ class Randomizer(object):
         return session.query(Filing).get(pk)
 
 def write(filing):
-    path = target_path(filing.url)
-    with open(path, 'w') as f:
-        f.write(clean(filing.html))
+    path = filing.csv_path()
+    text = filing.text().decode('utf-8')
+    sentences = nltk.sent_tokenize(text)
+    f = lambda s: re.sub('\s+', ' ', s)
+    df = pd.DataFrame({'text': map(f, sentences), 'bio': 0})
+    df.to_csv(path, encoding='utf-8', index=False)
     print path
 
 def get_filing(session, folder):
