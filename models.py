@@ -8,6 +8,7 @@ import os
 import pandas as pd
 import re
 import subprocess
+from bs4 import BeautifulSoup
 
 DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite')
 engine = create_engine(DATABASE_URL)
@@ -29,6 +30,12 @@ class Filing(Base):
 
     def path(self):
         return self.url.replace(self.HTTP_ROOT, '')
+
+    def csv_path(self):
+        return os.path.join(
+            'corpus',
+            re.sub('/', '-', self.path()) + '.csv'
+        )
 
     def directors(self):
         query = (
@@ -118,7 +125,6 @@ def clean(html):
     **heading**
     '''
     assert type(html) == str, 'subprocess needs a byte string'
-    
     args = ['pandoc', '--from=html', '--to=markdown_strict']
     p = subprocess.Popen(
         args,
@@ -126,7 +132,11 @@ def clean(html):
         stdout=subprocess.PIPE
     )
     stdoutdata, stderrdata = p.communicate(html)
-    return stdoutdata
+    assert type(stdoutdata) == str, 'subprocess returns a byte string'
+
+    soup = BeautifulSoup(stdoutdata)
+    text = soup.get_text(separator=u'\n\n')
+    return text.encode('utf-8')
 
 def paragraphs(text):
     return re.split('\n\s+', text.strip())
