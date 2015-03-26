@@ -1,11 +1,10 @@
 DATABASE = db.sqlite
 
-syncdb:
+create-database:
 	python models.py
 
-update-database:
+load-list: create-database
 	Rscript 1_equilar_director_filings.R $(DATABASE)
-	python models.py $(DATABASE)
 
 test:
 	nosetests --with-doctest

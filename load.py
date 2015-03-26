@@ -4,24 +4,29 @@ import pandas as pd
 
 class Loader(object):
 
+    UNIQUE_URLS = '''
+        SELECT url FROM equilar_director_filings
+        WHERE url IS NOT NULL
+        GROUP BY url
+    '''
+
+    NEW_URLS = '''
+        SELECT url
+        FROM (%s)
+        LEFT JOIN filings USING (url)
+        WHERE filings.id IS NULL;
+    ''' % UNIQUE_URLS
+
     def __init__(self, block_size=10, processes=10):
         self.block_size = block_size
         # self.pool = Pool(processes)
 
-    def _new_urls(self):
-        unique_urls = '''
-            SELECT url FROM equilar_director_filings
-            WHERE url IS NOT NULL
-            GROUP BY url
-        '''
-        query = '''
-            SELECT url
-            FROM (%s)
-            LEFT JOIN filings USING (url)
-            WHERE filings.id IS NULL;
-        ''' % unique_urls
+    def _urls(self, query):
         df = pd.read_sql(query, engine)
         return df.url
+
+    def all_urls(self):
+        return self._urls(self.UNIQUE_URLS)
 
     def _blocks(self, l):
         for start in xrange(0, len(l), self.block_size):
@@ -32,7 +37,10 @@ class Loader(object):
             self.client = sec.Client()
             self.client.login()
 
-        filing = Filing(url=url)
+        try:
+            filing = Filing.get(url)
+        except:
+            filing = Filing(url=url)
         folder = url.replace(Filing.HTTP_ROOT, '')
 
         d = self.client.load(folder)
@@ -45,9 +53,10 @@ class Loader(object):
         filings = map(self.create_filing, urls)
         session.add_all(filings)
         session.commit()
+        return filings
 
     def load_filings(self):
-        urls = self._new_urls()
+        urls = self._urls(self.NEW_URLS)
         n = len(urls) / self.block_size
 
         for i, block in enumerate(self._blocks(urls)):
