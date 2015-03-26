@@ -2,7 +2,6 @@ from sqlalchemy import Column, String, Integer, Text
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from unittest import TestCase
 import numpy as np
 import os
 import pandas as pd
@@ -149,29 +148,6 @@ def matching_paragraphs(text, last_names):
     pattern = '(%s)' % '|'.join(last_names)
     matching = [p for p in paragraphs(text) if re.search(pattern, p, re.IGNORECASE)]
     return matching
-
-class TestExtract(TestCase):
-
-    def test_paragraphs(self):
-        text = '''
-        P1
-
-        P2
-        '''
-        actual = paragraphs(text)
-        expected = ['P1', 'P2']
-        self.assertEquals(actual, expected)
-
-    def test_matching_paragraphs(self):
-        text = '''
-        Douglas attended.
-
-        Durst attended.
-
-        Digby was also present.
-        '''
-        last_names = ['Durst', 'Digby']
-        self.assertEquals(matching_paragraphs(text, last_names), paragraphs(text)[1:3])
 
 if __name__ == '__main__':
     folder = '783325/000119312508061029'
