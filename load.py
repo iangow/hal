@@ -1,4 +1,6 @@
 import sec
+from models import Filing, engine, session
+import pandas as pd
 
 class Loader(object):
 
@@ -25,7 +27,7 @@ class Loader(object):
         for start in xrange(0, len(l), self.block_size):
             yield l[start:start+self.block_size]
 
-    def _create_filing(self, url):
+    def create_filing(self, url):
         if not hasattr(self, 'client'):
             self.client = sec.Client()
             self.client.login()
@@ -39,20 +41,23 @@ class Loader(object):
             setattr(filing, k, d[k])
         return filing
 
+    def commit_filings(self, urls):
+        filings = map(self.create_filing, urls)
+        session.add_all(filings)
+        session.commit()
+
     def load_filings(self):
         urls = self._new_urls()
         n = len(urls) / self.block_size
 
         for i, block in enumerate(self._blocks(urls)):
-            filings = map(self._create_filing, block)
-            session.add_all(filings)
-            session.commit()
+            self.commit_filings(block)
             print '[%d / %d]' % (i, n)
 
         if len(urls) > 0:
             self.client.logout()
 
 if __name__ == '__main__':
-    Base.metadata.create_all(engine)
+    
     loader = Loader()
     loader.load_filings()

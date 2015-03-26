@@ -150,7 +150,4 @@ def matching_paragraphs(text, last_names):
     return matching
 
 if __name__ == '__main__':
-    folder = '783325/000119312508061029'
-    f = Filing.get(folder)
-    df = f._markers()
-    print df.text[df.flag]
+    Base.metadata.create_all(engine)
