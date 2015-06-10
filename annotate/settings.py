@@ -36,7 +36,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_nose',
     'mirror',
     'highlighter',
 )
@@ -61,7 +60,7 @@ WSGI_APPLICATION = 'annotate.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': dj_database_url.config(env='DATABASE_URL')
 }
 
 # Internationalization
@@ -88,5 +87,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
