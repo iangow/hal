@@ -1,5 +1,6 @@
 from django.db import models
 from sec_ftp import Client
+from django.db import connection
 
 
 class Directors(models.Model):
@@ -65,3 +66,19 @@ class Filing(models.Model):
 
         assert self.downloaded()
         self.save()
+
+    @classmethod
+    def sync(cls):
+        old_count = cls.objects.count()
+
+        with open('mirror/load_filings.sql') as f:
+            sql = f.read()
+        cursor = connection.cursor()
+        cursor.execute(sql)
+
+        new_count = cls.objects.count()
+        return new_count - old_count
+
+
+class File:
+    pass
