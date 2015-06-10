@@ -1,7 +1,5 @@
 from django.db import models
-import requests
-import os
-from sec_utils import Filing
+from sec_ftp import Client
 
 
 class Directors(models.Model):
@@ -10,7 +8,7 @@ class Directors(models.Model):
     Ian's server. Let's use the admin to make sure that django can
     read data from the server.
     '''
-    
+
     director_id = models.TextField(blank=True, primary_key=True)
     company = models.TextField(blank=True)
     director = models.TextField(blank=True)
@@ -35,48 +33,35 @@ class Directors(models.Model):
         db_table = 'director\".\"director'
 
 
-class File(models.Model):
+class Filing(models.Model):
 
     REMOTE_ROOT = 'http://www.sec.gov/Archives/edgar/data'
-    LOCAL_ROOT = os.environ.get('LOCAL_ROOT', 'edgar-data')
+    folder = models.CharField(max_length=29, primary_key=True, unique=True)
 
-    remote_url = models.CharField(max_length=200, unique=True)
+    KEYS = ['text', 'type', 'text_file']
+    text = models.TextField(blank=True, default='')
+    type = models.CharField(max_length=7, default='')
+    text_file = models.NullBooleanField(default=None)
 
-    def path(self):
-        return self.remote_url.replace(self.REMOTE_ROOT, '')[1:]
+    # To merge this table of filings with the director information
+    # from Equilar, I will have to use the director.equilar_proxies
+    # table. With equilar_id and fy_end as merge keys.
 
-    def local_path(self):
-        assert self.remote_url.startswith(self.REMOTE_ROOT)
-        return self.remote_url.replace(self.REMOTE_ROOT, self.LOCAL_ROOT)
+    def sec_url(self):
+        return '/'.join([self.REMOTE_ROOT, self.folder])
 
     def downloaded(self):
-        return os.path.exists(self.local_path())
+        return self.text != ''
 
     def download(self):
-        path = self.local_path()
-        directory = os.path.dirname(path)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        response = requests.get(self.remote_url)
-        with open(path, 'w') as f:
-            f.write(response.text)
+        c = Client()
+        c.login()
+        d = c.load(self.folder)
+        c.logout()
+
+        for k in self.KEYS:
+            v = d[k]
+            setattr(self, k, v)
+
         assert self.downloaded()
-
-    def read(self):
-        with open(self.local_path()) as f:
-            return f.read()
-
-
-def load(folder):
-    folder_url = '/'.join([File.REMOTE_ROOT, folder])
-    matches = list(File.objects.filter(remote_url__startswith=folder_url))
-    count = len(matches)
-    assert count in [0, 1]
-    if count == 1:
-        return matches[0]
-
-    filing = Filing(folder)
-    if filing.is_def_14a:
-        return File.objects.create(remote_url=filing.def_14a_url)
-    else:
-        return filing
+        self.save()
