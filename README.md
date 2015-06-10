@@ -35,16 +35,22 @@ And to shut everything down I use:
 
 # Road map for data collection process
 
-1. Admin action to sync local database with Ian's server. Need to pull information on filings and directorships. If it's possible to use similar IDs that might help the merging process. I should look at exactly what data I should pull from his database. And how to keep things clean. It looks like using Django's support of multiple databases is the way to go to copy data from Ian's server to the local database.
+1. Instead of copying Ian's data to my local server, I am going to use Ian's server as my backend database. This eliminates the need to sync data across databases. It looks like I should be able to read data out of schemas in Django, but I can't write into a schema.
 
-https://docs.djangoproject.com/en/1.8/topics/db/multi-db/
+http://stackoverflow.com/questions/1160598/how-to-use-schemas-in-django
 
-`pull_equilar_data`
+2. Page where RAs can highlight the biographies in a random filing. How to select a random entry from PostgreSQL?
 
-2. Page where RAs can highlight the biographies in a random filing.
+http://stackoverflow.com/questions/5297396/quick-random-row-selection-in-postgres
+
+I'm going to have to do an anti-join with the filings that have already been highlighted. I don't think this will be too bad.
 
 3. Admin action to sync highlights from Elasticsearch into Django's database (probably PostgreSQL). Suppose there are multiple highlights tagged for the same director. How should I go about combining them into one biography? Let's go for the easiest solution and join them in the order they were created. Alternatively I could use xpaths and the html document to sort them better. Maybe set up the code so it's easy to change that decision later.
 
 `pull_highlights`
 
-4. Create an admin page so RAs can mark directorships. This will likely use an inline admin so they can see the text of the biography and mark which directorships are mentioned.
+4. Create an admin page so RAs can mark whether directorships are mentioned. This will likely use an inline admin so they can see the text of the biography and mark which directorships are mentioned.
+
+`Directorship`
+`Director`
+`Disclosure`
