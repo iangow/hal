@@ -11,7 +11,7 @@ class Directors(models.Model):
     read data from the server.
     '''
     
-    director_id = models.TextField(blank=True)
+    director_id = models.TextField(blank=True, primary_key=True)
     company = models.TextField(blank=True)
     director = models.TextField(blank=True)
     ticker = models.TextField(blank=True)
