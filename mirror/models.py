@@ -39,9 +39,9 @@ class Filing(models.Model):
     folder = models.CharField(max_length=29, primary_key=True, unique=True)
 
     KEYS = ['text', 'type', 'text_file']
-    text = models.TextField(blank=True, default='')
-    type = models.CharField(max_length=7, default='')
-    text_file = models.NullBooleanField(default=None)
+    text = models.TextField(blank=True, null=True, default=None)
+    type = models.CharField(max_length=7, blank=True, null=True, default=None)
+    text_file = models.NullBooleanField(blank=True, default=None)
 
     # To merge this table of filings with the director information
     # from Equilar, I will have to use the director.equilar_proxies
@@ -51,7 +51,7 @@ class Filing(models.Model):
         return '/'.join([self.REMOTE_ROOT, self.folder])
 
     def downloaded(self):
-        return self.text != ''
+        return self.text is not None and len(self.text) > 0
 
     def download(self):
         c = Client()
