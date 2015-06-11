@@ -35,11 +35,9 @@ And to shut everything down I use:
 
 # Road map for data collection process
 
-1. Instead of copying Ian's data to my local server, I am going to use Ian's server as my backend database. This eliminates the need to sync data across databases. It looks like I should be able to read data out of schemas in Django, but I can't write into a schema.
+1. I need to get director names into the database so they are available for highlighting.
 
-http://stackoverflow.com/questions/1160598/how-to-use-schemas-in-django
-
-2. Page where RAs can highlight the biographies in a random filing. How to select a random entry from PostgreSQL?
+2. Pull a random filing from mirror.Filing to highlight. Page where RAs can highlight the biographies in a random filing. How to select a random entry from PostgreSQL?
 
 http://stackoverflow.com/questions/5297396/quick-random-row-selection-in-postgres
 
@@ -54,3 +52,8 @@ I'm going to have to do an anti-join with the filings that have already been hig
 `Directorship`
 `Director`
 `Disclosure`
+
+
+I need to make sure annotator.js works with plain text files.
+
+http://www.sec.gov/Archives/edgar/data/1084869/000108486908000022/proxy.txt
