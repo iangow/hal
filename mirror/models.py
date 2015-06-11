@@ -79,6 +79,24 @@ class Filing(models.Model):
         new_count = cls.objects.count()
         return new_count - old_count
 
+    def _file_name(self):
+        l = self.folder.split('/')
+        assert len(l) == 2
+        cik, accession = l
+        assert len(accession) == 18
+        return 'edgar/data/%s/%s-%s-%s.txt' % (
+            cik, accession[0:10], accession[10:12], accession[12:18]
+        )
+
+    def director_names(self):
+        with open('mirror/director_names.sql') as f:
+            template = f.read()
+            sql = template % self._file_name()
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        return [r[0] for r in rows]
+
 
 class File:
     pass
