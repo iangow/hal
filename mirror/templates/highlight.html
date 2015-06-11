@@ -40,8 +40,8 @@ jQuery(function ($) {
     comments.parent().append(select);
     comments.attr("readonly", "readonly");
     
-    var selectValues = ['Name 1', 'Name 2', 'Other'];
-    $.each(selectValues, function(key, value) {   
+    var selectValues = {{ director_names|safe }}.concat(['Other']);
+    $.each(selectValues, function(key, value) {
          $('#my-select')
              .append($(document.createElement('li'))
              .attr("class", "ui-widget-content")
