@@ -33,21 +33,28 @@ And to shut everything down I use:
 
     make stop
 
-# Road map for data collection process
+# Data Collection - Next Steps
 
-3. Admin action to sync highlights from Elasticsearch into Django's database (probably PostgreSQL). Suppose there are multiple highlights tagged for the same director. How should I go about combining them into one biography? Let's go for the easiest solution and join them in the order they were created. Alternatively I could use xpaths and the html document to sort them better. Maybe set up the code so it's easy to change that decision later.
+1.  Admin action to sync highlights from Elasticsearch into
+    PostgreSQL. Suppose there are multiple highlights tagged for the
+    same director. How should I go about combining them into one
+    biography? Let's go for the easiest solution and join them in the
+    order they were created.
 
-`pull_highlights`
+    `pull_highlights`
 
-4. Create an admin page so RAs can mark whether directorships are mentioned. This will likely use an inline admin so they can see the text of the biography and mark which directorships are mentioned.
+2.  Create an admin page so RAs can mark whether directorships are
+    mentioned. This will likely use an inline admin so they can see
+    the text of the biography and mark which directorships are
+    mentioned.
 
-`Directorship`
-`Director`
-`Disclosure`
+    `Director`     - individual
+    `Directorship` - individual x filing
+    `Disclosure`   - individual x filing x company x disclosed?
 
+3.  Need to post this to Amazon Web Services.
 
-I need to make sure annotator.js works with plain text files.
+## Backburner
 
-http://www.sec.gov/Archives/edgar/data/1084869/000108486908000022/proxy.txt
-
-TODO: Right now my random page could bring up a filing that may have been highlighted already.
+Right now my random page could bring up a filing that may have been
+highlighted already.
