@@ -35,13 +35,9 @@ And to shut everything down I use:
 
 # Road map for data collection process
 
-1. I need to get director names into the database so they are available for highlighting.
-
 2. Pull a random filing from mirror.Filing to highlight. Page where RAs can highlight the biographies in a random filing. How to select a random entry from PostgreSQL?
 
 http://stackoverflow.com/questions/5297396/quick-random-row-selection-in-postgres
-
-I'm going to have to do an anti-join with the filings that have already been highlighted. I don't think this will be too bad.
 
 3. Admin action to sync highlights from Elasticsearch into Django's database (probably PostgreSQL). Suppose there are multiple highlights tagged for the same director. How should I go about combining them into one biography? Let's go for the easiest solution and join them in the order they were created. Alternatively I could use xpaths and the html document to sort them better. Maybe set up the code so it's easy to change that decision later.
 
@@ -57,3 +53,5 @@ I'm going to have to do an anti-join with the filings that have already been hig
 I need to make sure annotator.js works with plain text files.
 
 http://www.sec.gov/Archives/edgar/data/1084869/000108486908000022/proxy.txt
+
+TODO: Right now my random page could bring up a filing that may have been highlighted already.

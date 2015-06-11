@@ -32,10 +32,20 @@ def random_filing(request):
     return redirect(absolute_url)
 
 
-def _modify_html(request, url, director_names):
-    response = requests.get(url)
+def highlight(request, folder):
+    relative_url = reverse('filing', args=[folder])
+    absolute_url = request.build_absolute_uri(relative_url)
+    
+    f = Filing.objects.get(folder=folder)
+    director_names = json.dumps(f.director_names())
 
-    tree = BeautifulSoup(response.text)
+    html_or_text = requests.get(absolute_url).text
+    if f.text_file:
+        html = '<html><head></head><body><pre>%s</pre></body></html>' % html_or_text
+    else:
+        html = html_or_text
+
+    tree = BeautifulSoup(html)
     l = tree.findAll('html')
     assert len(l) == 1
     html = l[0]
@@ -44,13 +54,4 @@ def _modify_html(request, url, director_names):
     block = BeautifulSoup(text)
     html.head.insert(0, block)
 
-    return html.prettify()
-
-
-def highlight(request, folder):
-    url = reverse('filing', args=[folder])
-    absolute_url = request.build_absolute_uri(url)
-    f = Filing.objects.get(folder=folder)
-    names = json.dumps(f.director_names())
-    html = _modify_html(request, absolute_url, director_names=names)
-    return HttpResponse(html)
+    return HttpResponse(html.prettify())
