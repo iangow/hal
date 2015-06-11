@@ -36,7 +36,9 @@ jQuery(function ($) {
 
     var select = $(document.createElement('ol'));
     select.attr('id', 'my-select')
-    $('#annotator-field-0').replaceWith(select);
+    var comments = $('#annotator-field-0');
+    comments.parent().append(select);
+    comments.attr("readonly", "readonly");
     
     var selectValues = ['Name 1', 'Name 2', 'Other'];
     $.each(selectValues, function(key, value) {   
@@ -46,7 +48,11 @@ jQuery(function ($) {
              .text(value));
     });
 
-    $('#my-select').selectable();
+    $('#my-select').selectable({
+        selected: function( event, ui ) {
+            comments.val( ui['selected'].textContent );
+        }
+    });
 
 });
 </script>
