@@ -2,6 +2,16 @@
 <script src="//assets.annotateit.org/annotator/v1.1.0/annotator-full.min.js"></script>
 <link rel="stylesheet" href="//assets.annotateit.org/annotator/v1.1.0/annotator.min.css">
 
+<script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+
+<style>
+#my-select .ui-selecting { background: #FECA40; }
+#my-select .ui-selected { background: #F39814; color: white; }
+#my-select { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+#my-select li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+</style>
+
 <script>
 jQuery(function ($) {
     var body = $('body').annotator();
@@ -24,16 +34,19 @@ jQuery(function ($) {
         }
     });
 
-    // var select = $('<select id="my-select" />')
-    // $('#annotator-field-0').replaceWith(select);
-    // 
-    // var selectValues = { "1": "test 1", "2": "test 2" };
-    // $.each(selectValues, function(key, value) {   
-    //      $('#my-select')
-    //          .append($("<option></option>")
-    //          .attr("value",key)
-    //          .text(value)); 
-    // });
+    var select = $(document.createElement('ol'));
+    select.attr('id', 'my-select')
+    $('#annotator-field-0').replaceWith(select);
+    
+    var selectValues = ['Name 1', 'Name 2', 'Other'];
+    $.each(selectValues, function(key, value) {   
+         $('#my-select')
+             .append($(document.createElement('li'))
+             .attr("class", "ui-widget-content")
+             .text(value));
+    });
+
+    $('#my-select').selectable();
 
 });
 </script>
