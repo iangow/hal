@@ -95,7 +95,8 @@ class Filing(models.Model):
         cursor = connection.cursor()
         cursor.execute(sql)
         rows = cursor.fetchall()
-        return [r[0] for r in rows]
+        names = [r[0] for r in rows]
+        return sorted(list(set(names)))
 
 
 class File:

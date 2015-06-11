@@ -35,7 +35,7 @@ def random_filing(request):
 def highlight(request, folder):
     relative_url = reverse('filing', args=[folder])
     absolute_url = request.build_absolute_uri(relative_url)
-    
+
     f = Filing.objects.get(folder=folder)
     director_names = json.dumps(f.director_names())
 
