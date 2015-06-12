@@ -22,7 +22,8 @@ jQuery(function ($) {
 
         // Attach the uri of the current page to all annotations to allow search.
         annotationData: {
-            'uri': window.location.href
+            'uri': window.location.href,
+            'username': '{{ user.username }}'
         },
 
         // This will perform a "search" action when the plugin loads. Will

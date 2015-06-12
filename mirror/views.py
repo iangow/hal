@@ -7,6 +7,7 @@ from models import Filing
 from random import randint
 import requests
 import json
+from django.contrib.auth.decorators import login_required
 
 
 @csrf_exempt
@@ -32,6 +33,7 @@ def random_filing(request):
     return redirect(absolute_url)
 
 
+@login_required(login_url='/admin/login/')
 def highlight(request, folder):
     relative_url = reverse('filing', args=[folder])
     absolute_url = request.build_absolute_uri(relative_url)
