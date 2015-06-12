@@ -6,10 +6,14 @@ import re
 
 def _bio_segment(doc):
     x = doc['_source']
+    l = x.get('uri').split('/')
+    filing = '/'.join(l[-2:len(l)])
+    
     return {
-        'filing': x.get('uri'),
+        'filing': filing,
         'director_name': x.get('text'),
         'text': x.get('quote'),
+        'username': x.get('username', '')
     }
 
 
@@ -29,5 +33,5 @@ def clean(text):
 
 if __name__ == '__main__':
     for d in bios():
-        print '\n# %(filing)s - %(director_name)s\n' % d
+        print '\n# %(username)s - %(filing)s - %(director_name)s\n' % d
         print clean(d['text']).encode('utf-8')
