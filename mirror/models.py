@@ -99,5 +99,15 @@ class Filing(models.Model):
         return sorted(list(set(names)))
 
 
+class Biography(models.Model):
+
+    filing = models.ForeignKey(Filing)
+    director_name = models.TextField()
+    text = models.TextField()
+
+    class Meta:
+        unique_together = ('filing', 'director_name')
+
+
 class File:
     pass

@@ -1,14 +1,14 @@
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import scan
-import json
 import re
+from itertools import groupby
 
 
 def _bio_segment(doc):
     x = doc['_source']
     l = x.get('uri').split('/')
     filing = '/'.join(l[-2:len(l)])
-    
+
     return {
         'filing': filing,
         'director_name': x.get('text'),
@@ -17,12 +17,23 @@ def _bio_segment(doc):
     }
 
 
-def bios():
+def bio_segments():
     es = Elasticsearch()
-    last = {}
+    # Sort highlights by filing, director, time created
     for doc in scan(es, query={}, sort=['uri', 'text', 'created'], index='annotator'):
-        seg = _bio_segment(doc)
-        yield seg
+        yield _bio_segment(doc)
+
+
+def bios():
+    filing_and_director = lambda d: d['filing'] + d['director_name']
+    for k, g in groupby(bio_segments(), filing_and_director):
+        l = list(g)
+        result = {
+            'filing': l[0]['filing'],
+            'director_name': l[0]['director_name'],
+            'text': '\n\n'.join([s['text'] for s in l])
+        }
+        yield result
 
 
 def clean(text):
@@ -33,5 +44,5 @@ def clean(text):
 
 if __name__ == '__main__':
     for d in bios():
-        print '\n# %(username)s - %(filing)s - %(director_name)s\n' % d
+        print '\n# %(filing)s - %(director_name)s\n' % d
         print clean(d['text']).encode('utf-8')
