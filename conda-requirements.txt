@@ -8,3 +8,4 @@ lxml=3.4.1=py27_0
 html5lib=0.999=py27_0
 pip=6.0.8=py27_0
 setuptools=12.2=py27_0
+gunicorn=19.1.0=py27_0

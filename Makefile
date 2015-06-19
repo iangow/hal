@@ -1,6 +1,6 @@
 postgres:
 	sudo apt-get update
-	sudo apt-get install postgresql postgresql-contrib postgresql-server-dev-9.3 default-jre
+	sudo apt-get install postgresql postgresql-contrib postgresql-server-dev-9.3 default-jre nginx
 
 conda:
 	 wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
