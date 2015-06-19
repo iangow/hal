@@ -18,7 +18,7 @@ jQuery(function ($) {
 
     body.annotator('addPlugin', 'Store', {
         // The endpoint of the store on your server.
-        prefix: 'http://127.0.0.1:5000',
+        prefix: '{{ ELASTIC_URL }}',
 
         // Attach the uri of the current page to all annotations to allow search.
         annotationData: {

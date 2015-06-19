@@ -8,6 +8,7 @@ from random import randint
 import requests
 import json
 from django.contrib.auth.decorators import login_required
+import os
 
 
 @csrf_exempt
@@ -52,7 +53,10 @@ def highlight(request, folder):
     assert len(l) == 1
     html = l[0]
 
-    text = render(request, 'highlight.html', {'director_names': director_names}).content
+    text = render(request, 'highlight.html', {
+        'director_names': director_names,
+        'ELASTIC_URL': os.environ['ELASTIC_URL']
+    }).content
     block = BeautifulSoup(text)
     html.head.insert(0, block)
 
