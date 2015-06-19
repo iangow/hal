@@ -1,3 +1,14 @@
+postgres:
+	sudo apt-get update
+	sudo apt-get install postgresql postgresql-contrib postgresql-server-dev-9.3 default-jre
+
+conda:
+	 wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+	chmod +x miniconda.sh
+	./miniconda.sh -b
+	echo export PATH=~/miniconda/bin:$$PATH >> ~/.bashrc
+	conda update --yes conda
+
 ENV_NAME = hal
 env:
 	-conda create -n $(ENV_NAME) python -y
