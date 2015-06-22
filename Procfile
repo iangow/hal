@@ -1,1 +1,1 @@
-web: gunicorn --timeout 300 annotate.wsgi
+web: gunicorn --workers 3 annotate.wsgi
