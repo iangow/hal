@@ -9,12 +9,7 @@ from django.contrib.auth.models import User
 
 class MyTestCase(TestCase):
 
-    FOLDERS = [
-        '769397/000076939713000018',
-        '913144/000114544307001203',
-    ]
-
-    def test_mirror(self):
+    def setUp(self):
         c = Client()
         u = User.objects.create(username='fred')
         u.set_password('secret')
@@ -23,7 +18,18 @@ class MyTestCase(TestCase):
         self.assertTrue(
             c.login(username='fred', password='secret')
         )
-        for folder in self.FOLDERS:
-            url = reverse(views.highlight, args=[folder])
-            response = c.get(url)
-            self.assertEquals(response.status_code, 200)
+        self.client = c
+
+    def _test_highlight(self, folder):
+        url = reverse(views.highlight, args=[folder])
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_no_html_or_body(self):
+        self._test_highlight('822663/000082266303000019')
+
+    def test_ugly_doctype(self):
+        self._test_highlight('769397/000076939713000018')
+
+    def test_no_head(self):
+        self._test_highlight('913144/000114544307001203')

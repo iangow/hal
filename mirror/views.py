@@ -55,14 +55,16 @@ def highlight(request, folder):
         html = html_or_text
 
     try:
-        i = html.index('<html>')
+        # Trim off doctype that is breaking beautiful soup.
+        i = html.lower().index('<html>')
         trimmed = html[i:len(html)]
     except ValueError:
-        trimmed = html
+        # Surround content with html tag.
+        trimmed = '<html>%s</html>' % html
 
     tree = BeautifulSoup(trimmed)
     l = tree.findAll('html')
-    assert len(l) == 1
+    assert len(l) == 1, html[0:400]
     html = l[0]
 
     text = render(request, 'highlight.html', {
