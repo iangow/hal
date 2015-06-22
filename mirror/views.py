@@ -11,6 +11,10 @@ from django.contrib.auth.decorators import login_required
 import os
 
 
+def home(request):
+    return HttpResponse('Hello, World!')
+
+
 @csrf_exempt
 def mirror(request, folder):
     f = Filing.objects.get(folder=folder)
