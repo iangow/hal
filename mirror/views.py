@@ -2,10 +2,8 @@ from BeautifulSoup import BeautifulSoup
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.views.decorators.csrf import csrf_exempt
 from models import Filing
 from random import randint
-import requests
 import json
 from django.contrib.auth.decorators import login_required
 import os
@@ -15,10 +13,8 @@ def home(request):
     return HttpResponse('Hello, World!')
 
 
-@csrf_exempt
 def mirror(request, folder):
     f = Filing.objects.get(folder=folder)
-
     if not f.downloaded():
         f.download()
 
@@ -40,13 +36,13 @@ def random_filing(request):
 
 @login_required(login_url='/admin/login/')
 def highlight(request, folder):
-    relative_url = reverse('filing', args=[folder])
-    absolute_url = request.build_absolute_uri(relative_url)
-
     f = Filing.objects.get(folder=folder)
+    if not f.downloaded():
+        f.download()
+
     director_names = json.dumps(f.director_names())
 
-    html_or_text = requests.get(absolute_url).text
+    html_or_text = f.text
     if f.text_file:
         html = '<html><head></head><body><pre>%s</pre></body></html>' % html_or_text
     else:
