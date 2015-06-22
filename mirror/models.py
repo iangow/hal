@@ -1,6 +1,6 @@
 from django.db import models
 from sec_ftp import Client
-from django.db import connection
+from django.db import connection, OperationalError
 
 
 class Directors(models.Model):
@@ -93,7 +93,10 @@ class Filing(models.Model):
             template = f.read()
             sql = template % self._file_name()
         cursor = connection.cursor()
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except OperationalError:
+            cursor.execute("SELECT 'none';")
         rows = cursor.fetchall()
         names = [r[0] for r in rows]
         return sorted(list(set(names)))

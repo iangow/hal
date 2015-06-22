@@ -1,4 +1,4 @@
-from BeautifulSoup import BeautifulSoup
+from BeautifulSoup import BeautifulSoup, Tag
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -41,6 +41,7 @@ def random_filing(request):
     return redirect(absolute_url)
 
 
+
 @login_required(login_url='/admin/login/')
 def highlight(request, folder):
     f = _load(folder)
@@ -53,7 +54,13 @@ def highlight(request, folder):
     else:
         html = html_or_text
 
-    tree = BeautifulSoup(html)
+    try:
+        i = html.index('<html>')
+        trimmed = html[i:len(html)]
+    except ValueError:
+        trimmed = html
+
+    tree = BeautifulSoup(trimmed)
     l = tree.findAll('html')
     assert len(l) == 1
     html = l[0]
@@ -63,6 +70,8 @@ def highlight(request, folder):
         'STORE_URL': os.environ['STORE_URL']
     }).content
     block = BeautifulSoup(text)
+    if html.head is None:
+        html.insert(0, Tag(tree, 'head'))
     html.head.insert(0, block)
 
     return HttpResponse(html.prettify())
