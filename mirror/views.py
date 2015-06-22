@@ -13,11 +13,18 @@ def home(request):
     return HttpResponse('Hello, World!')
 
 
-def mirror(request, folder):
-    f = Filing.objects.get(folder=folder)
+def _load(folder):
+    try:
+        f = Filing.objects.get(folder=folder)
+    except Filing.DoesNotExist:
+        f = Filing(folder=folder)
     if not f.downloaded():
         f.download()
+    return f
 
+
+def mirror(request, folder):
+    f = _load(folder)
     if f.text_file:
         return HttpResponse(f.text, content_type='text/plain')
     return HttpResponse(f.text)
@@ -36,9 +43,7 @@ def random_filing(request):
 
 @login_required(login_url='/admin/login/')
 def highlight(request, folder):
-    f = Filing.objects.get(folder=folder)
-    if not f.downloaded():
-        f.download()
+    f = _load(folder)
 
     director_names = json.dumps(f.director_names())
 
