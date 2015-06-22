@@ -87,7 +87,7 @@ STATICFILES_DIRS = (
 # Email settings
 EMAIL_HOST = 'smtp.postmarkapp.com'
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '25'))
-POSTMARK_API_KEY = os.environ.get('POSTMARK_API_KEY')
+POSTMARK_API_KEY = os.environ['POSTMARK_API_KEY']
 EMAIL_HOST_USER = POSTMARK_API_KEY
 EMAIL_HOST_PASSWORD = POSTMARK_API_KEY
 SERVER_EMAIL = 'amarder@hbs.edu'
