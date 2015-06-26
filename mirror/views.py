@@ -1,12 +1,13 @@
 from BeautifulSoup import BeautifulSoup, Tag
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from models import Filing
 from random import randint
 import json
 from django.contrib.auth.decorators import login_required
 import os
+from django.db import connection, OperationalError
 
 
 def home(request):
@@ -77,3 +78,23 @@ def highlight(request, folder):
     html.head.insert(0, block)
 
     return HttpResponse(html.prettify())
+
+
+def companies(request):
+    query_string = request.GET['q']
+    query = ''.join([
+        "SELECT equilar_id, company FROM director.company_names WHERE lower(company) LIKE '%",
+        query_string.lower(),
+        "%' LIMIT 10;"
+    ])
+    cursor = connection.cursor()
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    my_id = lambda x: ' - '.join([x[1], str(x[0])])
+    f = lambda x: {'id': my_id(x), 'text': x[1]}
+    dicts = map(f, rows)
+    return JsonResponse({'items': dicts})
+
+
+def disclosures(request):
+    return render(request, 'disclosures.html')

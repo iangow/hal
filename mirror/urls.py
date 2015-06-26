@@ -7,4 +7,6 @@ urlpatterns = patterns('',
     url(r'^random$', views.random_filing),
     url(r'^highlight/(?P<folder>\d+/\d+)$', 'mirror.views.highlight', name='highlight'),
     url(r'^filing/(?P<folder>\d+/\d+)$', views.mirror, name='filing'),
+    url(r'^companies$', views.companies),
+    url(r'^disclosures/$', views.disclosures),
 )
