@@ -125,3 +125,5 @@ class BiographySegment(models.Model):
     highlighted_by = models.ForeignKey(User)
     director_name = models.TextField()
     ranges = JSONField()
+    created = models.DateTimeField(default=None)
+    updated = models.DateTimeField(default=None)
