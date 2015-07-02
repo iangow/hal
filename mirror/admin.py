@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Directors, Filing, Biography
+from .models import Directors, Filing, BiographySegment
 from .es import bios, clean
 
 
@@ -27,7 +27,7 @@ def load_biographies():
     return count
 
 
-class BiographyAdmin(admin.ModelAdmin):
+class BiographySegmentAdmin(admin.ModelAdmin):
 
     actions = ['load']
 
@@ -38,4 +38,4 @@ class BiographyAdmin(admin.ModelAdmin):
 
 admin.site.register(Directors)
 admin.site.register(Filing, FilingAdmin)
-admin.site.register(Biography, BiographyAdmin)
+admin.site.register(BiographySegment, BiographySegmentAdmin)

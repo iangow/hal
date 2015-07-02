@@ -119,11 +119,40 @@ class File:
 
 
 class BiographySegment(models.Model):
-    id = models.TextField(primary_key=True, unique=True)
+    id = models.TextField(primary_key=True, unique=True, editable=False)
     text = models.TextField()
-    filing = models.ForeignKey(Filing)
+    filing = models.ForeignKey(Filing, editable=False)
     highlighted_by = models.ForeignKey(User)
     director_name = models.TextField()
     ranges = JSONField()
     created = models.DateTimeField(default=None)
     updated = models.DateTimeField(default=None)
+
+    MAPPING = {
+        'id': 'id',
+        'quote': 'text',
+        'text': 'director_name',
+        'ranges': 'ranges',
+        'created': 'created',
+        'updated': 'updated',
+    }
+
+    @classmethod
+    def create(cls, **kwargs):
+        l = kwargs['uri'].split('/')
+        folder = '/'.join(l[-2:len(l)])
+        d = {
+            'filing': Filing.objects.get(folder=folder),
+            'highlighted_by': User.objects.get(username=kwargs['username'])
+        }
+        for k, v in cls.MAPPING.items():
+            d[v] = kwargs[k]
+        return cls.objects.create(**d)
+
+    @classmethod
+    def get_or_create(cls, **kwargs):
+        try:
+            return cls.objects.get(id=kwargs['id'])
+        except cls.DoesNotExist:
+            return cls.create(**kwargs)
+
