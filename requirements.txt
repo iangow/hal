@@ -8,6 +8,7 @@ django-toolbelt==0.0.1
 elasticsearch==1.6.0
 gunicorn==19.3.0
 html5lib==0.999
+jsonfield==1.0.3
 lxml==3.4.4
 pandas==0.16.2
 psycopg2==2.6.1

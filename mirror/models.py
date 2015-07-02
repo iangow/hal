@@ -1,6 +1,8 @@
 from django.db import models
 from sec_ftp import Client
 from django.db import connection, OperationalError
+from jsonfield import JSONField
+from django.contrib.auth.models import User
 
 
 class Directors(models.Model):
@@ -114,3 +116,12 @@ class Biography(models.Model):
 
 class File:
     pass
+
+
+class BiographySegment(models.Model):
+    id = models.TextField(primary_key=True, unique=True)
+    text = models.TextField()
+    filing = models.ForeignKey(Filing)
+    highlighted_by = models.ForeignKey(User)
+    director_name = models.TextField()
+    ranges = JSONField()
