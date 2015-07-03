@@ -23,6 +23,8 @@ import optparse
 import numpy as np
 import dedupe
 import unidecode
+from dedupe.blocking import Blocker
+from dedupe import predicates
 
 
 # Custom comparator for birth year
@@ -103,11 +105,15 @@ else:
     # Notice how we are telling dedupe to use a custom field comparator
     # for the 'Zip' field.
     fields = [
-        {'field': 'last_name', 'type': 'String'},
-        {'field': 'first_name', 'type': 'String'},
-        {'field': 'gender', 'type': 'Exact', 'has missing': True},
-        {'field': 'birth_year', 'type': 'Custom', 'has missing': True, 'comparator': int_comparator},
+        {'field': 'last_name', 'type': 'ShortString'},
+        {'field': 'first_name', 'type': 'ShortString'},
+        {'field': 'gender', 'type': 'Exact'},
+        {'field': 'birth_year', 'type': 'Custom', 'comparator': int_comparator},
+        {'field': 'last_name-birth_year', 'type': 'Interaction', 'interaction variables' : ['last_name', 'birth_year']},
+        {'field': 'first_name-birth_year', 'type': 'Interaction', 'interaction variables' : ['first_name', 'birth_year']},
         ]
+    for i in range(len(fields)):
+        fields[i]['variable name'] = fields[i]['field']
 
     # Create a new deduper object and pass our data model to it.
     deduper = dedupe.Dedupe(fields)
@@ -139,16 +145,15 @@ else:
     with open(training_file, 'w') as tf:
         deduper.writeTraining(tf)
 
-    # Save our weights and predicates to disk.  If the settings file
-    # exists, we will skip all the training and learning next time we run
-    # this file.
-    with open(settings_file, 'wb') as sf:
-        deduper.writeSettings(sf)
-
 
 # ## Blocking
 
 print('blocking...')
+# p = predicates.SimplePredicate(
+#     func=predicates.wholeFieldPredicate,
+#     field='last_name'
+# )
+# deduper.blocker = Blocker((p, ))
 
 # ## Clustering
 
@@ -159,7 +164,7 @@ print('blocking...')
 # If we had more data, we would not pass in all the blocked data into
 # this function but a representative sample.
 
-threshold = deduper.threshold(data_d, recall_weight=2)
+threshold = deduper.threshold(data_d, recall_weight=1)
 
 # `match` will return sets of record IDs that dedupe
 # believes are all referring to the same entity.
