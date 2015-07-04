@@ -96,5 +96,5 @@ def companies(request):
     return JsonResponse({'items': dicts})
 
 
-def disclosures(request):
+def disclosures(request, id):
     return render(request, 'disclosures.html')

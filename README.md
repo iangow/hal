@@ -58,3 +58,12 @@ And to shut everything down I use:
 
 Right now my random page could bring up a filing that may have been
 highlighted already.
+
+Other + none tags
+Tag companies in bio segments not bios
+Include director_id and equilar_id in tags
+
+Move Postgres to Linode
+Add director-id to existing entries in elastic search
+
+Nertagger of all bio segments
