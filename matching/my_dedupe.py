@@ -28,9 +28,9 @@ from dedupe import predicates
 
 
 # Custom comparator for birth year
-def int_comparator(x, y):
+def outside_two_years(x, y):
     if type(x) == int and type(y) == int:
-        return abs(x - y)
+        return abs(x - y) > 2
     else:
         return np.nan
 
@@ -108,7 +108,7 @@ else:
         {'field': 'last_name', 'type': 'ShortString'},
         {'field': 'first_name', 'type': 'ShortString'},
         {'field': 'gender', 'type': 'Exact'},
-        {'field': 'birth_year', 'type': 'Custom', 'comparator': int_comparator},
+        {'field': 'birth_year', 'type': 'Custom', 'comparator': outside_two_years},
         {'field': 'last_name-birth_year', 'type': 'Interaction', 'interaction variables' : ['last_name', 'birth_year']},
         {'field': 'first_name-birth_year', 'type': 'Interaction', 'interaction variables' : ['first_name', 'birth_year']},
         ]
