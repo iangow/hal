@@ -14,7 +14,7 @@ def _names(s):
 def _get_data(engine):
     query = '''
         SELECT DISTINCT
-        (equilar_id(director_id), director_id(director_id)) AS director_id,
+        regexp_replace(director_id, '\..*\.', '.') AS director_id,
         director, gender, fileyear - age AS birth_year
         FROM director.director;
     '''
@@ -41,7 +41,7 @@ def _edges(block):
         )
     matches = full.ix[keep]
     result = [
-        (eval(row['director_id_l']), eval(row['director_id_r']))
+        (row['director_id_l'], row['director_id_r'])
         for i, row in matches.iterrows()
         if row['director_id_l'] < row['director_id_r']
     ]
@@ -59,8 +59,10 @@ def _matched_ids(edges):
                     yield i, j
 
 
-engine = create_engine(os.environ['DATABASE_URL'])
-data = _get_data(engine)
-edges = _all_edges(data)
-matches = _matched_ids(edges)
-df = pd.DataFrame(data=list(matches), columns=['a', 'b'])
+if __name__ == '__main__':
+    engine = create_engine(os.environ['DATABASE_URL'])
+    data = _get_data(engine)
+    edges = _all_edges(data)
+    matches = _matched_ids(edges)
+    df = pd.DataFrame(data=list(matches), columns=['a', 'b'])
+    df.to_sql('matched_director_ids', engine, chunksize=1000, index=False)
