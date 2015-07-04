@@ -59,10 +59,41 @@ def _matched_ids(edges):
                     yield i, j
 
 
-if __name__ == '__main__':
+def write_matched_ids():
     engine = create_engine(os.environ['DATABASE_URL'])
     data = _get_data(engine)
     edges = _all_edges(data)
     matches = _matched_ids(edges)
     df = pd.DataFrame(data=list(matches), columns=['a', 'b'])
     df.to_sql('matched_director_ids', engine, chunksize=1000, index=False)
+
+
+def write_companies():
+    query = '''
+        SELECT DISTINCT director.equilar_id(director_id) as equilar_id, company
+        INTO companies FROM director.director;
+    '''
+
+
+def other_directorships(my_id):
+    '''
+    Note: my_id should look like '123.456' where 123 is the equilar_id
+    of the firm and 456 is the director_id of the director within the
+    firm.
+    '''
+
+    query = '''
+        WITH x AS (
+            SELECT director.equilar_id(b) AS equilar_id
+            FROM matched_director_ids
+            WHERE a='%s'
+        )
+        
+        SELECT x.equilar_id, company
+            FROM companies JOIN x
+            ON companies.equilar_id=x.equilar_id;
+        ''' % my_iq
+
+
+if __name__ == '__main__':
+    pass
