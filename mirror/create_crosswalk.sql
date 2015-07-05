@@ -4,7 +4,7 @@ WITH x AS
               equilar_id, 
               fy_end 
        FROM   director.equilar_proxies ) 
-SELECT folder, 
+SELECT DISTINCT folder, 
        director_id, 
        director 
 INTO   crosswalk 

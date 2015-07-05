@@ -3,6 +3,7 @@ from sec_ftp import Client
 from django.db import connection, OperationalError
 from jsonfield import JSONField
 from django.contrib.auth.models import User
+import re
 
 
 class Directors(models.Model):
@@ -118,6 +119,29 @@ class File:
     pass
 
 
+def other_directorships(director_id):
+    '''
+    Note: director_id should look like '123.456' where 123 is the equilar_id
+    of the firm and 456 is the director_id of the director within the
+    firm.
+    '''
+    sql = '''
+        WITH x AS (
+            SELECT director.equilar_id(b) AS equilar_id
+            FROM matched_director_ids
+            WHERE a='%s'
+        )
+
+        SELECT x.equilar_id, company
+            FROM companies JOIN x
+            ON companies.equilar_id=x.equilar_id;
+        ''' % director_id
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    return rows
+
+
 class BiographySegment(models.Model):
     id = models.TextField(primary_key=True, unique=True, editable=False)
     text = models.TextField()
@@ -156,3 +180,19 @@ class BiographySegment(models.Model):
         except cls.DoesNotExist:
             return cls.create(**kwargs)
 
+    def director_id(self, clean=True):
+        sql = (
+            "SELECT director_id FROM crosswalk WHERE folder='" +
+            self.filing.folder +
+            "' AND director='" +
+            self.director_name +
+            "';"
+        )
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        assert len(rows) == 1, rows
+        result = rows[0][0]
+        if clean:
+            result = re.sub('\..*\.', '', result)
+        return result
