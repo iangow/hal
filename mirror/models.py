@@ -4,6 +4,10 @@ from django.db import connection, OperationalError
 from jsonfield import JSONField
 from django.contrib.auth.models import User
 import re
+import os
+
+
+_sql_path = lambda x: os.path.join(os.path.dirname(__file__), 'sql', x)
 
 
 class DirectorFiling(models.Model):
@@ -32,7 +36,7 @@ class DirectorFiling(models.Model):
     insider_outsider_related = models.TextField(blank=True)
 
     class Meta:
-        db_table = 'director_x_filing'
+        db_table = 'director'
 
 
 class Proxy(models.Model):
@@ -49,15 +53,6 @@ class Proxy(models.Model):
 
     class Meta:
         db_table = 'equilar_proxies'
-
-
-class Crosswalk(models.Model):
-    folder = models.TextField(blank=True, null=True)
-    director_id = models.TextField(blank=True, null=True)
-    director = models.TextField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'crosswalk'
 
 
 class Filing(models.Model):
@@ -97,7 +92,8 @@ class Filing(models.Model):
     def sync(cls):
         old_count = cls.objects.count()
 
-        with open('mirror/load_filings.sql') as f:
+        path = _sql_path('load_filings.sql')
+        with open(path) as f:
             sql = f.read()
         cursor = connection.cursor()
         cursor.execute(sql)
@@ -115,7 +111,7 @@ class Filing(models.Model):
         )
 
     def director_names(self):
-        with open('mirror/director_names.sql') as f:
+        with open(_sql_path('director_names.sql')) as f:
             template = f.read()
             sql = template % self.folder
         cursor = connection.cursor()
@@ -151,12 +147,12 @@ def other_directorships(director_id):
     return rows
 
 
-class BiographySegment(models.Model):
+class Highlight(models.Model):
     id = models.TextField(primary_key=True, unique=True, editable=False)
-    text = models.TextField()
-    filing = models.ForeignKey(Filing, editable=False)
+    uri = models.TextField()
     highlighted_by = models.ForeignKey(User)
-    director_name = models.TextField()
+    quote = models.TextField()
+    text = models.TextField()
     ranges = JSONField()
     created = models.DateTimeField(default=None)
     updated = models.DateTimeField(default=None)
@@ -189,6 +185,10 @@ class BiographySegment(models.Model):
         except cls.DoesNotExist:
             return cls.create(**kwargs)
 
+
+class BiographySegment(Highlight):
+    filing = models.ForeignKey(Filing, editable=False)
+
     def director_id(self, clean=True):
         sql = (
             "SELECT director_id FROM crosswalk WHERE folder='" +
@@ -205,3 +205,14 @@ class BiographySegment(models.Model):
         if clean:
             result = re.sub('\..*\.', '', result)
         return result
+
+
+class Db(object):
+
+    @classmethod
+    def create_crosswalk(cls):
+        path = _sql_path('create_crosswalk.sql')
+        with open(path) as f:
+            sql = f.read()
+        cursor = connection.cursor()
+        cursor.execute(sql)

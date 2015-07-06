@@ -59,8 +59,6 @@ import dj_database_url
 DATABASES = {
     'default': dj_database_url.config(env='DATABASE_URL')
 }
-if 'test' in sys.argv:
-    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

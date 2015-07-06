@@ -10,6 +10,6 @@ SELECT DISTINCT folder,
 INTO   crosswalk 
 FROM   director 
 JOIN   x 
-ON     director.equilar_id(director_id)=equilar_id 
+ON     regexp_replace(director_id, '\..*$', '')::integer=equilar_id 
 AND    director.fy_end=x.fy_end 
 AND    folder <> '';

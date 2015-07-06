@@ -1,5 +1,5 @@
 from django.test import TestCase
-from models import Filing
+from models import Filing, Db
 import os
 from django.test import Client
 from django.core.urlresolvers import reverse
@@ -9,12 +9,13 @@ from django.contrib.auth.models import User
 
 class MyTestCase(TestCase):
 
-    fixtures = [os.path.join(
-        os.path.dirname(__file__),
-        'test_fixtures.json'
-    )]
+    fixtures = [os.path.join(os.path.dirname(__file__), 'fixtures.json')]
 
     def setUp(self):
+        self._set_client()
+        Db.create_crosswalk()
+
+    def _set_client(self):
         c = Client()
         u = User.objects.create(username='fred')
         u.set_password('secret')
@@ -44,3 +45,6 @@ class MyTestCase(TestCase):
         f, created = Filing.objects.get_or_create(folder=folder)
         names = f.director_names()
         self.assertTrue('Andrew' in names)
+
+    def test_other_directorships(self):
+        pass
