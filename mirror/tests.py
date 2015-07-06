@@ -44,7 +44,7 @@ class MyTestCase(TestCase):
         folder = '822663/000082266303000019'
         f, created = Filing.objects.get_or_create(folder=folder)
         names = f.director_names()
-        self.assertTrue('Andrew' in names)
+        self.assertTrue("Benacin, Philippe" in names)
 
     def test_other_directorships(self):
         pass

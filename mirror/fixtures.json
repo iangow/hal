@@ -1,2 +1,20 @@
 [
+  {
+    "model": "mirror.proxy",
+    "pk": 1,
+    "fields": {
+      "equilar_id": 5335,
+      "fy_end": "2002-12-31",
+      "file_name": "edgar/data/822663/0000822663-03-000019.txt"
+    }
+  },
+  {
+    "model": "mirror.directorfiling",
+    "pk": 1,
+    "fields": {
+      "director_id": "5335.11.N.64189",
+      "director": "Benacin, Philippe",
+      "fy_end": "2002-12-31"
+    }
+  }
 ]
