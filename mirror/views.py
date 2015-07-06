@@ -63,10 +63,10 @@ def highlight(request, folder):
         # Surround content with html tag.
         trimmed = '<html>%s</html>' % html
 
-    return _highlight_page(trimmed, director_names)
+    return _highlight_page(request, trimmed, director_names)
 
 
-def _highlight_page(raw_html, items):
+def _highlight_page(request, raw_html, items):
     tree = BeautifulSoup(raw_html)
     l = tree.findAll('html')
     assert len(l) == 1, raw_html[0:400]
@@ -74,7 +74,8 @@ def _highlight_page(raw_html, items):
 
     text = render_to_string('highlight.html', {
         'director_names': items,
-        'STORE_URL': os.environ['STORE_URL']
+        'STORE_URL': os.environ['STORE_URL'],
+        'user': request.user
     })
     block = BeautifulSoup(text)
     if html.head is None:
@@ -105,4 +106,4 @@ def bio(request, id):
     raw = render_to_string('disclosures.html', locals())
     # companies = [str(b.director_id())]
     companies = ['Company One', 'Company Two']
-    return _highlight_page(raw, companies)
+    return _highlight_page(request, raw, companies)

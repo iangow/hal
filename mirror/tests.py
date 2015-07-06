@@ -30,6 +30,7 @@ class MyTestCase(TestCase):
     def _test_highlight(self, folder):
         url = reverse(views.highlight, args=[folder])
         response = self.client.get(url)
+        self.assertTrue('fred' in response.content)
         self.assertEquals(response.status_code, 200)
 
     def test_no_html_or_body(self):
