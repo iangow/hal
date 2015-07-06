@@ -9,6 +9,7 @@ import os
 import re
 import requests
 import textwrap
+from django.template.loader import render_to_string
 
 
 _sql_path = lambda x: os.path.join(os.path.dirname(__file__), 'sql', x)
@@ -130,7 +131,7 @@ def other_directorships(director_id):
     '''
     sql = '''
         WITH x AS (
-            SELECT regexp_replace(b, '\..*$', '') AS equilar_id
+            SELECT regexp_replace(b, '\..*$', '')::integer AS equilar_id
             FROM matched_director_ids
             WHERE a='%s'
         )
@@ -206,7 +207,9 @@ class Highlight(models.Model):
             print '.'
 
     def clean_quote(self):
-        paragraphs = re.split('\n\s+', self.quote.strip())
+        blocks = re.split('\n\s*\n', self.quote)
+        stripped = [s.strip() for s in blocks]
+        paragraphs = [s for s in stripped if s]
         f = lambda s: '\n'.join(textwrap.wrap(s))
         wrapped = map(f, paragraphs)
         return '\n\n'.join(wrapped)
@@ -219,30 +222,20 @@ class Highlight(models.Model):
         if '/highlight/' in self.uri:
             return self.TYPES['BIO']
 
+    def folder(self):
+        assert self.type() == self.TYPES['BIO']
+        return self.uri.replace('http://hal.marder.io/highlight/', '')
+
     def director_name(self):
         assert self.type() == self.TYPES['BIO']
         return self.text
 
-    def filing_id(self):
-        assert self.type() == self.TYPES['BIO']
-        return self.uri.replace('http://hal.marder.io/highlight/', '')
-
-    def director_id(self, clean=True):
-        sql = (
-            "SELECT director_id FROM crosswalk WHERE folder='" +
-            self.filing_id() +
-            "' AND director='" +
-            self.director_name() +
-            "';"
-        )
+    def other_directorships(self, clean=True):
+        sql = render_to_string('get_other_boards.sql', {'bio': self})
         cursor = connection.cursor()
         cursor.execute(sql)
         rows = cursor.fetchall()
-        assert len(rows) == 1, rows
-        result = rows[0][0]
-        if clean:
-            result = re.sub('\..*\.', '', result)
-        return result
+        return [str(r[0]) for r in rows] + ['None']
 
 
 class Db(object):

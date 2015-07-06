@@ -68,13 +68,6 @@
     }
   },
   {
-    "model": "mirror.biographysegment",
-    "pk": "AU4iAVm1AHa09eOsU8PV",
-    "fields": {
-      "filing_id": "822663/000082266303000019"
-    }
-  },
-  {
     "model": "mirror.proxy",
     "pk": "1",
     "fields": {

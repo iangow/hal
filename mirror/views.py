@@ -104,5 +104,5 @@ def companies(request):
 def bio(request, id):
     b = Highlight.objects.get(id=id)
     raw = render_to_string('disclosures.html', locals())
-    companies = [str(b.director_id())]
+    companies = b.other_directorships()
     return _highlight_page(request, raw, companies)

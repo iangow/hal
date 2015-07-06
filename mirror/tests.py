@@ -1,5 +1,5 @@
 from django.test import TestCase
-from models import Filing, Db, DirectorFiling, other_directorships, BiographySegment
+from models import Filing, Db, DirectorFiling, other_directorships, Highlight
 import os
 from django.test import Client
 from django.core.urlresolvers import reverse
@@ -53,8 +53,8 @@ class MyTestCase(TestCase):
         self.assertEquals(rows[0][1], "HAVERTY FURNITURE COMPANIES INC")
 
     def test_bio_to_director_id(self):
-        b = BiographySegment.objects.get(id='AU4iAVm1AHa09eOsU8PV')
-        b.director_id()
+        h = Highlight.objects.get(id='AU4iAVm1AHa09eOsU8PV')
+        h.other_directorships()
 
 
 class TestMatching(TestCase):
