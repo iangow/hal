@@ -1,14 +1,14 @@
-from django.db import models
-from sec_ftp import Client
-from django.db import connection, OperationalError
-from jsonfield import JSONField
 from django.contrib.auth.models import User
-import re
-import os
+from django.db import connection, OperationalError
+from django.db import models
+from jsonfield import JSONField
+from sec_ftp import Client
+import json
 import match_directors_across_filings
+import os
+import re
+import requests
 import textwrap
-from elasticsearch import Elasticsearch
-from elasticsearch.helpers import scan
 
 
 _sql_path = lambda x: os.path.join(os.path.dirname(__file__), 'sql', x)
@@ -190,14 +190,19 @@ class Highlight(models.Model):
             return cls.create(**kwargs)
 
     @classmethod
-    def load_from_elastic_search(cls):
-        '''
-        I need to think about setting up my dev environment to match
-        production. Otherwise testing this code will be difficult.
-        '''
-        es = Elasticsearch()
-        for doc in scan(es, query={}, index='annotator'):
-            cls.get_or_create(**doc)
+    def _load_highlights_for(cls, folder):
+        uri = 'http://hal.marder.io/highlight/' + folder
+        url = os.environ['STORE_URL'] + '/search?uri=' + uri
+        response = requests.get(url)
+        d = json.loads(response.content)
+        for row in d['rows']:
+            cls.get_or_create(**row)
+
+    @classmethod
+    def load_highlights(cls, limit=10):
+        filings = Filing.objects.filter(type='DEF 14A')[0:limit]
+        for f in filings:
+            cls._load_highlights_for(f.folder)
             print '.'
 
     def clean_quote(self):
@@ -205,6 +210,14 @@ class Highlight(models.Model):
         f = lambda s: '\n'.join(textwrap.wrap(s))
         wrapped = map(f, paragraphs)
         return '\n\n'.join(wrapped)
+
+    TYPES = {
+        'BIO': 'BiographySegment',
+    }
+
+    def type(self):
+        if '/highlight/' in self.uri:
+            return self.TYPES['BIO']
 
 
 class BiographySegment(Highlight):
