@@ -1,9 +1,8 @@
 import pandas as pd
-import os
 import numpy as np
 import networkx as nx
-from django.conf import settings
 from django.db import connection
+from django.template.loader import render_to_string
 
 
 def _names(s):
@@ -30,7 +29,7 @@ def get_data():
     return df
 
 
-def _all_edges(df):
+def all_edges(df):
     gb = df.groupby(['last_name', 'first_name', 'gender'])
     for k, block in gb:
         for edge in _edges(block):
@@ -52,7 +51,7 @@ def _edges(block):
     return list(set(result))
 
 
-def _matched_ids(edges):
+def matched_ids(edges):
     g = nx.Graph()
     g.add_edges_from(edges)
     components = list(nx.connected_components(g))
@@ -65,8 +64,13 @@ def _matched_ids(edges):
 
 def create_matched_director_ids():
     data = get_data()
-    edges = _all_edges(data)
-    matches = _matched_ids(edges)
-    df = pd.DataFrame(data=list(matches), columns=['a', 'b'])
-    df.to_sql('matched_director_ids', e, chunksize=1000, index=False)
-    e.dispose()
+    edges = all_edges(data)
+    matches = matched_ids(edges)
+    
+    pair = lambda x: "('%s', '%s')" % x
+    pairs = map(pair, matches)
+    values = ','.join(pairs)
+    table = 'matched_director_ids'
+    query = render_to_string('bulk_insert.sql', locals())
+    cursor = connection.cursor()
+    cursor.execute(query)

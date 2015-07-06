@@ -5,7 +5,7 @@ from django.test import Client
 from django.core.urlresolvers import reverse
 import views
 from django.contrib.auth.models import User
-from match_directors_across_filings import get_data
+from match_directors_across_filings import get_data, all_edges, matched_ids
 
 
 class MyTestCase(TestCase):
@@ -56,6 +56,11 @@ class TestMatching(TestCase):
     fixtures = [os.path.join(os.path.dirname(__file__), 'fixtures.json')]
 
     def test_get_data(self):
-        self.assertEquals(DirectorFiling.objects.count(), 3)
+        expected_count = 3
+        self.assertEquals(DirectorFiling.objects.count(), expected_count)
         df = get_data()
-        self.assertEquals(df.shape[0], 3)
+        self.assertEquals(df.shape[0], expected_count)
+
+    def test_matched_ids(self):
+        l = matched_ids(all_edges(get_data()))
+        self.assertEquals(len(list(l)), 2)

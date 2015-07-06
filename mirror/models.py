@@ -221,4 +221,4 @@ class Db(object):
     @classmethod
     def create_all(cls):
         cls.create_crosswalk()
-        # match_directors_across_filings.create_matched_director_ids()
+        match_directors_across_filings.create_matched_director_ids()
