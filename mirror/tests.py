@@ -18,7 +18,7 @@ class MyTestCase(TestCase):
 
     def _set_client(self):
         c = Client()
-        u = User.objects.create(username='fred')
+        u = User.objects.get(username='fred')
         u.set_password('secret')
         u.save()
         self.assertEquals(User.objects.count(), 1)

@@ -56,8 +56,8 @@ class Migration(migrations.Migration):
                 ('quote', models.TextField()),
                 ('text', models.TextField()),
                 ('ranges', jsonfield.fields.JSONField()),
-                ('created', models.DateTimeField(default=None)),
-                ('updated', models.DateTimeField(default=None)),
+                ('created', models.DateTimeField()),
+                ('updated', models.DateTimeField()),
             ],
         ),
         migrations.CreateModel(

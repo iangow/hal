@@ -149,8 +149,8 @@ class Highlight(models.Model):
     quote = models.TextField()
     text = models.TextField()
     ranges = JSONField()
-    created = models.DateTimeField(default=None)
-    updated = models.DateTimeField(default=None)
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     MAPPING = {
         'id': 'id',
