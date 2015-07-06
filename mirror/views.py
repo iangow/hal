@@ -103,5 +103,5 @@ def companies(request):
 def bio(request, id):
     b = BiographySegment.objects.get(id=id)
     raw = render_to_string('disclosures.html', locals())
-    companies = [b.director_id()]
+    companies = [str(b.director_id())]
     return _highlight_page(raw, companies)
