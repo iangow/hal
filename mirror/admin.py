@@ -12,6 +12,9 @@ class FilingAdmin(admin.ModelAdmin):
         self.message_user(request, 'Added %d filings.' % count)
 
 
+admin.site.register(Filing, FilingAdmin)
+
+
 def load_biographies():
     count = 0
     for d in bios():
@@ -36,5 +39,4 @@ class BiographySegmentAdmin(admin.ModelAdmin):
         self.message_user(request, 'Added %d biographies.' % count)
 
 
-admin.site.register(Filing, FilingAdmin)
 admin.site.register(BiographySegment, BiographySegmentAdmin)

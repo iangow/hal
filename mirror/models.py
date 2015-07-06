@@ -7,6 +7,8 @@ import re
 import os
 import match_directors_across_filings
 import textwrap
+from elasticsearch import Elasticsearch
+from elasticsearch.helpers import scan
 
 
 _sql_path = lambda x: os.path.join(os.path.dirname(__file__), 'sql', x)
@@ -146,32 +148,33 @@ def other_directorships(director_id):
 class Highlight(models.Model):
     id = models.TextField(primary_key=True, unique=True, editable=False)
     uri = models.TextField()
-    highlighted_by = models.ForeignKey(User)
     quote = models.TextField()
     text = models.TextField()
     ranges = JSONField()
     created = models.DateTimeField()
     updated = models.DateTimeField()
+    highlighted_by = models.ForeignKey(User)
 
-    MAPPING = {
-        'id': 'id',
-        'quote': 'text',
-        'text': 'director_name',
-        'ranges': 'ranges',
-        'created': 'created',
-        'updated': 'updated',
-    }
+    TO_COPY = [
+        'id',
+        'uri',
+        'quote',
+        'text',
+        'ranges',
+        'created',
+        'updated',
+    ]
 
     @classmethod
     def create(cls, **kwargs):
-        l = kwargs['uri'].split('/')
-        folder = '/'.join(l[-2:len(l)])
+        # l = kwargs['uri'].split('/')
+        # folder = '/'.join(l[-2:len(l)])
+        # 'filing': Filing.objects.get(folder=folder),
         d = {
-            'filing': Filing.objects.get(folder=folder),
             'highlighted_by': User.objects.get(username=kwargs['username'])
         }
-        for k, v in cls.MAPPING.items():
-            d[v] = kwargs[k]
+        for k in cls.TO_COPY:
+            d[k] = kwargs[k]
         return cls.objects.create(**d)
 
     @classmethod
@@ -180,6 +183,17 @@ class Highlight(models.Model):
             return cls.objects.get(id=kwargs['id'])
         except cls.DoesNotExist:
             return cls.create(**kwargs)
+
+    @classmethod
+    def load_from_elastic_search(cls):
+        '''
+        I need to think about setting up my dev environment to match
+        production. Otherwise testing this code will be difficult.
+        '''
+        es = Elasticsearch()
+        for doc in scan(es, query={}, index='annotator'):
+            cls.get_or_create(**doc)
+            print '.'
 
     def clean_quote(self):
         paragraphs = re.split('\n\s+', self.quote.strip())
