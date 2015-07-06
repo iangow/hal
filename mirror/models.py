@@ -219,17 +219,18 @@ class Highlight(models.Model):
         if '/highlight/' in self.uri:
             return self.TYPES['BIO']
 
-
-class BiographySegment(Highlight):
-    filing = models.ForeignKey(Filing, editable=False)
-
     def director_name(self):
+        assert self.type() == self.TYPES['BIO']
         return self.text
+
+    def filing_id(self):
+        assert self.type() == self.TYPES['BIO']
+        return self.uri.replace('http://hal.marder.io/highlight/', '')
 
     def director_id(self, clean=True):
         sql = (
             "SELECT director_id FROM crosswalk WHERE folder='" +
-            self.filing.folder +
+            self.filing_id() +
             "' AND director='" +
             self.director_name() +
             "';"
