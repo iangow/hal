@@ -9,6 +9,11 @@ from django.contrib.auth.models import User
 
 class MyTestCase(TestCase):
 
+    fixtures = [os.path.join(
+        os.path.dirname(__file__),
+        'test_fixtures.json'
+    )]
+
     def setUp(self):
         c = Client()
         u = User.objects.create(username='fred')
@@ -33,3 +38,9 @@ class MyTestCase(TestCase):
 
     def test_no_head(self):
         self._test_highlight('913144/000114544307001203')
+
+    def test_director_names(self):
+        folder = '822663/000082266303000019'
+        f, created = Filing.objects.get_or_create(folder=folder)
+        names = f.director_names()
+        self.assertTrue('Andrew' in names)

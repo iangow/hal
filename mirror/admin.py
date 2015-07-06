@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Directors, Filing, BiographySegment
+from .models import Filing, BiographySegment
 from .es import bios, clean
 
 
@@ -36,6 +36,5 @@ class BiographySegmentAdmin(admin.ModelAdmin):
         self.message_user(request, 'Added %d biographies.' % count)
 
 
-admin.site.register(Directors)
 admin.site.register(Filing, FilingAdmin)
 admin.site.register(BiographySegment, BiographySegmentAdmin)

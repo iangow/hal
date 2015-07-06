@@ -6,13 +6,12 @@ from django.contrib.auth.models import User
 import re
 
 
-class Directors(models.Model):
+class DirectorFiling(models.Model):
     '''
     This model was created by inspected the director.director table on
     Ian's server. Let's use the admin to make sure that django can
     read data from the server.
     '''
-
     director_id = models.TextField(blank=True, primary_key=True)
     company = models.TextField(blank=True)
     director = models.TextField(blank=True)
@@ -33,10 +32,14 @@ class Directors(models.Model):
     insider_outsider_related = models.TextField(blank=True)
 
     class Meta:
-        db_table = 'director'
+        db_table = 'director_x_filing'
 
 
-class EquilarProxies(models.Model):
+class Proxy(models.Model):
+    '''
+    This should have a one-to-one match with filings, but, for a few
+    reasons I don't want to fight with, it does not.
+    '''
     equilar_id = models.IntegerField(blank=True, null=True)
     cusip = models.TextField(blank=True, null=True)
     fy_end = models.DateField(blank=True, null=True)
@@ -46,6 +49,15 @@ class EquilarProxies(models.Model):
 
     class Meta:
         db_table = 'equilar_proxies'
+
+
+class Crosswalk(models.Model):
+    folder = models.TextField(blank=True, null=True)
+    director_id = models.TextField(blank=True, null=True)
+    director = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'crosswalk'
 
 
 class Filing(models.Model):
@@ -105,7 +117,7 @@ class Filing(models.Model):
     def director_names(self):
         with open('mirror/director_names.sql') as f:
             template = f.read()
-            sql = template % self._file_name()
+            sql = template % self.folder
         cursor = connection.cursor()
         try:
             cursor.execute(sql)
@@ -114,20 +126,6 @@ class Filing(models.Model):
         rows = cursor.fetchall()
         names = [r[0] for r in rows]
         return sorted(list(set(names)))
-
-
-class Biography(models.Model):
-
-    filing = models.ForeignKey(Filing)
-    director_name = models.TextField()
-    text = models.TextField()
-
-    class Meta:
-        unique_together = ('filing', 'director_name')
-
-
-class File:
-    pass
 
 
 def other_directorships(director_id):
