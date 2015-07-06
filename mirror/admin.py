@@ -4,11 +4,8 @@ from .models import Filing, Highlight
 
 class FilingAdmin(admin.ModelAdmin):
 
-    actions = ['sync']
-
-    def sync(self, request, queryset):
-        count = Filing.sync()
-        self.message_user(request, 'Added %d filings.' % count)
+    list_display = ('folder', 'type', 'text_file')
+    list_filter = ('type', 'text_file')
 
 
 admin.site.register(Filing, FilingAdmin)
@@ -39,3 +36,18 @@ class HighlightAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Highlight, HighlightAdmin)
+
+
+
+
+# import requests
+# import json
+# from mirror.models import Highlight
+
+# folder = '861884/000095015003000426'
+# url = 'http://annotator-store.marder.io/search?uri=http://hal.marder.io/highlight/' + folder
+# response = requests.get(url)
+
+# d = json.loads(response.content)
+# for row in d['rows']:
+#     Highlight.get_or_create(**row)

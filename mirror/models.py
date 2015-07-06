@@ -249,6 +249,7 @@ class Db(object):
 
     @classmethod
     def create_all(cls):
+        Filing.sync()
         for f in cls.FILES:
             cls._exec(f)
         match_directors_across_filings.create_matched_director_ids()
