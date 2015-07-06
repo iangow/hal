@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Filing, Highlight
-from .es import bios, clean
 
 
 class FilingAdmin(admin.ModelAdmin):
