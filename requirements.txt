@@ -18,3 +18,4 @@ requests==2.7.0
 six==1.9.0
 static3==0.6.1
 Unidecode==0.4.18
+networkx==1.9.1
