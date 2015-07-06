@@ -16,7 +16,7 @@ def _get_data(engine):
         SELECT DISTINCT
         regexp_replace(director_id, '\..*\.', '.') AS director_id,
         director, gender, fileyear - age AS birth_year
-        FROM director.director;
+        FROM director;
     '''
 
     df = pd.read_sql(query, engine)
@@ -71,7 +71,7 @@ def write_matched_ids():
 def write_companies():
     query = '''
         SELECT DISTINCT director.equilar_id(director_id) as equilar_id, company
-        INTO companies FROM director.director;
+        INTO companies FROM director;
     '''
 
 

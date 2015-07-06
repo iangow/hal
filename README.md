@@ -67,3 +67,16 @@ Move Postgres to Linode
 Add director-id to existing entries in elastic search
 
 Nertagger of all bio segments
+
+
+
+
+ public | companies                  | table | postgres
+ public | crosswalk                  | table | postgres
+
+public | equilar_proxies            | table | postgres
+public | director                   | table | postgres
+ 
+public | matched_director_ids       | table | postgres
+public | mirror_biographysegment    | table | postgres
+public | mirror_filing              | table | postgres

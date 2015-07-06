@@ -33,8 +33,19 @@ class Directors(models.Model):
     insider_outsider_related = models.TextField(blank=True)
 
     class Meta:
-        managed = False
-        db_table = 'director\".\"director'
+        db_table = 'director'
+
+
+class EquilarProxies(models.Model):
+    equilar_id = models.IntegerField(blank=True, null=True)
+    cusip = models.TextField(blank=True, null=True)
+    fy_end = models.DateField(blank=True, null=True)
+    cik = models.IntegerField(blank=True, null=True)
+    file_name = models.TextField(blank=True, null=True)
+    date_filed = models.DateField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'equilar_proxies'
 
 
 class Filing(models.Model):
