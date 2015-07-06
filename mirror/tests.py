@@ -1,5 +1,5 @@
 from django.test import TestCase
-from models import Filing, Db, DirectorFiling
+from models import Filing, Db, DirectorFiling, other_directorships
 import os
 from django.test import Client
 from django.core.urlresolvers import reverse
@@ -48,7 +48,8 @@ class MyTestCase(TestCase):
         self.assertTrue("Benacin, Philippe" in names)
 
     def test_other_directorships(self):
-        pass
+        rows = other_directorships('4231.45610')
+        self.assertEquals(rows[0][1], "HAVERTY FURNITURE COMPANIES INC")
 
 
 class TestMatching(TestCase):

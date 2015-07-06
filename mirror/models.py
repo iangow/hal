@@ -133,7 +133,7 @@ def other_directorships(director_id):
     '''
     sql = '''
         WITH x AS (
-            SELECT director.equilar_id(b) AS equilar_id
+            SELECT regexp_replace(b, '\..*$', '') AS equilar_id
             FROM matched_director_ids
             WHERE a='%s'
         )
@@ -211,8 +211,8 @@ class BiographySegment(Highlight):
 class Db(object):
 
     @classmethod
-    def create_crosswalk(cls):
-        path = _sql_path('create_crosswalk.sql')
+    def _exec(cls, filename):
+        path = _sql_path(filename)
         with open(path) as f:
             sql = f.read()
         cursor = connection.cursor()
@@ -220,5 +220,6 @@ class Db(object):
 
     @classmethod
     def create_all(cls):
-        cls.create_crosswalk()
+        for f in ['create_crosswalk.sql', 'create_companies_table.sql']:
+            cls._exec(f)
         match_directors_across_filings.create_matched_director_ids()
