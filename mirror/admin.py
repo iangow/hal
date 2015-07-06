@@ -28,11 +28,8 @@ def load_biographies():
 
 class HighlightAdmin(admin.ModelAdmin):
 
-    actions = ['load']
-
-    def load(self, request, queryset):
-        count = load_biographies()
-        self.message_user(request, 'Added %d biographies.' % count)
+    list_display = ('id', 'uri', 'highlighted_by', 'text')
+    list_filter = ('highlighted_by', )
 
 
 admin.site.register(Highlight, HighlightAdmin)

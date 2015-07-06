@@ -200,10 +200,10 @@ class Highlight(models.Model):
             cls.get_or_create(**row)
 
     @classmethod
-    def load_highlights(cls, limit=10):
-        filings = Filing.objects.filter(type='DEF 14A')[0:limit]
-        for f in filings:
-            cls._load_highlights_for(f.folder)
+    def load_highlights(cls):
+        rows = Filing.objects.filter(type='DEF 14A').values('folder')
+        for r in rows:
+            cls._load_highlights_for(r['folder'])
             print '.'
 
     def clean_quote(self):
@@ -236,6 +236,14 @@ class Highlight(models.Model):
         cursor.execute(sql)
         rows = cursor.fetchall()
         return [str(r[0]) for r in rows] + ['None']
+
+    @classmethod
+    def _find_example(cls):
+        for h in cls.objects.all()[0:200]:
+            l = h.other_directorships()
+            if len(l) > 1:
+                break
+        return h
 
 
 class Db(object):
