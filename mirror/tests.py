@@ -61,8 +61,7 @@ class TestMatching(TestCase):
     fixtures = [os.path.join(os.path.dirname(__file__), 'fixtures.json')]
 
     def test_get_data(self):
-        expected_count = 3
-        self.assertEquals(DirectorFiling.objects.count(), expected_count)
+        expected_count = DirectorFiling.objects.count()
         df = get_data()
         self.assertEquals(df.shape[0], expected_count)
 

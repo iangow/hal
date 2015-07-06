@@ -75,6 +75,31 @@
     }
   },
   {
+    "model": "mirror.proxy",
+    "pk": "1",
+    "fields": {
+      "equilar_id": 5335,
+      "cusip": 45833410,
+      "fy_end": "2002-12-31",
+      "cik": 822663,
+      "file_name": "edgar/data/822663/0000822663-03-000019.txt",
+      "date_filed": "2003-06-30"
+    }
+  },
+  {
+    "model": "mirror.directorfiling",
+    "pk": "1",
+    "fields": {
+      "director_id": "5335.11.N.64196",
+      "company": "INTER PARFUMS INC",
+      "director": "Santi, Philippe",
+      "fy_end": "2002-12-31",
+      "gender": "M",
+      "age": 40,
+      "fileyear": 2002
+    }
+  },
+  {
     "model": "auth.user",
     "pk": 1,
     "fields": {
@@ -83,3 +108,6 @@
     }
   }
 ]
+
+
+
