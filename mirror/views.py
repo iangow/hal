@@ -2,12 +2,13 @@ from BeautifulSoup import BeautifulSoup, Tag
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from models import Filing, BiographySegment
 from random import randint
 import json
 from django.contrib.auth.decorators import login_required
 import os
-from django.db import connection, OperationalError
+from django.db import connection
 
 
 def home(request):
@@ -42,7 +43,6 @@ def random_filing(request):
     return redirect(absolute_url)
 
 
-
 @login_required(login_url='/admin/login/')
 def highlight(request, folder):
     f = _load(folder)
@@ -63,15 +63,19 @@ def highlight(request, folder):
         # Surround content with html tag.
         trimmed = '<html>%s</html>' % html
 
-    tree = BeautifulSoup(trimmed)
+    return _highlight_page(trimmed, director_names)
+
+
+def _highlight_page(raw_html, items):
+    tree = BeautifulSoup(raw_html)
     l = tree.findAll('html')
-    assert len(l) == 1, html[0:400]
+    assert len(l) == 1, raw_html[0:400]
     html = l[0]
 
-    text = render(request, 'highlight.html', {
-        'director_names': director_names,
+    text = render_to_string('highlight.html', {
+        'director_names': items,
         'STORE_URL': os.environ['STORE_URL']
-    }).content
+    })
     block = BeautifulSoup(text)
     if html.head is None:
         html.insert(0, Tag(tree, 'head'))
@@ -98,4 +102,6 @@ def companies(request):
 
 def bio(request, id):
     b = BiographySegment.objects.get(id=id)
-    return render(request, 'disclosures.html', locals())
+    raw = render_to_string('disclosures.html', locals())
+    companies = [b.director_id()]
+    return _highlight_page(raw, companies)

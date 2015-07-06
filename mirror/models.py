@@ -191,12 +191,15 @@ class Highlight(models.Model):
 class BiographySegment(Highlight):
     filing = models.ForeignKey(Filing, editable=False)
 
+    def director_name(self):
+        return self.text
+
     def director_id(self, clean=True):
         sql = (
             "SELECT director_id FROM crosswalk WHERE folder='" +
             self.filing.folder +
             "' AND director='" +
-            self.director_name +
+            self.director_name() +
             "';"
         )
         cursor = connection.cursor()
