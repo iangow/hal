@@ -92,13 +92,7 @@ class Filing(models.Model):
     @classmethod
     def sync(cls):
         old_count = cls.objects.count()
-
-        path = _sql_path('load_filings.sql')
-        with open(path) as f:
-            sql = f.read()
-        cursor = connection.cursor()
-        cursor.execute(sql)
-
+        Db._exec('load_filings.sql')
         new_count = cls.objects.count()
         return new_count - old_count
 
@@ -210,6 +204,12 @@ class BiographySegment(Highlight):
 
 class Db(object):
 
+    FILES = [
+        'create_crosswalk.sql',
+        'create_companies_table.sql',
+        'load_filings.sql',
+    ]
+
     @classmethod
     def _exec(cls, filename):
         path = _sql_path(filename)
@@ -220,6 +220,6 @@ class Db(object):
 
     @classmethod
     def create_all(cls):
-        for f in ['create_crosswalk.sql', 'create_companies_table.sql']:
+        for f in cls.FILES:
             cls._exec(f)
         match_directors_across_filings.create_matched_director_ids()

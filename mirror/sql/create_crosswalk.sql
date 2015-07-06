@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS crosswalk;
+
 WITH x AS
 ( 
        SELECT regexp_replace(file_name, e'^edgar/data/(\\d+)/(\\d{10})-(\\d{2})-(\\d{6})\\.txt$', e'\\1/\\2\\3\\4') AS folder, 
