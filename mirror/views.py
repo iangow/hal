@@ -2,7 +2,7 @@ from BeautifulSoup import BeautifulSoup, Tag
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from models import Filing
+from models import Filing, BiographySegment
 from random import randint
 import json
 from django.contrib.auth.decorators import login_required
@@ -96,5 +96,6 @@ def companies(request):
     return JsonResponse({'items': dicts})
 
 
-def disclosures(request, id):
-    return render(request, 'disclosures.html')
+def bio(request, id):
+    b = BiographySegment.objects.get(id=id)
+    return render(request, 'disclosures.html', locals())

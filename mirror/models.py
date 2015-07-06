@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 import re
 import os
 import match_directors_across_filings
+import textwrap
 
 
 _sql_path = lambda x: os.path.join(os.path.dirname(__file__), 'sql', x)
@@ -179,6 +180,12 @@ class Highlight(models.Model):
             return cls.objects.get(id=kwargs['id'])
         except cls.DoesNotExist:
             return cls.create(**kwargs)
+
+    def clean_quote(self):
+        paragraphs = re.split('\n\s+', self.quote.strip())
+        f = lambda s: '\n'.join(textwrap.wrap(s))
+        wrapped = map(f, paragraphs)
+        return '\n\n'.join(wrapped)
 
 
 class BiographySegment(Highlight):
