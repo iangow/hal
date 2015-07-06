@@ -1,10 +1,11 @@
 from django.test import TestCase
-from models import Filing, Db
+from models import Filing, Db, DirectorFiling
 import os
 from django.test import Client
 from django.core.urlresolvers import reverse
 import views
 from django.contrib.auth.models import User
+from match_directors_across_filings import get_data
 
 
 class MyTestCase(TestCase):
@@ -13,7 +14,7 @@ class MyTestCase(TestCase):
 
     def setUp(self):
         self._set_client()
-        Db.create_crosswalk()
+        Db.create_all()
 
     def _set_client(self):
         c = Client()
@@ -48,3 +49,13 @@ class MyTestCase(TestCase):
 
     def test_other_directorships(self):
         pass
+
+
+class TestMatching(TestCase):
+
+    fixtures = [os.path.join(os.path.dirname(__file__), 'fixtures.json')]
+
+    def test_get_data(self):
+        self.assertEquals(DirectorFiling.objects.count(), 3)
+        df = get_data()
+        self.assertEquals(df.shape[0], 3)

@@ -1,8 +1,9 @@
 import pandas as pd
-from sqlalchemy import create_engine
 import os
 import numpy as np
 import networkx as nx
+from django.conf import settings
+from django.db import connection
 
 
 def _names(s):
@@ -11,15 +12,18 @@ def _names(s):
     return l
 
 
-def _get_data(engine):
+def get_data():
     query = '''
         SELECT DISTINCT
         regexp_replace(director_id, '\..*\.', '.') AS director_id,
         director, gender, fileyear - age AS birth_year
         FROM director;
     '''
-
-    df = pd.read_sql(query, engine)
+    cursor = connection.cursor()
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    columns = ['director_id', 'director', 'gender', 'birth_year']
+    df = pd.DataFrame(data=rows, columns=columns)
     df['last_name'] = df.director.map(lambda s: _names(s)[0])
     df['first_name'] = df.director.map(lambda s: _names(s)[1])
     del df['director']
@@ -59,21 +63,10 @@ def _matched_ids(edges):
                     yield i, j
 
 
-def write_matched_ids():
-    engine = create_engine(os.environ['DATABASE_URL'])
-    data = _get_data(engine)
+def create_matched_director_ids():
+    data = get_data()
     edges = _all_edges(data)
     matches = _matched_ids(edges)
     df = pd.DataFrame(data=list(matches), columns=['a', 'b'])
-    df.to_sql('matched_director_ids', engine, chunksize=1000, index=False)
-
-
-def write_companies():
-    query = '''
-        SELECT DISTINCT director.equilar_id(director_id) as equilar_id, company
-        INTO companies FROM director;
-    '''
-
-
-if __name__ == '__main__':
-    pass
+    df.to_sql('matched_director_ids', e, chunksize=1000, index=False)
+    e.dispose()

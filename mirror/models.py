@@ -5,6 +5,7 @@ from jsonfield import JSONField
 from django.contrib.auth.models import User
 import re
 import os
+import match_directors_across_filings
 
 
 _sql_path = lambda x: os.path.join(os.path.dirname(__file__), 'sql', x)
@@ -216,3 +217,8 @@ class Db(object):
             sql = f.read()
         cursor = connection.cursor()
         cursor.execute(sql)
+
+    @classmethod
+    def create_all(cls):
+        cls.create_crosswalk()
+        # match_directors_across_filings.create_matched_director_ids()

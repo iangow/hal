@@ -16,5 +16,29 @@
       "director": "Benacin, Philippe",
       "fy_end": "2002-12-31"
     }
+  },
+  {
+    "model": "mirror.directorfiling",
+    "pk": 2,
+    "fields": {
+      "director_id": "4231.10.N.45610",
+      "director": "Smith, Clarence",
+      "gender": "M",
+      "fileyear": 2003,
+      "age": 52,
+      "company": "OXFORD INDUSTRIES INC"
+    }
+  },
+  {
+    "model": "mirror.directorfiling",
+    "pk": 3,
+    "fields": {
+      "director_id": "3601.10.N.33711",
+      "director": "Smith, Clarence",
+      "gender": "M",
+      "fileyear": 2003,
+      "age": 52,
+      "company": "HAVERTY FURNITURE COMPANIES INC"
+    }
   }
 ]
