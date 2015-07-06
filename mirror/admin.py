@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Filing, BiographySegment
+from .models import Filing, Highlight
 from .es import bios, clean
 
 
@@ -30,7 +30,7 @@ def load_biographies():
     return count
 
 
-class BiographySegmentAdmin(admin.ModelAdmin):
+class HighlightAdmin(admin.ModelAdmin):
 
     actions = ['load']
 
@@ -39,4 +39,4 @@ class BiographySegmentAdmin(admin.ModelAdmin):
         self.message_user(request, 'Added %d biographies.' % count)
 
 
-admin.site.register(BiographySegment, BiographySegmentAdmin)
+admin.site.register(Highlight, HighlightAdmin)

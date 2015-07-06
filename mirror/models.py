@@ -153,7 +153,7 @@ class Highlight(models.Model):
     ranges = JSONField()
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    highlighted_by = models.ForeignKey(User)
+    highlighted_by = models.ForeignKey(User, null=True)
 
     TO_COPY = [
         'id',
@@ -170,8 +170,13 @@ class Highlight(models.Model):
         # l = kwargs['uri'].split('/')
         # folder = '/'.join(l[-2:len(l)])
         # 'filing': Filing.objects.get(folder=folder),
+        try:
+            user = User.objects.get(username=kwargs['username'])
+        except User.DoesNotExist:
+            user = None
+            
         d = {
-            'highlighted_by': User.objects.get(username=kwargs['username'])
+            'highlighted_by': user
         }
         for k in cls.TO_COPY:
             d[k] = kwargs[k]

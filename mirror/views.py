@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
-from models import Filing, BiographySegment
+from models import Filing, Highlight
 from random import randint
 import json
 from django.contrib.auth.decorators import login_required
@@ -101,7 +101,8 @@ def companies(request):
 
 
 def bio(request, id):
-    b = BiographySegment.objects.get(id=id)
+    b = Highlight.objects.get(id=id)
     raw = render_to_string('disclosures.html', locals())
-    companies = [str(b.director_id())]
+    # companies = [str(b.director_id())]
+    companies = ['Company One', 'Company Two']
     return _highlight_page(raw, companies)
