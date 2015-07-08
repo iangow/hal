@@ -52,10 +52,6 @@ class MyTestCase(TestCase):
         rows = other_directorships('4231.45610')
         self.assertEquals(rows[0][1], "HAVERTY FURNITURE COMPANIES INC")
 
-    def test_bio_to_director_id(self):
-        h = Highlight.objects.get(id='AU4iAVm1AHa09eOsU8PV')
-        h.other_directorships()
-
 
 class TestMatching(TestCase):
 

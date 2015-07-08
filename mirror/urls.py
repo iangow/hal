@@ -2,11 +2,10 @@ from django.conf.urls import patterns, url
 
 from . import views
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^/?$', views.home),
     url(r'^random$', views.random_filing),
-    url(r'^highlight/(?P<folder>\d+/\d+)$', 'mirror.views.highlight', name='highlight'),
-    url(r'^filing/(?P<folder>\d+/\d+)$', views.mirror, name='filing'),
-    url(r'^companies$', views.companies),
-    url(r'^bio/(?P<id>.*)$', views.bio),
+    url(r'^highlight/(?P<folder>\d+/\d+)$', views.highlight, name='highlight'),
+    url(r'^directorships/(?P<folder>\d+/\d+)$', views.directorships, name='directorships'),
 )

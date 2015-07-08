@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import connection, OperationalError
-from django.db import models
+from django.db import models, ProgrammingError
 from jsonfield import JSONField
 from sec_ftp import Client
 import json
@@ -122,6 +122,12 @@ class Filing(models.Model):
         names = [r[0] for r in rows]
         return sorted(list(set(names)))
 
+    def other_directorships(self, clean=True):
+        keys = ['director_id', 'director', 'equilar_id', 'company']
+        sql = render_to_string('get_other_boards.sql', {'folder': self.folder, 'keys': keys})
+        rows = Db.execute(sql)
+        return [dict(zip(keys, r)) for r in rows]
+
 
 def other_directorships(director_id):
     '''
@@ -214,6 +220,9 @@ class Highlight(models.Model):
         wrapped = map(f, paragraphs)
         return '\n\n'.join(wrapped)
 
+    def to_html(self):
+        return render_to_string('disclosures.html', self)
+
     TYPES = {
         'BIO': 'BiographySegment',
     }
@@ -229,13 +238,6 @@ class Highlight(models.Model):
     def director_name(self):
         assert self.type() == self.TYPES['BIO']
         return self.text
-
-    def other_directorships(self, clean=True):
-        sql = render_to_string('get_other_boards.sql', {'bio': self})
-        cursor = connection.cursor()
-        cursor.execute(sql)
-        rows = cursor.fetchall()
-        return [str(r[0]) for r in rows] + ['None']
 
     @classmethod
     def _find_example(cls):
@@ -255,12 +257,20 @@ class Db(object):
     ]
 
     @classmethod
+    def execute(cls, query):
+        cursor = connection.cursor()
+        cursor.execute(query)
+        try:
+            return cursor.fetchall()
+        except ProgrammingError:
+            pass
+
+    @classmethod
     def _exec(cls, filename):
         path = _sql_path(filename)
         with open(path) as f:
             sql = f.read()
-        cursor = connection.cursor()
-        cursor.execute(sql)
+        cls.execute(sql)
 
     @classmethod
     def create_all(cls):

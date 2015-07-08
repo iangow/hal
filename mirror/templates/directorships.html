@@ -1,0 +1,31 @@
+<style>
+  .odd {
+    background-color: #ccc;
+  }
+</style>
+
+<table>
+  <thead><tr><th>Name</th><th>Biography</th><th>Other Directorships</th></tr></thead>
+
+  <tbody>
+  {% for name, d in directors %}
+  {% cycle 'odd' 'even' as rowcolor silent %}
+  <tr class="{{ rowcolor }}">
+    <td>{{ name }}</td>
+
+    <td>
+      {% for h in d.highlights %}
+      <pre>{{ h.clean_quote }}</pre>
+      {% endfor %}
+    </td>
+
+    <td><ul>
+        {% for other in d.directorships %}
+        <li>{{ other.company }}</li>
+        {% endfor %}
+    </ul></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+
+</table>

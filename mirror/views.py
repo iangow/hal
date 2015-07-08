@@ -16,20 +16,10 @@ def home(request):
 
 
 def _load(folder):
-    try:
-        f = Filing.objects.get(folder=folder)
-    except Filing.DoesNotExist:
-        f = Filing(folder=folder)
+    f, created = Filing.objects.get_or_create(folder=folder)
     if not f.downloaded():
         f.download()
     return f
-
-
-def mirror(request, folder):
-    f = _load(folder)
-    if f.text_file:
-        return HttpResponse(f.text, content_type='text/plain')
-    return HttpResponse(f.text)
 
 
 def random_filing(request):
@@ -85,24 +75,25 @@ def _highlight_page(request, raw_html, items):
     return HttpResponse(html.prettify())
 
 
-def companies(request):
-    query_string = request.GET['q']
-    query = ''.join([
-        "SELECT equilar_id, company FROM director.company_names WHERE lower(company) LIKE '%",
-        query_string.lower(),
-        "%' LIMIT 10;"
-    ])
-    cursor = connection.cursor()
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    my_id = lambda x: ' - '.join([x[1], str(x[0])])
-    f = lambda x: {'id': my_id(x), 'text': x[1]}
-    dicts = map(f, rows)
-    return JsonResponse({'items': dicts})
+@login_required(login_url='/admin/login/')
+def directorships(request, folder):
+    filing = Filing.objects.get(folder=folder)
+    other_directorships = filing.other_directorships()
 
+    d = {}
+    for other in other_directorships:
+        k = other.pop('director')
+        if k not in d:
+            d[k] = {'highlights': [], 'directorships': []}
+        d[k]['directorships'].append(other)
 
-def bio(request, id):
-    b = Highlight.objects.get(id=id)
-    raw = render_to_string('disclosures.html', locals())
-    companies = b.other_directorships()
-    return _highlight_page(request, raw, companies)
+    highlights = Highlight.objects.filter(uri__endswith=folder)
+    for h in highlights:
+        if h.text in d:
+            d[h.text]['highlights'].append(h)
+
+    for k in d.keys():
+        if len(d[k]['highlights']) == 0:
+            del d[k]
+
+    return render(request, 'directorships.html', {'directors': sorted(d.items())})
