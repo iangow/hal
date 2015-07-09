@@ -76,24 +76,7 @@ def _highlight_page(request, raw_html, items):
 
 
 @login_required(login_url='/admin/login/')
-def directorships(request, folder):
-    filing = Filing.objects.get(folder=folder)
-    other_directorships = filing.other_directorships()
-
-    d = {}
-    for other in other_directorships:
-        k = other.pop('director')
-        if k not in d:
-            d[k] = {'highlights': [], 'directorships': []}
-        d[k]['directorships'].append(other)
-
-    highlights = Highlight.objects.filter(uri__endswith=folder)
-    for h in highlights:
-        if h.text in d:
-            d[h.text]['highlights'].append(h)
-
-    for k in d.keys():
-        if len(d[k]['highlights']) == 0:
-            del d[k]
-
-    return render(request, 'directorships.html', {'directors': sorted(d.items())})
+def bio(request, id):
+    highlight = Highlight.objects.get(id=id)
+    companies = highlight.other_directorships()
+    return render(request, 'directorships.html', locals())
