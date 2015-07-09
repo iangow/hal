@@ -1,14 +1,13 @@
 from BeautifulSoup import BeautifulSoup, Tag
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from models import Filing, Highlight
+from models import Filing, Highlight, Db
 from random import randint
 import json
 from django.contrib.auth.decorators import login_required
 import os
-from django.db import connection
 
 
 def home(request):
@@ -33,12 +32,7 @@ def random_filing(request):
     return redirect(absolute_url)
 
 
-@login_required(login_url='/admin/login/')
-def highlight(request, folder):
-    f = _load(folder)
-
-    director_names = json.dumps(f.director_names())
-
+def _raw_filing(f):
     html_or_text = f.text
     if f.text_file:
         html = '<html><head></head><body><pre>%s</pre></body></html>' % html_or_text
@@ -53,30 +47,63 @@ def highlight(request, folder):
         # Surround content with html tag.
         trimmed = '<html>%s</html>' % html
 
-    return _highlight_page(request, trimmed, director_names)
+    return trimmed
 
 
-def _highlight_page(request, raw_html, items):
-    tree = BeautifulSoup(raw_html)
-    l = tree.findAll('html')
-    assert len(l) == 1, raw_html[0:400]
-    html = l[0]
-
-    text = render_to_string('highlight.html', {
-        'director_names': items,
+@login_required(login_url='/admin/login/')
+def highlight(request, folder):
+    f = _load(folder)
+    filing_html = _raw_filing(f)
+    director_names = json.dumps(f.director_names())
+    highlight_html = render_to_string('highlight.html', {
+        'director_names': director_names,
         'STORE_URL': os.environ['STORE_URL'],
         'user': request.user
     })
-    block = BeautifulSoup(text)
+    html = _insert(filing_html, highlight_html)
+    return HttpResponse(html)
+
+
+def _insert(doc, html_block):
+    tree = BeautifulSoup(doc)
+    l = tree.findAll('html')
+    assert len(l) == 1, doc[0:400]
+    html = l[0]
+
+    block = BeautifulSoup(html_block)
     if html.head is None:
         html.insert(0, Tag(tree, 'head'))
     html.head.insert(0, block)
 
-    return HttpResponse(html.prettify())
+    return html.prettify()
+
+
+def companies(request):
+    query_string = request.GET['q']
+    query = ''.join([
+        "SELECT equilar_id, company FROM companies WHERE lower(company) LIKE '%",
+        query_string.lower(),
+        "%' LIMIT 10;"
+    ])
+    rows = Db.execute(query)
+    my_id = lambda x: ' - '.join([x[1], str(x[0])])
+    f = lambda x: {'id': my_id(x), 'text': x[1]}
+    dicts = map(f, rows)
+    return JsonResponse({'items': dicts})
+
+
+def _raw_bio(id):
+    highlight = Highlight.objects.get(id=id)
+    companies = highlight.other_directorships()
+    return render_to_string('directorships.html', locals())
 
 
 @login_required(login_url='/admin/login/')
 def bio(request, id):
-    highlight = Highlight.objects.get(id=id)
-    companies = highlight.other_directorships()
-    return render(request, 'directorships.html', locals())
+    raw_html = _raw_bio(id)
+    highlight_html = render_to_string('highlight_companies.html', {
+        'STORE_URL': os.environ['STORE_URL'],
+        'user': request.user
+    })
+    html = _insert(raw_html, highlight_html)
+    return HttpResponse(html)
