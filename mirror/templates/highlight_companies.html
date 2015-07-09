@@ -10,6 +10,7 @@
 
 <style>
 .js-data-example-ajax { width: 265px; }
+.select2-dropdown { z-index: 10000; }
 </style>
 
 <script>
@@ -43,7 +44,7 @@ jQuery(function ($) {
     select.on("select2:select", function (e) {
         comments.val(e.target.lastChild.textContent);
     });
-    $('form.annotator-widget').append(select);
+    comments.parent().append(select);
 
     $(".js-data-example-ajax").select2({
       ajax: {
