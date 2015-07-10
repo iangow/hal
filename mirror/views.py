@@ -88,19 +88,36 @@ def companies(request):
     rows = Db.execute(query)
     my_id = lambda x: ' - '.join([x[1], str(x[0])])
     f = lambda x: {'id': my_id(x), 'text': x[1]}
-    dicts = map(f, rows)
+    dicts = map(f, rows) + [{'text': 'Company Not Found', 'id': -1}]
     return JsonResponse({'items': dicts})
 
 
-def _raw_bio(id):
-    highlight = Highlight.objects.get(id=id)
-    companies = highlight.other_directorships()
-    return render_to_string('directorships.html', locals())
+def _raw_directorships(folder):
+    filing = Filing.objects.get(folder=folder)
+    other_directorships = filing.other_directorships()
+
+    d = {}
+    for other in other_directorships:
+        k = other.pop('director')
+        if k not in d:
+            d[k] = {'highlights': [], 'directorships': []}
+        d[k]['directorships'].append(other)
+
+    highlights = Highlight.objects.filter(uri__endswith=folder)
+    for h in highlights:
+        if h.text in d:
+            d[h.text]['highlights'].append(h)
+
+    for k in d.keys():
+        if len(d[k]['highlights']) == 0:
+            del d[k]
+
+    return render_to_string('directorships.html', {'directors': sorted(d.items())})
 
 
 @login_required(login_url='/admin/login/')
-def bio(request, id):
-    raw_html = _raw_bio(id)
+def directorships(request, folder):
+    raw_html = _raw_directorships(folder)
     highlight_html = render_to_string('highlight_companies.html', {
         'STORE_URL': os.environ['STORE_URL'],
         'user': request.user

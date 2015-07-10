@@ -122,6 +122,12 @@ class Filing(models.Model):
         names = [r[0] for r in rows]
         return sorted(list(set(names)))
 
+    def other_directorships(self, clean=True):
+        keys = ['director_id', 'director', 'equilar_id', 'company']
+        sql = render_to_string('folder_to_directorships.sql', {'folder': self.folder, 'keys': keys})
+        rows = Db.execute(sql)
+        return [dict(zip(keys, r)) for r in rows]
+
 
 def other_directorships(director_id):
     '''
