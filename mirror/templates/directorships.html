@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>
+<!--
   For each director below, please find a list of directorships pulled
   from the Equilar database and a director biography. For each company
   pulled from the Equilar database please let us know if the director
@@ -14,32 +14,28 @@
   Equilar Database" list, and select the corresponding company name
   from the drop-down menu to assign the company's name as a comment to
   the highlight.
-</p>
-<p>
+
   If you find a directorship mentioned in a biography that isn't in
   mentioned in the list, please highlight. Try to find the
   corresponding company name using the drop-down menu. If you cannot
   find the corresponding company name select the "Company Not Found"
   option.
-</p>
+-->
 
-{% for name, d in directors %}
-<hr/><hr/>
-
-<h1>{{ name }}</h1>
-
-<h4>Board Memberships from Equilar Database</h4>
-
-<ul>
-  {% for other in d.directorships %}
-  <li>{{ other.company }}</li>
+  <h1>{{ names|join:" | " }}</h1>
+  
+  <h4>Board Memberships from Equilar Database</h4>
+  
+  <ul>
+    {% for other in directorships %}
+    <li>{{ other.company }}</li>
+    {% endfor %}
+  </ul>
+  
+  <h4>Director Biography</h4>
+  
+  {% for h in highlights %}
+  <pre>{{ h.clean_quote }}</pre>
   {% endfor %}
-</ul>
 
-<h4>Director Biography</h4>
-
-{% for h in d.highlights %}
-<pre>{{ h.clean_quote }}</pre>
-{% endfor %}
-{% endfor %}
 {% endblock %}
