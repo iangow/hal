@@ -8,6 +8,7 @@ from random import randint
 import json
 from django.contrib.auth.decorators import login_required
 import os
+from django.shortcuts import render
 
 
 def home(request):
@@ -114,3 +115,9 @@ def directorships(request, folder, director_id):
     })
     html = _insert(raw_html, highlight_html)
     return HttpResponse(html)
+
+
+def biographies_to_highlight(request):
+    rows = Db._exec('biographies_to_highlight.sql')
+    dicts = map(lambda x: dict(zip(['folder', 'director_id', 'director'], x)), rows)
+    return render(request, 'biographies_to_highlight.html', locals())

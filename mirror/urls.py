@@ -9,4 +9,5 @@ urlpatterns = patterns(
     url(r'^highlight/(?P<folder>\d+/\d+)$', views.highlight, name='highlight'),
     url(r'^directorships/(?P<folder>\d+/\d+)/(?P<director_id>[^/]+)$', views.directorships, name='directorships'),
     url(r'^companies$', views.companies),
+    url(r'^biographies-to-highlight$', views.biographies_to_highlight),
 )

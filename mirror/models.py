@@ -275,7 +275,7 @@ class Db(object):
         path = _sql_path(filename)
         with open(path) as f:
             sql = f.read()
-        cls.execute(sql)
+        return cls.execute(sql)
 
     @classmethod
     def create_all(cls):

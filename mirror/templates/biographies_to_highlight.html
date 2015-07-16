@@ -1,0 +1,9 @@
+<ol>
+{% for d in dicts %}
+<li>
+  <a href="{% url 'directorships' folder=d.folder director_id=d.director_id %}">
+    {{ d.folder }} - {{ d.director }}
+  </a>
+</li>
+{% endfor %}
+</ol>
