@@ -36,7 +36,7 @@ def random_filing(request):
 def _raw_filing(f):
     html_or_text = f.text
     if f.text_file:
-        html = '<html><head></head><body><pre>%s</pre></body></html>' % html_or_text
+        html = render_to_string('text_filing.html', {'text': html_or_text})
     else:
         html = html_or_text
 
