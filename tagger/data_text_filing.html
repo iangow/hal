@@ -1,0 +1,2266 @@
+<html>
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js">
+  </script>
+  <script src="//assets.annotateit.org/annotator/v1.1.0/annotator-full.min.js">
+  </script>
+  <link rel="stylesheet" href="//assets.annotateit.org/annotator/v1.1.0/annotator.min.css" />
+  <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js">
+  </script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css" />
+  <style>
+   #my-select .ui-selecting { background: #FECA40; }
+#my-select .ui-selected { background: #F39814; color: white; }
+#my-select { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+#my-select li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+  </style>
+  <script>
+   jQuery(function ($) {
+    var body = $('body').annotator();
+
+    body.annotator('addPlugin', 'Store', {
+        // The endpoint of the store on your server.
+        prefix: 'http://annotator-store.marder.io',
+
+        // Attach the uri of the current page to all annotations to allow search.
+        annotationData: {
+            'uri': window.location.href,
+            'username': 'amarder'
+        },
+
+        // This will perform a "search" action when the plugin loads. Will
+        // request the last 50 annotations for the current url.
+        // eg. /store/endpoint/search?limit=20&amp;uri=http://this/document/only
+        loadFromSearch: {
+            'limit': 50,
+            'uri': window.location.href
+        }
+    });
+
+    var select = $(document.createElement('ol'));
+    select.attr('id', 'my-select')
+    var comments = $('#annotator-field-0');
+    comments.parent().append(select);
+    comments.attr("readonly", "readonly");
+    
+    var selectValues = ["Castagna, Gary", "Kramer, Lavern", "Mayer, Jim", "Meyer, Gregory", "Turek, Joseph"].concat(['Other']);
+    $.each(selectValues, function(key, value) {
+         $('#my-select')
+             .append($(document.createElement('li'))
+             .attr("class", "ui-widget-content")
+             .text(value));
+    });
+
+    $('#my-select').selectable({
+        selected: function( event, ui ) {
+            comments.val( ui['selected'].textContent );
+        }
+    });
+
+});
+  </script>
+</head>
+<body>
+ <pre>
+  <page>
+   UNITED STATES
+                       SECURITIES AND EXCHANGE COMMISSION
+                             WASHINGTON, D.C. 20549
+
+                                  SCHEDULE 14A
+
+          Proxy Statement Pursuant to Section 14(a) of the Securities
+                    Exchange Act of 1934 (Amendment No.   )
+
+Filed by the Registrant [X]
+
+Filed by a Party other than the Registrant [ ]
+
+Check the appropriate box:
+
+[ ]  Preliminary Proxy Statement
+[ ]  CONFIDENTIAL, FOR USE OF THE COMMISSION ONLY (AS PERMITTED BY RULE
+     14a-6(e)(2))
+[X]  Definitive Proxy Statement
+[ ]  Definitive Additional Materials
+[ ]  Soliciting Material Pursuant to ss.240.14a-12
+
+                                  M-WAVE INC.
+--------------------------------------------------------------------------------
+                (Name of Registrant as Specified In Its Charter)
+
+                                  M-WAVE INC.
+--------------------------------------------------------------------------------
+    (Name of Person(s) Filing Proxy Statement, if other than the Registrant)
+
+
+Payment of Filing Fee (Check the appropriate box):
+
+[X]  No fee required.
+
+[ ]  Fee computed on table below per Exchange Act Rules 14a-6(i)(4) and 0-11.
+
+     (1)  Title of each class of securities to which transaction applies:
+
+--------------------------------------------------------------------------------
+
+     (2)  Aggregate number of securities to which transaction applies:
+
+--------------------------------------------------------------------------------
+
+     (3)  Per unit price or other underlying value of transaction computed
+          pursuant to Exchange Act Rule 0-11 (set forth the amount on which the
+          filing fee is calculated and state how it was determined):
+
+--------------------------------------------------------------------------------
+
+     (4)  Proposed maximum aggregate value of transaction:
+
+--------------------------------------------------------------------------------
+
+     (5)  Total fee paid:
+
+--------------------------------------------------------------------------------
+
+[ ]  Fee paid previously with preliminary materials.
+
+[ ]  Check box if any part of the fee is offset as provided by Exchange Act Rule
+     0-11(a)(2) and identify the filing for which the offsetting fee was paid
+     previously. Identify the previous filing by registration statement number,
+     or the Form or Schedule and the date of its filing.
+
+     (1)  Amount Previously Paid:
+
+--------------------------------------------------------------------------------
+
+     (2)  Form, Schedule or Registration Statement No.:
+
+--------------------------------------------------------------------------------
+
+     (3)  Filing Party:
+
+--------------------------------------------------------------------------------
+
+     (4)  Date Filed:
+
+--------------------------------------------------------------------------------
+  </page>
+  <page>
+   (M-WAVE LOGO)
+
+                                  M-WAVE, INC.
+                              475 Industrial Drive
+                             West Chicago, IL 60185
+
+Dear Stockholder:
+
+     You are invited to attend a Special Meeting of Stockholders of M-Wave, Inc.
+to be held at 475 Industrial Drive, West Chicago, IL 60185, on Tuesday, July 27,
+2004 at 10:00 a.m. local time. We are pleased to enclose the notice of the
+meeting, together with a Proxy Statement, a proxy card and an envelope for
+returning the proxy card.
+
+     Please carefully review the Proxy Statement and then complete, date and
+sign your proxy card and return it promptly. If you plan to attend the meeting,
+please so indicate by marking the box on the proxy card. If you attend the
+meeting and decide to vote in person, you may withdraw your proxy at the
+meeting.
+
+     If you have any questions or need assistance in how to vote your shares,
+please call Investor Relations at (630) 562-5550. Your time and attention to
+this letter and the accompanying Proxy Statement and proxy card is appreciated.
+
+                                          Sincerely,
+
+                                          /s/ JOSEPH A. TUREK
+                                          Joseph A. Turek
+                                          Chairman and Chief Executive Officer
+
+
+July 2, 2004
+  </page>
+  <page>
+   (M-WAVE LOGO)
+
+                                  M-WAVE, INC.
+                   NOTICE OF SPECIAL MEETING OF STOCKHOLDERS
+
+     The Special Meeting of Stockholders of M-Wave, Inc., a Delaware corporation
+(the "Company"), will be held on Tuesday, July 27, 2004 at 10:00 a.m. local
+time, at 475 Industrial Drive, West Chicago, IL 60185, for the following
+purposes:
+
+     1. To elect two Class III Directors for a term expiring in 2007 and one
+        Class II Director for a term expiring in 2006;
+
+     2. To ratify the appointment of McGladrey &amp; Pullen, LLP as auditors of the
+        Company for the 2004 calendar year;
+
+     3. To amend the Company's Certificate of Incorporation to increase the
+        Company's authorized common stock from 10 million shares to 20 million
+        shares and to change the par value of the Company's common stock from
+        $.01 per share to $.005 per share;
+
+     4. To approve the sale and issuance of 30,000 shares of the Company's
+        Series A Preferred Stock and warrants to acquire 1,530,000 shares of the
+        Company's common stock; and
+
+     5. To transact such other business that is properly brought before the
+        meeting.
+
+     Only holders of the Company's common stock of record on the books of the
+Company at the close of business on July 2, 2004, will be entitled to vote at
+the Special Meeting.
+
+     The Board of Directors' nominees for Directors are set forth in the
+accompanying Proxy Statement.
+
+     Your vote is important. All stockholders are invited to attend the Special
+Meeting in person. However, to assure your representation at the Special
+Meeting, please mark, date and sign your proxy card and return it promptly in
+the enclosed envelope. If you plan to attend the Special Meeting, please so
+indicate by marking the box on the proxy card. Any stockholder attending the
+Special Meeting may vote in person even if the stockholder returned a proxy
+card.
+
+                                          By Order of the Board of Directors
+
+                                          /s/ Jim Mayer
+                                          Jim Mayer
+                                          Secretary
+
+West Chicago, Illinois
+
+July 2, 2004
+
+
+              THE ENCLOSED PROXY CARD, WHICH IS BEING SOLICITED ON
+                BEHALF OF THE BOARD OF DIRECTORS OF THE COMPANY,
+                CAN BE RETURNED IN THE ENCLOSED ENVELOPE, WHICH
+              REQUIRES NO POSTAGE IF MAILED IN THE UNITED STATES.
+  </page>
+  <page>
+   M-WAVE, INC.
+                              475 Industrial Drive
+                             West Chicago, IL 60185
+
+                                PROXY STATEMENT
+
+
+     The Board of Directors of the Company solicits your proxy for use at the
+Special Meeting of Stockholders on Tuesday, July 27, 2004, or at any adjournment
+thereof. The Proxy Statement and the form of proxy card are being mailed to
+stockholders commencing on or about July 6, 2004.
+
+
+                 INFORMATION CONCERNING SOLICITATION AND VOTING
+
+REVOCABILITY OF PROXIES
+
+     Any stockholder who executes and returns a proxy card may revoke the same
+at any time before it is exercised by filing with the Secretary of the Company
+written notice of such revocation or a duly executed proxy card bearing a later
+date, or by attending the Special Meeting and voting in person. Attendance at
+the Special Meeting will not in and of itself constitute revocation of a proxy.
+
+RECORD DATE
+
+     Stockholders of record at the close of business on July 2, 2004 (the
+"Record Date") are entitled to notice of and to vote at the Special Meeting. On
+June 21, 2004, 4,445,369 shares of the Company's common stock were issued and
+outstanding.
+
+VOTING AND SOLICITATION
+
+     Holders of the Company's common stock of record as of the close of business
+on the Record Date are entitled to one vote per share of common stock. The
+Company's Certificate of Incorporation does not provide for cumulative voting
+rights.
+
+     A plurality of the votes cast at the Special Meeting is required to elect
+directors. The affirmative vote of the holders of a majority of the shares of
+the Company's common stock present (either in person or by proxy) and entitled
+to vote at the Special Meeting is required to approve the amendment to the
+Company's Certificate of Incorporation. The affirmative vote of a majority of
+the total votes cast on the proposal is required to ratify the selection of
+McGladrey &amp; Pullen, LLP as the Company's independent auditors for 2004, and to
+approve the sale of the preferred stock and warrants. In accordance with
+Delaware law and the Company's Certificate of Incorporation and Bylaws, (1) for
+the election of directors, which requires a plurality of the votes cast, only
+proxies and ballots indicating votes "FOR" or "WITHHELD" are counted to
+determine the total number of votes cast, and broker non-votes are not counted;
+(2) for the approval of the sale of the preferred stock and warrants and the
+ratification of the selection of accountants, only proxies and ballots
+indicating votes "FOR" or "AGAINST" are counted to determine the total number of
+votes cast, and broker non-votes are not counted; and (3) for the adoption of
+all other proposals, which are decided by a majority of the shares of the stock
+of the Company present in person or by proxy and entitled to vote, only proxies
+and ballots indicating votes "FOR," "AGAINST," or "ABSTAIN" on the proposal or
+providing the designated proxies with the right to vote in their judgment and
+discretion on the proposal are counted to determine the number of shares present
+and entitled to vote, and broker non-votes are not counted.
+
+     The cost of soliciting proxies will be borne by the Company. In addition,
+the Company may reimburse brokerage firms and other persons representing
+beneficial owners of shares for their expenses in forwarding solicitation
+material to such beneficial owners. Proxies may also be solicited by certain of
+the Company's directors, officers and regular employees, without additional
+compensation, personally or by telephone or telecopier.
+
+                                        3
+  </page>
+  <page>
+   DEADLINE FOR RECEIPT OF STOCKHOLDER PROPOSALS FOR 2005 ANNUAL MEETING
+
+
+
+     Proposals of stockholders which are intended to be presented by such
+stockholders at the Company's annual meeting of stockholders to be held in 2005
+must be received by the Company no later than March 8, 2005 in order that they
+may be included in the proxy statement and form of proxy relating to that
+meeting; provided that, if the Company changes the date of the 2005 annual
+meeting by more than 30 days from the date of the 2004 annual meeting, then the
+deadline is a reasonable time before the Company begins to print and mail its
+proxy materials for the 2005 annual meeting.
+
+
+SECURITY OWNERSHIP OF MANAGEMENT AND PRINCIPAL STOCKHOLDERS
+
+     The following table sets forth certain information regarding the beneficial
+ownership of the Company's common stock as of June 1, 2004 by (1) each person
+known to the Company to beneficially own 5% or more of the Company's common
+stock, (2) each of the Directors and each executive officer named in the Summary
+Compensation Table of the Company (the "named executive officers"), and (3) all
+executive officers and directors of the Company as a group. The number of shares
+of common stock shown as owned below assumes the exercise of all currently
+exercisable options held by the applicable person or group, and the percentage
+shown assumes the exercise of such options and assumes that no options held by
+others are exercised. Unless otherwise indicated below, the persons named below
+have sole voting and investment power with respect to the number of shares set
+forth opposite their respective names. For purposes of the following table, each
+person's "beneficial ownership" of the Company's common stock has been
+determined in accordance with the rules of the Securities and Exchange
+Commission (the "Commission").
+   <table>
+    <caption>
+     NUMBER OF SHARES    PERCENTAGE OF SHARES
+NAME OF BENEFICIAL HOLDER                                   BENEFICIALLY OWNED   BENEFICIALLY OWNED(7)
+-------------------------                                   ------------------   ---------------------
+     <s>
+      <c>
+      </c>
+      <c>
+       Joseph A. Turek(1)........................................      1,524,000                33.2%
+Gary L. Castagna(2).......................................          5,000                   *
+Lavern D. Kramer..........................................              0                   *
+Jim Mayer(3)..............................................        144,000                 3.1%
+Gregory E. Meyer(4).......................................        110,300                 2.5%
+Paul Schmitt(5)...........................................         76,000                 1.7%
+All Directors and executive officers as a group (6
+  persons)(6).............................................      1,859,300                38.5%
+      </c>
+     </s>
+    </caption>
+   </table>
+   ---------------
+
+ *  Less than 1%.
+
+(1) Includes 150,000 shares that may be acquired upon the exercise of
+    immediately exercisable options, or options exercisable within 60 days of
+    June 1, 2004.
+
+
+(2) All shares may be acquired upon the exercise of immediately exercisable
+    options, or options exercisable within 60 days of June 1, 2004.
+
+
+
+(3) All shares may be acquired upon the exercise of immediately exercisable
+    options, or options exercisable within 60 days of June 1, 2004.
+
+
+(4) Includes 3,000 shares owned by Mr. Meyer's wife. Mr. Meyer disclaims
+    beneficial ownership of all shares owned by his wife. Also includes 15,000
+    shares that may be acquired upon the exercise of immediately exercisable
+    options, or options exercisable within 60 days of June 1, 2004.
+
+
+(5) All shares may be acquired upon the exercise of immediately exercisable
+    options, or options exercisable within 60 days of June 1, 2004.
+
+
+
+(6) Includes 390,000 shares that may be acquired by directors and executive
+    officers of the Company upon the exercise of immediately exercisable
+    options, or options exercisable within 60 days of June 1, 2004. See
+    footnotes 1, 2, 3, 4 and 5.
+
+
+(7) Based on 4,445,369 outstanding shares.
+
+     The address of the person shown in the table above who is a beneficial
+owner of more than 5% of the Company's common stock is Mr. Turek, c/o M-Wave,
+Inc., 475 Industrial Drive, West Chicago, Illinois 60185.
+
+                                        4
+  </page>
+  <page>
+   EQUITY COMPENSATION PLANS
+
+     On December 31, 2003, the Company had the following securities issued and
+available for future issuance under equity compensation plans:
+   <table>
+    <caption>
+     (C)
+                                                                                       NUMBER OF SECURITIES
+                                                                                        REMAINING AVAILABLE
+                                                 (A)                                    FOR FUTURE ISSUANCE
+                                         NUMBER OF SECURITIES           (B)                UNDER EQUITY
+                                          TO BE ISSUED UPON       WEIGHTED-AVERAGE      COMPENSATION PLANS
+                                             EXERCISE OF         EXERCISE PRICE OF     (EXCLUDING SECURITIES
+                                         OUTSTANDING OPTIONS,   OUTSTANDING OPTIONS,       REFLECTED IN
+                                         WARRANTS AND RIGHTS    WARRANTS AND RIGHTS         COLUMN (A))
+                                         --------------------   --------------------   ---------------------
+     <s>
+      <c>
+      </c>
+      <c>
+      </c>
+      <c>
+       EQUITY COMPENSATION PLANS APPROVED BY    306,025 shares of      $5.63 per share         393,800 shares
+  SECURITY HOLDERS.....................  common stock                                  of common stock
+EQUITY COMPENSATION PLANS NOT APPROVED   144,000 shares of      $0.67 per share         0 shares of
+  BY SECURITY HOLDERS..................  common stock                                  common stock
+TOTAL..................................  450,025 shares of      $4.05 per share of     393,800 shares
+                                         common stock           common stock            of common stock
+      </c>
+     </s>
+    </caption>
+   </table>
+   SECTION 16(A) BENEFICIAL OWNERSHIP REPORTING COMPLIANCE
+
+     Section 16(a) of the Securities Exchange Act of 1934 (the "Exchange Act")
+requires the Company's officers and directors, and persons who own more than 10%
+of the Company's outstanding common stock, to file reports of ownership and
+changes in ownership of such securities with the SEC. Officers, directors and
+greater-than-10% beneficial owners are required to furnish the Company with
+copies of all Section 16(a) forms they file. Based solely upon a review of the
+copies of the forms furnished to the Company, and/or written representations
+from certain reporting persons that no other reports were required, the Company
+believes that all Section 16(a) filing requirements applicable to its officers,
+directors and 10% owners during or with respect to the year ended December 31,
+2003 were met.
+
+1. ELECTION OF DIRECTORS
+
+     The Board of Directors is divided into three classes, each of whose members
+serve for a staggered three-year term. The Board is comprised of one Class I
+Director (Gregory E. Meyer), one Class II Director (Joseph A. Turek) and two
+Class III Directors (Lavern D. Kramer and Gary L. Castagna).
+
+     The Board of Directors has nominated Lavern D. Kramer and Gary L. Castagna
+to stand for reelection as Class III Directors for terms ending upon the
+election of directors at the 2007 annual meeting of stockholders. There is a
+vacancy in the Class II Directors and the Board of Directors has nominated Jim
+Mayer for a term ending upon the election of directors at the 2006 annual
+meeting of stockholders.
+
+     The current Class I Director is not up for election this year and has a
+term ending upon the election of directors at the 2005 annual meeting of
+stockholders. The current Class II Director is not up for election this year and
+has a term ending upon the election of directors at the 2006 annual meeting of
+stockholders. At the Special Meeting, the shares of the Company's common stock
+represented by proxies in the form accompanying this Proxy Statement, unless
+otherwise specified, will be voted to reelect the nominees for Class III
+Directors and to elect the nominee for Class II Director. The nominees have
+agreed to serve if elected. However, if any nominees become unable or unwilling
+to serve if elected, the proxies will be voted for the election of the
+replacement nominees, if any, recommended by the Board of Directors or, in the
+alternative, for holding a vacancy to be filled by the Board of Directors. The
+Board of Directors has no reason to believe that any nominees will be unable or
+unwilling to serve.
+
+                                        5
+  </page>
+  <page>
+   THE BOARD OF DIRECTORS RECOMMENDS THAT EACH STOCKHOLDER VOTE "FOR" THE BOARD'S
+NOMINEES.
+
+NOMINEES FOR ELECTION AT THE SPECIAL MEETING
+
+Class III Directors
+
+     LAVERN D. KRAMER, 67, has been a director of the Company since April 1992.
+Mr. Kramer was the President of Kester Solder, a division of Litton Industries,
+from 1970 to 2000. He is a member of the Board of Directors of the Lead
+Industries Association.
+
+     GARY L. CASTAGNA, 42, has been a director of the Company since January
+2001. Mr. Castagna presently serves as Chief Financial Officer of Amcol
+International Corporation, a company that is engaged in the materials and
+environmental industries. Mr. Castagna has been the Senior Vice President of
+Amcol since February 2001. Mr. Castagna was a consultant to Amcol from June 2000
+to February 2001 and Vice President of Chemical International Corporation, a
+former subsidiary of Amcol, from August 1997 to May 2000.
+
+Class II Director
+
+
+     JIM MAYER, 53, has been our Chief Financial Officer and Chief
+Administrative Officer since May 1, 2004. He has 18 years of experience,
+including 12 years as CEO of DiversiCorp, Inc., has managed or directed more
+than 50 engagements with troubled companies, and has provided a variety of
+services directly to clients, including due diligence, workout, collateral
+control, corporate restructuring, bankruptcy support, cross-border secured
+finance and interim management. Mr. Mayer has served on several boards of
+directors including the Turnaround Management Association. He has been the
+Managing Member of Credit Support International, a specialized consulting firm
+devoted to transitional and troubled middle market companies, since 1985.
+Pursuant to an agreement between Credit Support International and the Company,
+Mr. Mayer acted as Chief Restructuring Advisor to the Board of Directors of the
+Company from April 15, 2003 through April 30, 2004. The Company agreed to
+nominate Mr. Mayer to the Board of Directors pursuant to an agreement amendment
+effective May 1, 2004. See "Certain Transactions" below.
+
+
+
+DIRECTORS CONTINUING IN OFFICE UNTIL 2006 ANNUAL MEETING
+
+
+Class II Director
+
+     JOSEPH A. TUREK, 47, is the founder of the Company and has acted as
+Chairman and Chief Executive Officer since June 1993, and has served as a
+director of the Company since 1988. Mr. Turek served as President of the Company
+from 1988 to February 1997. Mr. Turek served for more than five years in various
+positions at West-Tronics, Inc., a manufacturer of low-frequency circuit boards
+and a contract assembler of electronic products, with his last position as
+President in 1987 and 1988. West-Tronics entered into an assignment for the
+benefit of creditors in December 1988 pursuant to which the Company purchased
+the assets and assumed certain liabilities of West-Tronics, Inc. Mr. Turek
+received a B.S.E.E. degree from the University of Notre Dame and an M.B.A.
+degree from Northwestern University.
+
+
+DIRECTOR CONTINUING IN OFFICE UNTIL 2005 ANNUAL MEETING
+
+
+Class I Director
+
+     GREGORY E. MEYER, 54, has been a director since December 2000. Mr. Meyer
+held various positions at Chemdal Corporation, a subsidiary of Amcol
+International Corporation, from 1986 to 2000, the most recent of which was
+Executive Vice President of Chemdal International.
+
+                   BOARD OF DIRECTORS MEETINGS AND COMMITTEES
+
+     The Board of Directors of the Company held ten meetings during 2003. The
+Board of Directors also has an Audit Committee and a Compensation Committee. The
+Board of Directors does not have a Nominating Committee. The Audit Committee
+held three meetings and the Compensation Committee held two meetings during
+2003. The Committees receive their authority and assignments from the Board of
+Directors and report
+
+                                        6
+  </page>
+  <page>
+   to the Board of Directors. No Director attended fewer than 75% of the aggregate
+number of meetings of the Board of Directors and the Committees on which he
+served during the period for which he was a Director.
+
+
+     Messrs. Kramer, Meyer and Castagna are members of the Audit Committee. Mr.
+Castagna qualifies as an audit committee financial expert, and he is
+"independent" as defined in Rule 4200(a)(15) of the NASD's listing standards.
+The Audit Committee recommends the engagement of the Company's independent
+auditors and is primarily responsible for approving the services performed by
+the Company's independent auditors. The Committee also reviews and evaluates the
+Company's accounting principles and its system of internal accounting controls.
+A more detailed description of the function of the Audit Committee may be found
+in the Audit Committee Charter, which was included as Appendix A to the proxy
+statement for our 2002 annual meeting. Please see the Audit Committee Report at
+page 10 below.
+
+
+     Messrs. Kramer, Meyer and Castagna are the members of the Compensation
+Committee. The Compensation Committee reviews and approves the Company's
+executive compensation policy, makes recommendations concerning the Company's
+employee benefit policies, and has authority to administer the Plan.
+
+     The Board of Directors has not established a Nominating Committee because
+the full Board of Directors performs such duties. All Directors participate in
+the consideration of director nominees. The Board of Directors will consider all
+candidates for director that are recommended by stockholders. Recommendations
+should be mailed to the Company's principal offices, 475 Industrial Drive, West
+Chicago, IL 60185, attention: President, at least 120 days prior to the year's
+annual meeting. Given the evolving restructuring of the Company's business, a
+primary factor in the consideration of a candidate for director is knowledge of
+the Company's restructuring, industry and business plan. The Board of Directors
+gives no special positive or negative consideration to a candidate based on the
+party that recommended the candidate. All nominees for election at the Special
+Meeting were nominated by the full Board of Directors.
+
+     Stockholders who wish to communicate directly with one or more directors
+may do so by mailing such communications to the Company's principal offices 475
+Industrial Drive, West Chicago, IL 60185, attention: President. The President
+will then relay all communications to the appropriate director(s).
+
+     The Company does not have a policy regarding the attendance of directors at
+annual or special meetings of stockholders. All four directors continuing in
+office attended the prior year's annual meeting.
+
+                           COMPENSATION OF DIRECTORS
+
+
+     The Company's compensation policy for non-employee directors currently
+compensates each director $500 per meeting of the Board or any Committee
+attended. The Company also reimburses non-employee directors for their
+reasonable expenses incurred in connection with attending Board or Committee
+meetings. Each non-employee director receives (1) upon election to the Board,
+options to purchase 10,000 shares of the Company's common stock at the fair
+market value per share on the date of grant for five years after grant and (2)
+an annual grant of options to purchase 2,000 shares of the Company's common
+stock at the fair market value per share on the date of grant for five years
+after grant. In addition, in lieu of deferred retainers, on January 1, 2004,
+each non-employee director then in office received a one-time grant of options
+to purchase 20,000 shares of the Company's common stock at the fair market value
+per share on the date of grant for five years after grant.
+
+
+                                        7
+  </page>
+  <page>
+   EXECUTIVE OFFICERS' COMPENSATION
+
+COMPENSATION OF EXECUTIVE OFFICERS
+
+     The following table shows the compensation paid by the Company to the
+Company's Chief Executive Officer and its one other most highly compensated
+officer during 2003. No other executive officer of the Company had a total
+annual salary and bonus for 2003 that exceeded $100,000.
+
+SUMMARY COMPENSATION TABLE
+   <table>
+    <caption>
+     ANNUAL COMPENSATION
+                                                          -------------------------------------------
+                                                                                         OTHER ANNUAL
+                                                                                         COMPENSATION
+NAME AND PRINCIPAL POSITION                               YEAR     SALARY      BONUS        ($)(1)
+---------------------------                               ----     ------      -----     ------------
+     <s>
+      <c>
+      </c>
+      <c>
+      </c>
+      <c>
+      </c>
+      <c>
+       Joseph A. Turek.......................................    2003    $147,916    $     0          0
+(Chairman and CEO)                                        2002    $180,000    $     0          0
+                                                          2001    $160,000    $54,000          0
+Paul H. Schmitt.......................................    2003    $145,000    $     0          0
+(CFO)(2)                                                  2002    $145,000    $     0          0
+                                                          2001    $135,000    $45,900          0
+      </c>
+     </s>
+    </caption>
+   </table>
+   ---------------
+(1) Other annual compensation did not exceed the lesser of $50,000 or 10% of the
+    total salary and bonus.
+
+(2) Resigned as CFO on May 1, 2004.
+
+AGGREGATE OPTION EXERCISES IN 2003 AND 2003 YEAR-END OPTION VALUES
+
+OPTION GRANTS IN 2003
+
+     The following table contains information concerning stock options granted
+in 2003.
+
+                                  2003 GRANTS
+   <table>
+    <caption>
+     NO. OF
+                                                      SHARES        % OF TOTAL
+                                                    UNDERLYING    OPTIONS GRANTED    EXERCISE OR
+                                                     OPTIONS      TO EMPLOYEES IN    BASE PRICE     EXPIRATION
+NAME                                                GRANTED(A)        FY 2000         ($/SHARE)        DATE
+----                                                ----------    ---------------    -----------    ----------
+     <s>
+      <c>
+      </c>
+      <c>
+      </c>
+      <c>
+      </c>
+      <c>
+       Joseph A. Turek.................................           0              0%              n/a            n/a
+Paul Schmitt....................................      76,000           71.6%            $1.25        1/29/12
+      </c>
+     </s>
+    </caption>
+   </table>
+   The following table sets forth certain information with respect to the
+unexercised options to purchase the Company's common stock held by the named
+executive officers at December 31, 2003. None of the named executive officers
+exercised any stock options during the fiscal year ended December 31, 2003.
+
+            AGGREGATED OPTION/SAR EXERCISES IN LAST FISCAL YEAR AND
+                       FISCAL YEAR-END OPTION/SAR VALUES
+   <table>
+    <caption>
+     NUMBER OF UNEXERCISED             VALUE OF UNEXERCISED
+                                                                     OPTIONS/SARS AT             IN-THE-MONEY OPTIONS/SARS
+                                                                        FY-END (#)                    AT FY-END ($)(2)
+                         SHARES ACQUIRED         VALUE         ----------------------------    ------------------------------
+NAME                     ON EXERCISE (#)    REALIZED ($)(1)    EXERCISABLE    UNEXERCISABLE    EXERCISABLE      UNEXERCISABLE
+----                     ---------------    ---------------    -----------    -------------    -----------      -------------
+     <s>
+      <c>
+      </c>
+      <c>
+      </c>
+      <c>
+      </c>
+      <c>
+      </c>
+      <c>
+      </c>
+      <c>
+       Joseph A. Turek......           --                 --            150,000              0             0                 0
+Paul Schmitt.........           --                 --             49,500         26,500             0                 0
+      </c>
+     </s>
+    </caption>
+   </table>
+   ---------------
+(1) Calculated by taking the market price on the date of exercise, less the
+    exercise price, multiplied by the number of options exercised.
+
+(2) Based on the fair market value of the Company's common stock on December 31,
+    2003 ($0.53 per share) less the option exercise price.
+
+                                        8
+  </page>
+  <page>
+   EMPLOYMENT AGREEMENTS
+
+     Each of Messrs. Turek and Schmitt entered into an employment agreement with
+the Company, effective as of January 29, 2001, which provides for his continued
+employment in his present capacity through January 29, 2003. Each of the
+foregoing agreements continues thereafter indefinitely, unless terminated by
+either party by giving notice at least six months prior to termination.
+
+     The executives are entitled to the following annual salaries under the
+employment agreements: Mr. Turek, $160,000; and Mr. Schmitt, $135,000. Each
+executive is also entitled to an annual bonus of up to 60% of his base salary if
+the Company achieves threshold performance goals established by the Compensation
+Committee.
+
+     Under the terms of the employment agreements, if the executive is
+terminated without cause or resigns with good reason, he is entitled to receive
+his annual salary for six months; provided, however, that if such termination
+occurs on or after a sale of all of the stock of the Company or a sale of all or
+substantially all of the Company's assets, the executive is entitled to receive
+on the date of such termination a lump-sum payment equal to two times his annual
+salary instead of the six-month salary referenced above.
+
+     In connection with his employment agreement, the Company granted options to
+Mr. Schmitt to purchase 40,000 shares of common stock with an exercise price
+equal to $7.4375 per share. These options vest 40% on the second anniversary of
+the grant and 20% each anniversary thereafter.
+
+     In January 2003, Mr. Schmitt entered into a new employment agreement with
+the Company, replacing the January 2001 agreement. The 2003 employment agreement
+provides for continued employment in his present capacity for two years.
+
+     Under the 2003 employment agreement, Mr. Schmitt is entitled to a $145,000
+annual salary and an annual bonus in an amount to be determined by the Board of
+Directors.
+
+     Under the terms of the 2003 employment agreement, if Mr. Schmitt is
+terminated without cause or resigns with good reason, he is entitled to receive
+his annual salary for twelve months; provided, however, that if such termination
+occurs on or after a sale of all of the stock of the Company or a sale of all or
+substantially all of the Company's assets, Mr. Schmitt is entitled to receive on
+the date of such termination a lump-sum payment equal to two times his annual
+salary instead of the twelve-month salary referenced above. In connection with
+the employment agreement, the Company agreed to grant to Mr. Schmitt options to
+purchase 76,000 shares of common stock with an exercise price equal to $1.25 per
+share.
+
+
+     On May 1, 2004, Mr. Schmitt's 2003 employment agreement was terminated, as
+Mr. Schmitt resigned as the Company's CFO and became employed as a Special
+Consultant to the Company through January 29, 2005. Under a new agreement, Mr.
+Schmitt is currently paid at an annual rate of $145,000, plus life, medical,
+dental, and disability insurance benefits; and will work 15 consecutive business
+days beginning May 3, 2004 and 25 additional full business days prior to August
+31, 2004. To the extent the Company requests Mr. Schmitt to work in excess of
+such 15 business days and 25 business days, the Company will pay Mr. Schmitt at
+the rate of $70 per hour. Pursuant to the amendment, all unvested Company stock
+options held by Mr. Schmitt were vested in full on May 1, 2004.
+
+
+
+     On May 1, 2004, the Company entered into a new employment agreement with
+Mr. Turek, which expires December 31, 2006. Under the agreement, the Company
+agreed to pay Mr. Turek at an annual rate of $125,000 through August 31, 2004,
+at an annual rate of $195,000 through April 30, 2005, and at an annual rate of
+$215,000 thereafter. The Company also agreed to pay Mr. Turek, if the Company's
+gross margin for the 2004 fiscal year exceeds $3,726,000, a bonus for the 2004
+fiscal year equal to $15,000 multiplied by a fraction, the numerator of which is
+the Company's gross margin in such fiscal year and the denominator of which is
+$3,726,000. Bonuses in subsequent years will be made at the discretion of the
+Company's Board of Directors. If Mr. Turek's employment is terminated by either
+Mr. Turek or the Company within certain periods following a "change of control"
+of the Company, Mr. Turek is entitled to a lump-sum payment equal to 150% of the
+then-remaining unpaid salary under the employment agreement, any bonus due him
+and all outstanding stock options shall immediately become fully vested.
+
+
+                                        9
+  </page>
+  <page>
+   BONUS PLAN
+
+     Although there is no formal written plan, it is the Company's practice to
+grant discretionary cash bonuses to the Company's employees on an annual basis.
+The Compensation Committee has the discretion to award performance bonuses. The
+Company awarded no bonuses to its employees in 2003.
+
+AUDIT COMMITTEE REPORT
+
+     The Audit Committee's primary function is to assist the Board of Directors
+in monitoring the integrity of the Company's financial statements, systems of
+internal control and the audit process. The Committee is currently comprised of
+three non-employee directors. The Board of Directors and the Committee believe
+that the Committee's current member composition satisfies the rule of the
+National Association of Securities Dealers, Inc. that governs audit committee
+composition, including the requirements that:
+
+     - all audit committee members are "independent directors" as that term is
+       defined by NASD Rule 4200(a)(15);
+
+     - all audit committee members are able to read and understand fundamental
+       financial statements; and
+
+     - at least one audit committee member is financially sophisticated.
+
+     The Committee operates under a written Charter adopted by the Board of
+Directors that reflects standards contained in the NASD rules. The Audit
+Committee reviews this Charter annually. A complete copy of the current Charter
+was attached to the Proxy Statement for our 2002 annual meeting.
+
+     The Committee has reviewed and discussed with management and the
+independent auditors the Company's audited financial statements as of and for
+the year ended December 31, 2003.
+
+     In general, Statement on Auditing Standards No. 61, Communication with
+Audit Committees, as amended, issued by the Auditing Standards Board of the
+American Institute of Certified Public Accountants, requires the independent
+auditors to provide the Committee with additional information regarding the
+scope and results of the audit, including:
+
+     - the independent auditor's responsibilities under general accepted
+       auditing standards;
+
+     - the independent auditor's judgments about the quality of the Company's
+       accounting principles;
+
+     - the adoption of, or a change in, accounting policies;
+
+     - sensitive accounting estimates;
+
+     - accounting for significant unusual transactions and for controversial or
+       emerging areas;
+
+     - significant audit adjustments;
+
+     - unadjusted audit differences considered to be immaterial;
+
+     - other information in documents containing audited financial statements;
+
+     - total fees for management consulting services and types of services
+       rendered;
+
+     - disagreements with management on financial accounting and reporting
+       matters;
+
+     - major issues discussed with management prior to retention;
+
+     - consultation with other accountants;
+
+     - difficulties encountered in performing the audit; and
+
+     - material errors, fraud and illegal acts.
+
+     The Committee has discussed with the independent auditors the matters
+required to be discussed by this Statement.
+
+                                        10
+  </page>
+  <page>
+   In general, Independence Standards Board Standard No. 1, Independence
+Discussions with Audit Committees, as amended, requires the independent auditors
+to communicate, at least annually, with the Committee regarding all
+relationships between the independent auditors and the Company that, in the
+professional judgment of the independent auditors, may reasonably be thought to
+bear on their independence. The Committee has received and reviewed the written
+disclosures and the letter from the independent auditors required by this
+Standard, and the Committee has discussed with the independent auditors the
+independent auditors' independence. When considering the auditors' independence,
+the Committee considered whether their provision of services to the Company
+beyond those rendered in connection with their audit and review of the Company's
+consolidated financial statements was compatible with maintaining their
+independence and discussed with the auditors any relationships that may impact
+their objectivity and independence. The Committee also reviewed, among other
+things, the amount of fees paid to the auditors for audit and non-audit services
+in 2003. Information about the auditors' fees for 2003 is listed below in this
+proxy statement under "Independent Auditors." Based on these discussions and
+considerations, the Committee is satisfied as to the auditors' independence.
+
+     Based on the reviews and discussions referred to above, the Committee
+recommends to the Board of Directors that the audited financial statements
+referred to above be included in the Company's Annual Report on Form 10-K for
+the year ended December 31, 2003. We have also recommended to the Board of
+Directors that McGladrey &amp; Pullen, LLP be selected as the Company's independent
+auditors for the fiscal year ending December 31, 2004.
+
+                                          AUDIT COMMITTEE
+
+                                          Lavern D. Kramer
+                                          Gregory E. Meyer
+                                          Gary L. Castagna
+
+                              CERTAIN TRANSACTIONS
+
+
+     On April 15, 2003, the Company retained Credit Support International, LLC
+(CSI), whose Managing Member is Jim Mayer. Under the Consulting Agreement, Mr.
+Mayer initially served as a consultant and then as Chief Restructuring Advisor
+to the Company's Board of Directors to determine the Company's viability and
+then to facilitate a restructuring of the Company's operations and financial
+position. The Company and CSI entered into a Consulting Agreement in September
+2003. Pursuant to the consulting agreement, the Company agreed to pay CSI a
+monthly fee of $12,000, a monthly travel and housing allowance of $2,800, an
+annual health care coverage allowance of $3,600, a bonus of $6,000 per month
+upon the occurrence of certain events, and a fee upon the completion of certain
+types of financing or other transactions. As part of the agreement, the Company
+granted 144,000 options to acquire the Company's common stock to Mr. Mayer at an
+exercise price of $0.67 per share. The options vest ratably over a one-year
+period commencing in September 2003, and the options expire on April 15, 2008.
+Pursuant to an amendment dated May 1, 2004, the Company hired Mr. Mayer as Chief
+Financial and Administrative Officer and agreed to nominate Mr. Mayer to serve
+as a Class II Director. Mr. Mayer's salary is currently $14,800 per month,
+$17,334 per month beginning in September 2004, and $19,917 per month beginning
+in September 2005. The agreement expires on August 31, 2006. In addition, the
+Company agreed to fully vest and make immediately exercisable all 144,000
+options previously granted to Mr. Mayer and agreed to grant options to purchase
+288,000 shares of the Company's common stock on September 1, 2004.
+
+
+2. INDEPENDENT AUDITORS
+
+     The Board of Directors recommends that the stockholders ratify the
+appointment of McGladrey &amp; Pullen, LLP by voting "FOR" ratification of McGladrey
+&amp; Pullen, LLP as the Company's auditors for 2004. In the event such selection is
+not ratified, the Board of Directors will reconsider its selection.
+
+                                        11
+  </page>
+  <page>
+   McGladrey &amp; Pullen, LLP has not previously audited the Company's financial
+statements. Representatives of McGladrey &amp; Pullen, LLP are expected to be
+present at the meeting with the opportunity to make a statement if they desire
+to do so, and are expected to be available to respond to appropriate questions.
+
+     McGladrey &amp; Pullen LLP replaces Grant Thornton, LLP, which has audited the
+Company's financial statements since 1998. No representatives of Grant Thornton,
+LLP are expected to attend the meeting. Grant Thornton was dismissed effective
+April 15, 2004 with the approval of the Company Board of Directors. The Company
+believes the change is in its best interests in terms of expense and scale of
+services required by the Company's restructured operations. The reports of Grant
+Thornton, LLP on the Company's financial statements for the fiscal years ended
+December 31, 2003 and December 31, 2002 did not contain an adverse opinion or a
+disclaimer of opinion and were not qualified or modified as to uncertainty,
+audit scope or accounting principles, except that each such report did contain
+an explanatory paragraph discussing the Company's ability to continue as a going
+concern. During the Company's fiscal years ended December 31, 2003 and December
+31, 2002, and the subsequent period through the date of its dismissal, there
+were no disagreements between the Company and Grant Thornton, LLP as to any
+matter of accounting principles or practices, financial statement disclosure or
+auditing scope or procedures, which disagreements, if not resolved to the
+satisfaction of Grant Thornton, LLP, would have caused it to make reference to
+the subject matter of the dispute in connection with its reports.
+
+AGGREGATE FEE FOR 2003 AND 2002
+
+     This table shows the aggregate fees billed to the Company for the fiscal
+years ended December 31, 2002 and December 31, 2003 by Grant Thornton LLP.
+   <table>
+    <caption>
+     2002      2003
+                                                             -------   -------
+     <s>
+      <c>
+      </c>
+      <c>
+       - Audit Fees(a):.........................    $91,643   $73,119
+                - Audit-Related Fees(b):.................      8,300     1,836
+                - Tax Fees:..............................     57,188    62,515
+                - All Other Fees:........................          0         0
+      </c>
+     </s>
+    </caption>
+   </table>
+   (a) All of these fees are for the audit of our financial statements for 2003,
+    and for quarterly reviews.
+
+(b) These fees are for auditing the benefit plan.
+
+     All of the non-audit services disclosed above for 2003 were pre-approved by
+the Audit Committee in accordance with the procedures described below. The Audit
+Committee considered whether the non-audit consulting services provided by the
+auditors' firm could impair the auditors' independence and concluded that such
+services have not impaired the auditors' independence.
+
+     All services to be provided by McGladrey &amp; Pullen, LLP are subject to
+pre-approval by the Audit Committee. The Chairman of the Audit Committee
+informally pre-approves audit and non-audit services, up to $5,000, with such
+pre-approvals subsequently ratified by the full Audit Committee. Typically,
+however, the Audit Committee itself reviews the matters to be approved. The
+Audit Committee periodically monitors the services rendered by and actual fees
+paid to the independent auditors to ensure that such services are within the
+parameters approved by the Audit Committee. The Sarbanes-Oxley Act prohibits an
+issuer from obtaining certain non-audit services from its auditing firm so as to
+avoid certain potential conflicts of interest; the Company will not obtain any
+of these prohibited services from McGladrey &amp; Pullen, LLP, and the Company is
+able to obtain such services from other service providers at competitive rates.
+
+     The Company paid no fees to McGladrey &amp; Pullen, LLP in 2002 or 2003.
+
+3. AMENDMENT OF THE COMPANY'S CERTIFICATE OF INCORPORATION TO INCREASE THE
+   NUMBER OF AUTHORIZED SHARES, AND TO REDUCE THE PAR VALUE, OF THE COMPANY'S
+   COMMON STOCK
+
+     On October 24, 2000, M-Wave's Board of Directors declared a two-for-one
+split of the Company's common stock, which was completed through a stock
+dividend paid on November 28, 2000 to shareholders of
+
+                                        12
+  </page>
+  <page>
+   record on November 13, 2000. Prior to the two-for-one split, the Company's
+common stock had a par value of $.01 per share. Since the split, the Company's
+balance sheet has recorded a par value of $.005 per share of common stock on its
+balance sheet, as a result of the split. The Company now desires to amend its
+certificate of incorporation to make the par value in the certificate of
+incorporation consistent with the recorded par value of $.005 per share.
+
+     In addition, the Company proposes to increase the number of authorized
+shares of common stock from 10 million shares to 20 million shares of common
+stock. There are no preemptive rights to purchase any such shares. As noted in
+proposal 4 below, the Company proposes to issue 30,000 shares of preferred stock
+and warrants to purchase 1,530,000 shares of common stock. Upon issuance, those
+shares of preferred stock would be convertible into as many as 3,061,224 shares
+of common stock. The Company currently has 6,180,037 shares of common stock
+issued and outstanding, or reserved for issuance, and therefore could not
+reserve all shares of common stock issuable upon conversion of the preferred
+stock and exercise of the warrants. The amendment to the Company's certificate
+of incorporation would increase the authorized common stock in an amount
+sufficient to allow the Company to reserve all shares issuable upon conversion
+of such preferred stock and exercise of such warrants and provide for future
+issuances from time to time in the judgment of the directors of the Company.
+Although the approval of this proposal 3 is not a condition to the consummation
+of the transaction described in proposal 4 below, the Company will need the
+additional shares authorized by this proposal 3 to comply with its obligations
+following consummation of the transaction described in proposal 4.
+
+     A copy of the amendment to the Company's certificate of incorporation is
+attached hereto as Appendix A. The Company's Board of Directors has adopted the
+proposed amendment to the certificate of incorporation and recommends that the
+stockholders approve such amendment. The affirmative vote of the holders of a
+majority of the shares of the Company's common stock present (either in person
+or by proxy) and entitled to vote at the Special Meeting is required to approve
+the amendment to the Company's Certificate of Incorporation. Messrs. Turek and
+Meyer, who own 36.8% of the outstanding shares of common stock, have indicated
+that they intend to vote for this proposal.
+
+4. APPROVAL OF SALE OF PREFERRED STOCK AND WARRANTS
+
+     The Board of Directors of the Company has approved the issuance of 30,000
+shares of the Company's newly designated Series A Preferred Stock to Mercator
+Momentum Fund, LP, Mercator Momentum Fund III, LP, and Monarch Pointe, Ltd. (the
+"Purchasers"), for $100 per share, or an aggregate of $3,000,000. The Company
+will also issue warrants to purchase an aggregate of 1,530,000 shares of common
+stock, in consideration for the aggregate proceeds of $3,000,000, to the
+Purchasers and Mercator Advisory Group, LLC, an affiliate of the Purchasers. The
+Company will pay a due diligence fee of $160,000 and legal expenses of up to
+$15,000 to Mercator Advisory Group, LLC.
+
+     The Series A Preferred Stock is nonvoting, bears no dividend, has no
+sinking fund provisions, and has a sole preference of priority at par in
+liquidation over the Company's common stock and any prior or subsequent series
+of preferred stock. Each share of Series A Preferred Stock is convertible into
+shares of common stock at $100 per share of preferred stock and a conversion
+price for the common stock equal to 85% of the market price of the Company's
+common stock at the time of the conversion; provided that in no event shall the
+conversion price be less than $0.98 per share or greater than the lesser of (a)
+the closing price of the Company's common stock on June 17, 2004 (which closing
+price was $1.15) or (b) the closing price on the closing date of the sale of the
+preferred stock. The full rights of the Series A Preferred Stock are set forth
+in the Certificate of Designations attached to this Proxy Statement as Appendix
+B.
+
+     The warrants will be allocated among the designated recipients by Mercator
+Advisory Group, LLC, on the closing date of the sale of the Series A Preferred
+Stock, and will be exercisable for three years at an exercise price of $1.27
+(i.e., 110% of the market price of the Company's common stock on June 17, 2004).
+A copy of the form of the warrants to be issued is attached to this Proxy
+Statement as Appendix C.
+
+     The Company has agreed to file a registration statement with the U.S.
+Securities and Exchange Commission ("SEC") registering the shares of common
+stock issuable upon conversion of the preferred stock
+                                        13
+  </page>
+  <page>
+   and exercise of the warrants, and to use diligent efforts to have the
+registration statement declared effective within 90 days (120 days if the SEC
+reviews the filing) after the initial filing of the registration statement.
+Under the terms of the agreements with the Purchasers, the ownership of the
+Company's common stock by the Purchasers will not exceed 9.9% of the total
+outstanding shares at any one time. In addition, the Purchasers agreed not to
+sell, in any trading day, shares of the Company's common stock in excess of 15%
+of the total shares traded on such trading day.
+
+     Events of default under the preferred stock include (a) commencement of a
+voluntary or involuntary case or proceeding in bankruptcy with respect to the
+Company; (b) failure to file the registration statement specified above within
+30 days after the closing of the offering; (c) failure to maintain the listing
+of the Company's common stock on NASDAQ; or (d) failure to have the registration
+statement deemed effective by the SEC within 90 days (120 days if the SEC
+reviews the filing) after the initial filing. Upon the occurrence of an event of
+default, the conversion price of the preferred stock shall be reduced from 85%,
+as set forth above, to 75% of the applicable market price. In addition, if the
+Company fails to file the registration statement within 30 days after closing of
+the offering, the Company is required to pay an amount equal to 1% of the
+purchase price (i.e., $30,000) of the preferred stock for each day that the
+filing is late. The change in conversion price and the 1% payment per day that
+the filing is late are the exclusive remedies for an event of default.
+
+     The proceeds of the offering will be used by the Company for general
+working capital purposes consistent with the Company's business strategy,
+including potential acquisitions. In addition to raising money for general
+working capital purposes, the Company is seeking to complete the sale of the
+Series A Preferred Stock and issuance of the warrants in order to increase its
+stockholders equity and maintain compliance with the "continued" listing
+standards of the NASDAQ SmallCap Market. Such continued listing standards
+include a requirement (NASDAQ Marketplace Rule 4310(c)(2)) that the Company
+maintain either a market value of listed securities of $35 million, a
+stockholders equity of $2.5 million or net income from continuing operations of
+$500,000. The Company does not currently meet any of these requirements, and the
+NASDAQ Staff has issued a Determination on May 14, 2004 that the Company's
+common stock will be delisted unless the Company takes action to bring the
+Company into compliance with the continued listing standards. On March 31, 2004,
+the Company's stockholders equity was $839,252. The closing of the sale of the
+preferred stock and warrants would increase the Company's stockholders equity by
+the amount of the net proceeds of the offering, which are expected to be
+approximately $2,625,000 (after estimated fees and expenses of $375,000). The
+Company's receipt of such net proceeds from the offering would be expected to
+bring the Company into compliance with this requirement of the continued listing
+standards of the NASDAQ SmallCap Market.
+
+
+     On June 18, 2004, representatives of the Company presented to a NASDAQ
+Listing Qualifications Panel its plan for future compliance with the
+stockholders equity requirements under Marketplace Rule 4310(c)(2). The plan is
+founded upon the completion of the proposed sale of Series A Preferred Stock and
+issuance of the warrants, and projections for operating results that do not
+erode the stockholders equity after receipt of the proceeds of such sale and
+issuance. The Company expects a decision by the Panel within two to three weeks
+after the hearing, and therefore prior to the Special Meeting, and the Company
+has no assurances of the decision. The Board of Directors believes that it is in
+the Company's best interests to remain listed on the NASDAQ SmallCap Market and
+that the consummations of the sale of Series A Preferred Stock and issuance of
+the warrants is essential to maintaining such listing. However, the Company may
+not be able to prevent an delisting of the Company's comment stock, even if such
+transaction is consummated. If the Company's common stock is delisted, the
+Company would need to meet the NASDAQ SmallCap Market's higher "initial" listing
+standards to list the Company's common stock again. In particular, the
+stockholders equity requirement is $5 million under the initial listing
+standards, as opposed to $2.5 million under the continued listing standards.
+
+
+     Stockholder approval of the sale of the preferred stock and issuance of the
+warrants is required by NASDAQ Marketplace Rules, and the affirmative vote of a
+majority of the total votes cast on the proposal is required to obtain such
+stockholder approval. Messrs. Turek and Meyer, who own 36.8% of the outstanding
+shares of common stock, have indicated that they intend to vote for this
+proposal.
+
+                                        14
+  </page>
+  <page>
+   If stockholder approval is obtained or if the Company is delisted from the
+NASDAQ SmallCap Market (thereby eliminating the requirement for stockholder
+approval), the proposed sale of Series A Preferred Stock and issuance of
+warrants will be consummated. If the Company maintains its listing on the NASDAQ
+SmallCap Market but stockholder approval is not obtained, the Company's Board of
+Directors will make a determination of whether to consummate the transaction and
+the Purchasers will have the option to terminate the proposed transaction.
+
+5. OTHER MATTERS
+
+     The Board of Directors of the Company is not aware that any matter other
+than those listed in the Notice of Meeting is to be presented for action at the
+Special Meeting. If any of the Board's nominees is unavailable for election as a
+Director or any other matter should properly come before the meeting, it is
+intended that votes will be cast pursuant to the proxy card in respect thereto
+in accordance with the best judgment of the person or persons acting as proxies.
+
+FINANCIAL INFORMATION
+
+     The Company's financial statements for the year ended December 31, 2003 are
+included in the Company's 2003 Annual Report to Stockholders. Copies of the
+annual report are being sent to the Company's stockholders concurrently with the
+mailing of this proxy statement. If you have not received or had access to the
+annual report, please notify the Corporate Secretary at M-Wave, Inc., 475
+Industrial Drive, West Chicago, IL 60185, Attn: Corporate Secretary, (630)
+562-5550 and a copy will be sent to you. The Company's annual report and this
+proxy statement are also available on the U.S. Securities and Exchange
+Commission's website (www.sec.gov).
+
+                                        15
+  </page>
+  <page>
+   APPENDIX A
+
+                            CERTIFICATE OF AMENDMENT
+                                       OF
+                          CERTIFICATE OF INCORPORATION
+                                       OF
+
+                                  M-WAVE, INC.
+
+     M-Wave, Inc., a corporation duly organized and existing under the General
+Corporation Law of the State of Delaware (the "Corporation"), does hereby
+certify that the amendment to the Corporation's Certificate of Incorporation as
+set forth in the following resolution was duly adopted in accordance with the
+provisions of the General Corporation Law of the State of Delaware:
+
+     RESOLVED, that Section 4 of the Certificate of Incorporation of the
+Corporation be amended in its entirety to read as follows:
+
+          "4. Authorized Capital.  The total number of shares of all classes of
+     stock that the Corporation shall have authority to issue is Twenty-One
+     Million (21,000,000), of which One Million (1,000,000) shall be shares of
+     preferred stock with a par value of One Cent ($0.01) per share (the
+     "Preferred Stock") and Twenty Million (20,000,000) shall be shares of
+     Common Stock with a par value of One-Half of One Cent ($0.005) per share
+     (the "Common Stock")."
+
+     IN WITNESS WHEREOF, M-Wave, Inc. has caused this Certificate of Amendment
+to be executed by its duly authorized officer as of           , 2004.
+
+                                          M-WAVE, INC.
+
+                                          By:
+                                            ------------------------------------
+                                            Name:
+                                            Title:
+
+                                       A-1
+  </page>
+  <page>
+   APPENDIX B
+
+                                 CERTIFICATE OF
+                   DESIGNATIONS OF PREFERENCES AND RIGHTS OF
+                      SERIES A CONVERTIBLE PREFERRED STOCK
+                                       OF
+
+                                  M-WAVE, INC.
+                             A DELAWARE CORPORATION
+
+     The undersigned, Joseph A. Turek and Jim Mayer, certify that:
+
+     1. They are the duly acting President and Secretary, respectively, of
+M-WAVE, INC., a corporation organized and existing under the Corporation Code of
+the State of Delaware (the "Corporation").
+
+     2. Pursuant to authority conferred upon the Board of Directors by the
+Certificate of Incorporation of the Corporation, and pursuant to the provisions
+of the Corporations Code of the State of Delaware said Board of Directors,
+pursuant to a meeting held June 11, 2004, adopted a resolution establishing the
+rights, preferences, privileges and restrictions of, and the number of shares
+comprising, the Corporation's Series A Convertible Preferred Stock, which
+resolution is as follows:
+
+     RESOLVED, that a series of Preferred Stock in M-Wave, Inc., a Delaware
+corporation (the "Corporation"), having the rights, preferences, privileges and
+restrictions, and the number of shares constituting such series and the
+designation of such series, set forth below be, and it hereby is, authorized by
+the Board of Directors of the Corporation pursuant to authority given by the
+Corporation's Certificate of Incorporation.
+
+     NOW, THEREFORE, BE IT RESOLVED, that the Board of Directors hereby fixes
+and determines the Designations of, the number of shares constituting, and the
+rights, preferences, privileges and restrictions relating to, a new series of
+Preferred Stock as follows:
+
+          (a) Determination.  The series of Preferred Stock is hereby designated
+     Series A Convertible Preferred Stock (the "SERIES A PREFERRED STOCK").
+
+          (b) Authorized Shares.  The number of authorized shares constituting
+     the Series A Preferred Stock shall be thirty thousand (30,000) shares of
+     such series.
+
+          (c) Dividends.  The holder of the Series A Preferred Stock shall only
+     be entitled to receive, when, as and if declared by the Board of Directors,
+     out of any assets of the Corporation legally available therefor, such
+     dividends as may be declared from time to time by the Board of Directors.
+
+          (d) Liquidation Preference.
+
+             (i) Preference upon Liquidation, Dissolution or Winding Up.  In the
+        event of any dissolution or winding up of the Corporation, whether
+        voluntary or involuntary, holders of each outstanding share of Series A
+        Preferred Stock shall be entitled to be paid first out of the assets of
+        the Corporation available for distribution to shareholders, whether such
+        assets are capital, surplus or earnings, an amount equal to $100.00 (the
+        "SERIES A PURCHASE PRICE") per share of Series A Preferred Stock held
+        (as adjusted for any stock splits, stock dividends or recapitalizations
+        of the Series A Preferred Stock) and any declared but unpaid dividends
+        on such share, before any payment shall be made to the holders of the
+        Common Stock, or any other stock of the Corporation ranking junior to
+        the Series A Preferred Stock with regard to any distribution of assets
+        upon liquidation, dissolution or winding up of the Corporation. The
+        holders of the Series A Preferred Stock shall be entitled to share
+        ratably, in accordance with the respective preferential amounts payable
+        on such stock, in any distribution which is not sufficient to pay in
+        full the aggregate of the amounts payable thereon. If, upon any
+        liquidation, dissolution or winding up of the Corporation, the assets to
+        be distributed to the holders of the Series A Preferred Stock shall be
+        insufficient to permit payment to such shareholders of the full
+        preferential amounts aforesaid, then all of the assets of the
+        Corporation available for
+
+                                       B-1
+  </page>
+  <page>
+   distribution to shareholders shall be distributed to the holders of
+        Series A Preferred Stock. Each holder of the Series A Preferred Stock
+        shall be entitled to receive that portion of the assets available for
+        distribution as the number of outstanding shares of Series A Preferred
+        Stock held by such holder bears to the total number of shares of Series
+        A Preferred Stock. Such payment shall constitute payment in full to the
+        holders of the Series A Preferred Stock upon the liquidation,
+        dissolution or winding up of the Corporation. After such payment shall
+        have been made in full, or funds necessary for such payment shall have
+        been set aside by the Corporation in trust for the account of the
+        holders of Series A Preferred Stock, so as to be available for such
+        payment, such holders of Series A Preferred Stock shall be entitled to
+        no further participation in the distribution of the assets of the
+        Corporation.
+
+             (ii) Consolidation, Merger and Other Corporate Events.  A
+        consolidation or merger of the Corporation (except into or with a
+        subsidiary corporation) or a sale, lease, mortgage, pledge, exchange,
+        transfer or other disposition of all or substantially all of the assets
+        of the Corporation or any reclassification of the stock of the
+        Corporation (other than a change in par value or from no par to par, or
+        from par to no par or as the result of an event described in subsection
+        (iv), (v), (vi) or (viii) of paragraph (f)), shall be regarded as a
+        liquidation, dissolution or winding up of the affairs of the Corporation
+        within the meaning of this paragraph (d); provided however, in the case
+        of a merger, if (a) the Company is the surviving entity, (b) the
+        Company's shareholders hold a majority of the shares of the surviving
+        entity, and (c) the Company's directors hold a majority of the seats on
+        the board of directors of the surviving entity, then such merger shall
+        not be regarded as a liquidation, dissolution or winding up within the
+        meaning of this paragraph (d). In no event shall the issuance of new
+        classes of stock, whether senior, junior or on a parity with the Series
+        A Preferred Stock, or any stock splits, be deemed a "reclassification"
+        under or otherwise limited by the terms hereof.
+
+             (iii) Distribution of Cash and Other Assets.  In the event of a
+        liquidation, dissolution or winding up of the Corporation resulting in
+        the availability of assets other than cash for distribution to the
+        holders of the Series A Preferred Stock, the holders of the Series A
+        Preferred Stock shall be entitled to a distribution of cash and/or
+        assets equal to the value of the liquidation preference stated in
+        subsection (i) of this paragraph (d), which valuation shall be made
+        solely by the Board of Directors, and provided that such Board of
+        Directors was acting in good faith, shall be conclusive.
+
+             (iv) Distribution to Junior Security Holders.  After the payment or
+        distribution to the holders of the Series A Preferred Stock of the full
+        preferential amounts aforesaid, the holders of Series A Preferred Stock
+        shall have no further rights in respect of such Series A Stock which
+        shall become null and void, and the holders of the Common Stock then
+        outstanding, or any other stock of the Corporation ranking as to assets
+        upon liquidation, dissolution or winding up of the Corporation junior to
+        the Series A Preferred Stock, shall be entitled to receive ratably all
+        of the remaining assets of the Corporation.
+
+             (v) Preference; Priority.  References to a stock that is "SENIOR"
+        to, on a "PARITY" with or "JUNIOR" to other stock as to liquidation
+        shall refer, respectively, to rights of priority of one series or class
+        of stock over another in the distribution of assets on any liquidation,
+        dissolution or winding up of the Corporation. The Series A Preferred
+        Stock shall be senior to the Common Stock of the Corporation and senior
+        to any subsequent series of Preferred Stock issued by the Corporation.
+
+          (e) Voting Rights.  Except as otherwise required by law, the holder of
+     shares of Series A Preferred Stock shall not have the right to vote on
+     matters that come before the shareholders.
+
+          (f) Conversion Rights.  The holders of Series A Preferred Stock will
+     have the following conversion rights:
+
+             (i) Right to Convert.  Subject to and in compliance with the
+        provisions of this paragraph (f), any issued and outstanding shares of
+        Series A Preferred Stock may, at the option of the holder, be converted
+        at any time or from time to time into fully paid and non-assessable
+        shares of Common Stock at the conversion rate in effect at the time of
+        conversion, determined as provided herein;
+
+                                       B-2
+  </page>
+  <page>
+   provided, that a holder of Series A Preferred Stock may at any given
+        time convert only up to that number of shares of Series A Preferred
+        Stock so that, upon conversion, the aggregate beneficial ownership of
+        the Corporation's Common Stock (calculated pursuant to Rule 13d-3 of the
+        Securities Exchange Act of 1934, as amended) of such holder and all
+        persons affiliated with such holder is not more than 9.99% of the
+        Corporation's Common Stock then outstanding.
+
+             (ii) Mechanics of Conversion.  Before any holder of Series A
+        Preferred Stock shall be entitled to convert the same into shares of
+        Common Stock, he shall surrender the certificate or certificates
+        therefor, duly endorsed, at the office of the Corporation or of any
+        transfer agent for the Common Stock, and shall give written notice to
+        the Corporation at such office that he elects to convert the same and
+        shall state therein the number of shares of Series A Preferred Stock
+        being converted. Thereupon, the Corporation shall promptly issue and
+        deliver at such office to such holder of Series A Preferred Stock a
+        certificate or certificates for the number of shares of Common Stock to
+        which he shall be entitled. Such conversion shall be deemed to have been
+        made immediately prior to the close of business on the date of such
+        surrender of the shares of Series A Preferred Stock to be converted, and
+        the person or persons entitled to receive the shares of Common Stock
+        issuable upon such conversion shall be treated for all purposes as the
+        record holder or holders of such shares of Common Stock on such date.
+
+             (iii) Conversion Price.  The number of shares into which one share
+        of Series A Preferred Stock shall be convertible shall be determined by
+        dividing $100.00 (the "Series A Purchase Price") by the then existing
+        Conversion Price (as set forth below) (the "Conversion Ratio"). The
+        "Conversion Price" per share for the Series A Preferred Stock shall be
+        equal to eighty-five percent (85%) of the Market Price (as defined below
+        and subject to adjustment as described below), rounded to the nearest
+        penny; provided, however, that subject to the provisions of the next
+        sentence, in no event shall the Conversion Price be less than $0.98 per
+        share (the "FLOOR PRICE") or exceed the lesser of the closing price of
+        the Corporation's Common Stock on (a) June 4, 2004, (b) June 17, 2004,
+        or (c) the Closing Date (as that term is defined in the Subscription
+        Agreement of even date herewith) per share (the "Ceiling Price"). The
+        Floor Price and Ceiling Price shall be further adjusted upon the
+        occurrence of any event in paragraph (f)(iv).
+
+             For purposes of determining the Conversion Price, the "MARKET
+        PRICE" shall be the average of the lowest three inter-day trading prices
+        of the Corporation's Common Stock (which need not occur on consecutive
+        trading days) during the 10 trading days immediately preceding the
+        conversion date (which may include trading days prior to the original
+        issue date), provided, that such 10 trading day period shall be extended
+        by the number of trading days during such period on which (i) trading in
+        the Corporation's Common Stock is suspended by, or not traded on, the
+        OTC Bulletin Board or a subsequent market on which the common stock is
+        then traded, or (ii) after the date of Registration Statement (the
+        "Registration Statement") for the underlying shares of common stock of
+        the Corporation into which the Series A Preferred Stock may be converted
+        is declared effective by the SEC, the prospectus included in the
+        Registration Statement may not be used by the holder for resale of
+        underlying shares of common stock, is suspended by, or not traded on,
+        the OTC Bulletin Board or a subsequent market on which the common stock
+        is then listed, or (iii) after the date the Registration Statement is
+        declared effective by the SEC, the prospectus included in the
+        Registration Statement for the underlying shares may not be used by the
+        holder for the resale of underlying shares of common stock (provided
+        such inability to use the prospectus is not (a) caused by the holder or
+        (b) as a result of the Company's filing of post-effective amendments to
+        the Registration Statement.)
+
+             For purposes of illustration only, assuming the Ceiling Price is
+        $1.60 per share, if the Market Price is $1.50 at time of conversion, the
+        Conversion Ratio will be $100.00/$1.28, allowing the 30,000 shares of
+        Series A Preferred Stock to be converted into 2,343,750 shares of Common
+        Stock. On the other hand, if the Market Price is $1.00 at time of
+        conversion, the Conversion Ratio will be $100.00/$0.98, allowing the
+        30,000 shares of Preferred Stock to be converted into 3,061,224 shares
+        of Common Stock.
+
+                                       B-3
+  </page>
+  <page>
+   If an Event of Default occurs, as defined in the Subscription
+        Agreement for the Series A Preferred Stock, the Conversion Price shall
+        be reduced to seventy percent (75%) of the Market Price, provided,
+        however, in no event shall the Conversion Price be less than the Floor
+        Price.
+
+             (iv) Adjustment for Stock Splits and Combinations.  If the
+        Corporation shall at any time, or from time to time after the date
+        shares of the Series A Preferred Stock are first issued (the "ORIGINAL
+        ISSUE DATE"), effect a subdivision of the outstanding Common Stock, the
+        Floor Price and Ceiling Price in effect immediately prior thereto shall
+        be proportionately decreased, and conversely, if the Corporation shall
+        at any time or from time to time after the Original Issue Date combine
+        the outstanding shares of Common Stock, the Floor Price and Ceiling
+        Price then in effect immediately before the combination shall be
+        proportionately increased. Any adjustment under this paragraph (f)(iv)
+        shall become effective at the close of business on the date the
+        subdivision or combination becomes effective.
+
+             (v) Adjustment for Certain Dividends and Distributions.  In the
+        event the Corporation at any time, or from time to time after the
+        Original Issue Date, shall make or issue, or fix a record date for the
+        determination of holders of Common Stock entitled to receive, a dividend
+        or other distribution payable in additional shares of Common Stock, then
+        and in each such event the Floor Price and Ceiling Price then in effect
+        shall be decreased as of the time of such issuance or, in the event such
+        a record date shall have been fixed, as of the close of business on such
+        record date, by multiplying the Floor Price and Ceiling Price then in
+        effect by a fraction:
+
+                (A) the numerator of which shall be the total number of shares
+           of Common Stock issued and outstanding immediately prior to the time
+           of such issuance or the close of business on such record date, and
+
+                (B) the denominator of which shall be the total number of shares
+           of Common Stock issued and outstanding immediately prior to the time
+           of such issuance or the close of business on such record date plus
+           the number of shares of Common Stock issuable in payment of such
+           dividend or distribution; provided, however, if such record date
+           shall have been fixed and such dividend is not fully paid or if such
+           distribution is not fully made on the date fixed therefor, the Floor
+           Price and Ceiling Price shall be recomputed accordingly as of the
+           close of business on such record date and thereafter, the Floor Price
+           and Ceiling Price shall be adjusted pursuant to this paragraph (f)(v)
+           as of the time of actual payment of such dividends or distributions.
+
+             (vi) Adjustments for Other Dividends and Distributions.  In the
+        event the Corporation at any time or from time to time after the
+        Original Issue Date shall make or issue, or fix a record date for the
+        determination of holders of Common Stock entitled to receive, a dividend
+        or other distribution payable in securities of the Corporation other
+        than shares of Common Stock, then and in each such event provision shall
+        be made so that the holders of such Series A Preferred Stock shall
+        receive upon conversion thereof in addition to the number of shares of
+        Common Stock receivable thereupon, the amount of securities of the
+        Corporation that they would have received had their Series A Preferred
+        Stock been converted into Common Stock on the date of such event and had
+        thereafter, during the period from the date of such event to and
+        including the conversion date, retained such securities receivable by
+        them as aforesaid during such period giving application to all
+        adjustments called for during such period under this paragraph (f) with
+        respect to the rights of the holders of the Series A Preferred Stock.
+
+             (vii) Adjustment for Reclassification Exchange or Substitution.  If
+        the Common Stock issuable upon the conversion of the Series A Preferred
+        Stock shall be changed into the same or a different number of shares of
+        any class or classes of stock, whether by capital reorganization,
+        reclassification or otherwise (other than a subdivision or combination
+        of shares or stock dividend provided for above, or a reorganization,
+        merger, consolidation or sale of assets provided for elsewhere in this
+        paragraph (f)), then and in each such event the holder of each share of
+        Series A Preferred Stock shall have the right thereafter to convert such
+        share into the kind and amount of shares of stock and other securities
+        and property receivable upon such reorganization, reclassification or
+        other
+                                       B-4
+  </page>
+  <page>
+   change, by holders of the number of shares of Common Stock into which
+        such shares of Series A Preferred Stock might have been converted
+        immediately prior to such reorganization, reclassification, or change,
+        all subject to further adjustment as provided herein.
+
+             (viii) Reorganization, Mergers, Consolidations or Sales of
+        Assets.  If at any time or from time to time there shall be a capital
+        reorganization of the Common Stock (other than a subdivision,
+        combination, reclassification or exchange of shares provided for
+        elsewhere in this paragraph (f)) or a merger or consolidation of the
+        Corporation with or into another corporation, or the sale of all or
+        substantially all of the Corporation's properties and assets to any
+        other person, then, as a part of such reorganization, merger,
+        consolidation or sale, provision shall be made so that the holders of
+        the Series A Preferred Stock shall thereafter be entitled to receive
+        upon conversion of such Series A Preferred Stock, the number of shares
+        of stock or other securities or property of the Corporation or of the
+        successor corporation resulting from such merger or consolidation or
+        sale, to which a holder of Common Stock deliverable upon conversion
+        would have been entitled on such capital reorganization, merger,
+        consolidation or sale. In any such case, appropriate adjustment shall be
+        made in the application of the provisions of this paragraph (f) with
+        respect to the rights of the holders of the Series A Preferred Stock
+        after the reorganization, merger, consolidation or sale to the end that
+        the provisions of this paragraph (f) (including adjustment of the Floor
+        Price and Ceiling Price then in effect and the number of shares
+        purchasable upon conversion of the Series A Preferred Stock) shall be
+        applicable after that event as nearly equivalent as may be practicable.
+
+             (ix) Certificate of Adjustment.  In each case of an adjustment or
+        readjustment of the Floor Price and Ceiling Price or the securities
+        issuable upon conversion of the Series A Preferred Stock, the
+        Corporation shall compute such adjustment or readjustment in accordance
+        herewith and the Corporation's Chief Financial Officer shall prepare and
+        sign a certificate showing such adjustment or readjustment, and shall
+        mail such certificate by first class mail, postage prepaid, to each
+        registered holder of the Series A Preferred Stock at the holder's
+        address as shown in the Corporation's books. The certificate shall set
+        forth such adjustment or readjustment, showing in detail the facts upon
+        which such adjustment or readjustment is based.
+
+             (x) Notices of Record Date.  In the event of (A) any taking by the
+        Corporation of a record of the holders of any class or series of
+        securities for the purpose of determining the holders thereof who are
+        entitled to receive any dividend or other distribution or (B) any
+        reclassification or recapitalization of the capital stock of the
+        Corporation, any merger or consolidation of the Corporation or any
+        transfer of all or substantially all of the assets of the Corporation to
+        any other corporation, entity or person, or any voluntary or involuntary
+        dissolution, liquidation or winding up of the Corporation, the
+        Corporation shall mail to each holder of Series A Preferred Stock at
+        least 10 days prior to the record date specified therein, a notice
+        specifying (1) the date on which any such record is to be taken for the
+        purpose of such dividend or distribution and a description of such
+        dividend or distribution, (2) the date on which any such reorganization,
+        reclassification, transfer, consolidation, merger, dissolution,
+        liquidation or winding up is expected to become effective and (3) the
+        time, if any is to be fixed, as to when the holders of record of Common
+        Stock (or other securities) shall be entitled to exchange their shares,
+        of Common Stock (or other securities) for securities or other property
+        deliverable upon such reorganization, reclassification, transfer,
+        consolidation, merger, dissolution, liquidation or winding up.
+
+             (xi) Fractional Shares.  No fractional shares of Common Stock shall
+        be issued upon conversion of the Series A Preferred Stock. In lieu of
+        any fractional shares to which the holder would otherwise be entitled,
+        the Corporation shall pay cash equal to the product of such fraction
+        multiplied by the fair market value of one share of the Corporation's
+        Common Stock on the date of conversion, as determined in good faith by
+        the Board of Directors.
+
+             (xii) Reservation of Stock Issuable Upon Conversion.  The
+        Corporation shall at all times reserve and keep available out of its
+        authorized but unissued shares of Common Stock, solely for the purpose
+        of effecting the conversion of the shares of the Series A Preferred
+        Stock, three million sixty-
+
+                                       B-5
+  </page>
+  <page>
+   one thousand two hundred twenty-four (3,061,224) shares of Common Stock,
+        and if at any time the number of authorized but unissued shares of
+        Common Stock shall not be sufficient to effect the conversion of all
+        then outstanding shares of Series A Preferred Stock, the Corporation
+        will take such corporate action as may, in the opinion of its counsel,
+        be necessary to increase its authorized but unissued shares of Common
+        Stock to such number of shares as shall be sufficient for such purpose.
+
+             (xiii) Notices.  Any notice required by the provisions of this
+        paragraph (f) to be given to the holders of shares of Series A Preferred
+        Stock shall be deemed given (A) if deposited in the United States mail,
+        postage prepaid, or (B) if given by any other reliable or generally
+        accepted means (including by facsimile or by a nationally recognized
+        overnight courier service), in each case addressed to each holder of
+        record at his address (or facsimile number) appearing on the books of
+        the Corporation.
+
+             (xiv) Payment of Taxes.  The Corporation will pay all transfer
+        taxes and other governmental charges that may be imposed in respect of
+        the issue or delivery of shares of Common Stock upon conversion of
+        shares of Series A Preferred Stock.
+
+             (xv) No Dilution or Impairment.  The Corporation shall not amend
+        its Articles of Incorporation or participate in any reorganization,
+        transfer of assets, consolidation, merger, dissolution, issue or sale of
+        securities or any other voluntary action, for the purpose of avoiding or
+        seeking to avoid the observance or performance of any of the terms to be
+        observed or performed hereunder by the Corporation, without the approval
+        of a majority of the then outstanding Series A Preferred Stock.
+
+          (g) No Reissuance of Preferred Stock.  Any shares of Series A
+     Preferred Stock acquired by the Corporation by reason of purchase,
+     conversion or otherwise shall be canceled, retired and eliminated from the
+     shares of Series A Preferred Stock that the Corporation shall be authorized
+     to issue. All such shares shall upon their cancellation become authorized
+     but unissued shares of Preferred Stock and may be reissued as part of a new
+     series of Preferred Stock subject to the conditions and restrictions on
+     issuance set forth in the Articles of Incorporation or in any certificate
+     of Designations creating a series of Preferred Stock or any similar stock
+     or as otherwise required by law.
+
+          (h) Non-transferable.  The Series A Preferred Stock is
+     non-transferable except by operation of law.
+
+          (i) Severability.  If any right, preference or limitation of the
+     Series A Preferred Stock set forth herein is invalid, unlawful or incapable
+     of being enforced by reason of any rule, law or public policy, all other
+     rights, preferences and limitations set forth herein that can be given
+     effect without the invalid, unlawful or unenforceable right, preference or
+     limitation shall nevertheless remain in full force and effect, and no
+     right, preference or limitation herein shall be deemed dependent upon any
+     other such right, preference or limitation unless so expressed herein.
+
+     3. The number of authorized shares of Preferred Stock of the Corporation is
+1,000,000, and the number of shares of Series A Stock, none of which has been
+issued, is 30,000.
+
+                                       B-6
+  </page>
+  <page>
+   Each of the undersigned declares under penalty of perjury that the matters
+set out in the foregoing Certificate are true of his own knowledge. Executed at
+West Chicago, Illinois, on this      day of           , 2004.
+
+                                          --------------------------------------
+                                          Name: Joseph A. Turek
+                                          Title:   President
+
+                                          --------------------------------------
+                                          Name: Jim Mayer
+                                          Title:   Secretary
+
+                                       B-7
+  </page>
+  <page>
+   APPENDIX C
+
+                        WARRANT TO PURCHASE COMMON STOCK
+
+                                FORM OF WARRANT
+
+     THIS WARRANT AND THE SECURITIES ISSUABLE HEREUNDER HAVE NOT BEEN REGISTERED
+UNDER THE SECURITIES ACT OF 1933, AS AMENDED, OR ANY STATE SECURITIES LAWS. THEY
+MAY NOT BE SOLD, OFFERED FOR SALE, PLEDGED OR OTHERWISE TRANSFERRED IN THE
+ABSENCE OF AN EFFECTIVE REGISTRATION STATEMENT UNDER SUCH ACT AND ANY APPLICABLE
+STATE SECURITIES LAWS OR THE AVAILABILITY OF AN EXEMPTION FROM REGISTRATION
+UNDER SUCH ACT AND ANY APPLICABLE STATE SECURITIES LAWS.
+
+                        WARRANT TO PURCHASE COMMON STOCK
+   <table>
+    <s>
+     <c>
+      NUMBER OF SHARES.........................  Up to          shares (subject to adjustment)
+WARRANT PRICE............................  $1.27 per share
+ISSUANCE DATE............................          , 2004
+EXPIRATION DATE..........................          , 2007
+     </c>
+    </s>
+   </table>
+   THIS WARRANT CERTIFIES THAT for value received,           or its registered
+assigns (hereinafter called the "HOLDER") is entitled to purchase from M-Wave,
+Inc. (hereinafter called the "COMPANY"), the above referenced number of fully
+paid and nonassessable shares (the "SHARES") of common stock (the "COMMON
+STOCK"), of Company, at the Warrant Price per Share referenced above; the number
+of shares purchasable upon exercise of this Warrant referenced above being
+subject to adjustment from time to time as described herein. This Warrant is
+issued in connection with that certain Subscription Agreement dated as of June
+  , 2004, by and between the Company and Holder (the "SUBSCRIPTION AGREEMENT").
+The exercise of this Warrant shall be subject to the provisions, limitations and
+restrictions contained herein.
+
+1.  TERM AND EXERCISE.
+
+     1.1  Term.  This Warrant is exercisable in whole or in part (but not as to
+any fractional share of Common Stock), at any time and from time to time after
+the date hereof prior to 6:00 p.m. on the Expiration Date set forth above.
+
+     1.2  Warrant Price.  The Warrant shall be exercisable at the Warrant Price
+described above.
+
+     1.3  Maximum Number of Shares.  The maximum number of Shares of Common
+Stock exercisable pursuant to this Warrant is           Shares. However,
+notwithstanding anything herein to the contrary, in no event shall the Holder be
+permitted to exercise this Warrant for a number of Shares greater than the
+number that would cause the aggregate beneficial ownership of the Company's
+Common Stock (calculated pursuant to Rule 13d-3 of the Securities Exchange Act
+of 1934, as amended) of the Holder and all persons affiliated with the Holder to
+equal 9.99% of the Company's Common Stock then outstanding.
+
+     1.4  Procedure for Exercise of Warrant.  Holder may exercise this Warrant
+by delivering the following to the principal office of the Company in accordance
+with Section 5.1 hereof: (i) a duly executed Notice of Exercise in substantially
+the form attached as Schedule A, (ii) payment of the Warrant Price then in
+effect for each of the Shares being purchased, as designated in the Notice of
+Exercise, and (iii) this Warrant. Payment of the Warrant Price may be in cash,
+certified or official bank check payable to the order of the Company, or wire
+transfer of funds to the Company's account (or any combination of any of the
+foregoing) in the amount of the Warrant Price for each share being purchased.
+
+     1.5  Delivery of Certificate and New Warrant.  In the event of any exercise
+of the rights represented by this Warrant, a certificate or certificates for the
+shares of Common Stock so purchased, registered in the name of the Holder or
+such other name or names as may be designated by the Holder, together with any
+other
+
+                                       C-1
+  </page>
+  <page>
+   securities or other property which the Holder is entitled to receive upon
+exercise of this Warrant, shall be delivered to the Holder hereof, at the
+Company's expense, within a reasonable time, not exceeding fifteen (15) calendar
+days, after the rights represented by this Warrant shall have been so exercised;
+and, unless this Warrant has expired, a new Warrant representing the number of
+Shares (except a remaining fractional share), if any, with respect to which this
+Warrant shall not then have been exercised shall also be issued to the Holder
+hereof within such time. The person in whose name any certificate for shares of
+Common Stock is issued upon exercise of this Warrant shall for all purposes be
+deemed to have become the holder of record of such shares on the date on which
+the Warrant was surrendered and payment of the Warrant Price was received by the
+Company, irrespective of the date of delivery of such certificate, except that,
+if the date of such surrender and payment is on a date when the stock transfer
+books of the Company are closed, such person shall be deemed to have become the
+holder of such Shares at the close of business on the next succeeding date on
+which the stock transfer books are open.
+
+     1.6  Restrictive Legend.  Each certificate for Shares shall bear a
+restrictive legend in substantially the form as follows, together with any
+additional legend required by (i) any applicable state securities laws and (ii)
+any securities exchange upon which such Shares may, at the time of such
+exercise, be listed:
+
+          "The shares represented by this certificate have not been registered
+     under the Securities Act of 1933, as amended and may not be sold, offered
+     for sale, transferred or pledged in the absence of such registration or an
+     exemption therefrom under such Act."
+
+     Any certificate issued at any time in exchange or substitution for any
+certificate bearing such legend shall also bear such legend unless, in the
+opinion of counsel for the Holder thereof (which counsel shall be reasonably
+satisfactory to the Company), the securities represented thereby are not, at
+such time, required by law to bear such legend.
+
+     1.7  Fractional Shares.  No fractional Shares shall be issuable upon
+exercise or conversion of the Warrant and the number of Shares to be issued
+shall be rounded down to the nearest whole Share. If a fractional share interest
+arises upon any exercise or conversion of the Warrant, the Company shall
+eliminate such fractional share interest by paying to Holder an amount computed
+by multiplying the fractional interest by the Current Market Price (as defined
+below) of a full Share. For purposes of this Warrant, the "CURRENT MARKET PRICE"
+of one share of Common Stock as of a particular date shall be determined as
+follows: (i) if traded on a national securities exchange or through the Nasdaq
+Stock Market, the Current Market Price shall be deemed to be the volume weighted
+average trading price of the Common Stock on such exchange as of five business
+days immediately prior to such date (or if no reported sales took place on such
+day, the last date on which any such sales took place prior to the date of
+exercise); (ii) if traded over-the-counter but not on the Nasdaq Stock Market,
+the Current Market Price shall be deemed to be the average of the closing bid
+and asked prices as of five business days immediately prior to such date; and
+(iii) if there is no active public market, the Current Market Price shall be the
+fair market value of the Common Stock as of such date, as determined in good
+faith by the Board of Directors of the Company.
+
+2.  REPRESENTATIONS, WARRANTIES AND COVENANTS.
+
+     2.1  Representations and Warranties.
+
+          (a) The Company is a corporation duly organized, validly existing and
+     in good standing under the laws of its state of incorporation and has all
+     necessary power and authority to perform its obligations under this
+     Warrant;
+
+          (b) The execution, delivery and performance of this Warrant has been
+     duly authorized by all necessary actions on the part of the Company and
+     constitutes the legal, valid and binding obligation of the Company,
+     enforceable against the Company in accordance with its terms; and
+
+          (c) This Warrant does not violate and is not in conflict with any of
+     the provisions of the Company's Amended and Restated Articles of
+     Incorporation or Certificate of Determination, Bylaws and any resolutions
+     of the Company's Board of Directors or stockholders, or any agreement of
+     the Company, and
+
+                                       C-2
+  </page>
+  <page>
+   no event has occurred and no condition or circumstance exists that might
+     (with or without notice or lapse of time) constitute or result directly or
+     indirectly in such a violation or conflict.
+
+     2.2  Issuance of Shares.  The Company covenants and agrees that all shares
+of Common Stock that may be issued upon the exercise of the rights represented
+by this Warrant will, upon issuance, be validly issued, fully paid and
+nonassessable, and free from all taxes, liens and charges with respect to the
+issue thereof. The Company further covenants and agrees that it will pay when
+due and payable any and all federal and state taxes which may be payable in
+respect of the issue of this Warrant or any Common Stock or certificates
+therefor issuable upon the exercise of this Warrant. The Company further
+covenants and agrees that the Company will at all times have authorized and
+reserved, free from preemptive rights, a sufficient number of shares of Common
+Stock to provide for the exercise in full of the rights represented by this
+Warrant. If at any time the number of authorized but unissued shares of Common
+Stock of the Company shall not be sufficient to effect the exercise of the
+Warrant in full, subject to the limitations set forth in Section 1.3 hereto,
+then the Company will take all such corporate action as may, in the opinion of
+counsel to the Company, be necessary or advisable to increase the number of its
+authorized shares of Common Stock as shall be sufficient to permit the exercise
+of the Warrant in full, subject to the limitations set forth in Section 1.3
+hereto, including without limitation, using its best efforts to obtain any
+necessary stockholder approval of such increase. The Company further covenants
+and agrees that if any shares of capital stock to be reserved for the purpose of
+the issuance of shares upon the exercise of this Warrant require registration
+with or approval of any governmental authority under any federal or state law
+before such shares may be validly issued or delivered upon exercise, then the
+Company will in good faith and as expeditiously as possible endeavor to secure
+such registration or approval, as the case may be. If and so long as the Common
+Stock issuable upon the exercise of this Warrant is listed on any national
+securities exchange or the Nasdaq Stock Market, the Company will, if permitted
+by the rules of such exchange or market, list and keep listed on such exchange
+or market, upon official notice of issuance, all shares of such Common Stock
+issuable upon exercise of this Warrant.
+
+3.  OTHER ADJUSTMENTS.
+
+     3.1  Subdivision or Combination of Shares.  In case the Company shall at
+any time subdivide its outstanding Common Stock into a greater number of shares,
+the Warrant Price in effect immediately prior to such subdivision shall be
+proportionately reduced, and the number of Shares subject to this Warrant shall
+be proportionately increased, and conversely, in case the outstanding Common
+Stock of the Company shall be combined into a smaller number of shares, the
+Warrant Price in effect immediately prior to such combination shall be
+proportionately increased, and the number of Shares subject to this Warrant
+shall be proportionately decreased.
+
+     3.2  Dividends in Common Stock, Other Stock or Property.  If at any time or
+from time to time the holders of Common Stock (or any shares of stock or other
+securities at the time receivable upon the exercise of this Warrant) shall have
+received or become entitled to receive, without payment therefor:
+
+          (a) Common Stock, Options or any shares or other securities which are
+     at any time directly or indirectly convertible into or exchangeable for
+     Common Stock, or any rights or options to subscribe for, purchase or
+     otherwise acquire any of the foregoing by way of dividend or other
+     distribution;
+
+          (b) any cash paid or payable otherwise than as a regular cash
+     dividend; or
+
+          (c) Common Stock or additional shares or other securities or property
+     (including cash) by way of spin-off, split-up, reclassification,
+     combination of shares or similar corporate rearrangement (other than Common
+     Stock issued as a stock split or adjustments in respect of which shall be
+     covered by the terms of Section 3.1 above) or additional shares, other
+     securities or property issued in connection with a Change (as defined
+     below) (which shall be covered by the terms of Section 3.4 below), then and
+     in each such case, the Holder hereof shall, upon the exercise of this
+     Warrant, be entitled to receive, in addition to the number of shares of
+     Common Stock receivable thereupon, and without payment of any additional
+     consideration therefor, the amount of stock and other securities and
+     property (including cash in the cases referred to in clause (b) above and
+     this clause (c)) which such Holder would hold on the date of such exercise
+     had such Holder been the holder of record of such Common Stock as of the
+     date on which
+                                       C-3
+  </page>
+  <page>
+   holders of Common Stock received or became entitled to receive such shares
+     or all other additional stock and other securities and property.
+
+     3.3  Reorganization, Reclassification, Consolidation, Merger or Sale.  If
+any recapitalization, reclassification or reorganization of the share capital of
+the Company, or any consolidation or merger of the Company with another
+corporation, or the sale of all or substantially all of its shares and/or assets
+or other transaction (including, without limitation, a sale of substantially all
+of its assets followed by a liquidation) shall be effected in such a way that
+holders of Common Stock shall be entitled to receive shares, securities or other
+assets or property (a "Change"), then, as a condition of such Change, lawful and
+adequate provisions shall be made by the Company whereby the Holder hereof shall
+thereafter have the right to purchase and receive (in lieu of the Common Stock
+of the Company immediately theretofore purchasable and receivable upon the
+exercise of the rights represented hereby) such shares, securities or other
+assets or property as may be issued or payable with respect to or in exchange
+for the number of outstanding Common Stock which such Holder would have been
+entitled to receive had such Holder exercised this Warrant immediately prior to
+the consummation of such Change. The Company or its successor shall promptly
+issue to Holder a new Warrant for such new securities or other property. The new
+Warrant shall provide for adjustments which shall be as nearly equivalent as may
+be practicable to give effect to the adjustments provided for in this Section 3
+including, without limitation, adjustments to the Warrant Price and to the
+number of securities or property issuable upon exercise of the new Warrant. The
+provisions of this Section 3.3 shall similarly apply to successive Changes.
+
+4.  OWNERSHIP AND TRANSFER.
+
+     4.1  Ownership of This Warrant.  The Company may deem and treat the person
+in whose name this Warrant is registered as the holder and owner hereof
+(notwithstanding any notations of ownership or writing hereon made by anyone
+other than the Company) for all purposes and shall not be affected by any notice
+to the contrary until presentation of this Warrant for registration of transfer
+as provided in this Section 4.
+
+     4.2  Non-transferability and Replacement.  This Warrant and all rights
+hereunder are not transferable except by operation of law. Upon receipt by the
+Company of evidence reasonably satisfactory to it of the loss, theft or
+destruction, and, in such case, of indemnity or security reasonably satisfactory
+to it, and upon surrender of this Warrant if mutilated, the Company will make
+and deliver a new Warrant of like tenor, in lieu of this Warrant; provided that
+if the Holder hereof is an instrumentality of a state or local government or an
+institutional holder or a nominee for such an instrumentality or institutional
+holder an irrevocable agreement of indemnity by such Holder shall be sufficient
+for all purposes of this Warrant, and no evidence of loss or theft or
+destruction shall be necessary. This Warrant shall be promptly cancelled by the
+Company upon the surrender hereof in connection with any transfer or
+replacement. In the case of the loss, theft or destruction of a Warrant, the
+Holder shall pay all expenses, taxes and other charges payable in connection
+with any replacement of this Warrant.
+
+5.  MISCELLANEOUS PROVISIONS.
+
+     5.1  Notices.  Any notice or other document required or permitted to be
+given or delivered to the Holder shall be delivered or forwarded to the Holder
+at c/o Mercator Advisory Group, LLC, 555 South Flower Street, Suite 4500, Los
+Angeles, California 90071, Attention: David F. Firestone (Facsimile No.
+213/553-8285), or to such other address or number as shall have been furnished
+to the Company in writing by the Holder, with a copy to Sheppard Mullin Richter
+&amp; Hampton LLP, 333 South Hope Street, 48th Floor, Los Angeles, California
+90071-1448 Attention David C. Ulich (Facsimile No. 213/620-1398). Any notice or
+other document required or permitted to be given or delivered to the Company
+shall be delivered or forwarded to the Company at 475 Industrial Drive, West
+Chicago, Illinois 60185, Attention Jim Mayer (facsimile No. 630-562-1775), with
+a copy to Freeborn &amp; Peters, LLP, Suite 3000, 311 South Wacker Drive, Chicago
+Illinois 60606, Attention: Carl R. Klein (Facsimile No. 312-360-6571), or to
+such other address or number as shall have been furnished to Holder in writing
+by the Company or to the Company by Holder.
+
+                                       C-4
+  </page>
+  <page>
+   5.2  All notices, requests and approvals required by this Warrant shall be
+in writing and shall be conclusively deemed to be given (i) when hand-delivered
+to the other party, (ii) when received if sent by facsimile at the address and
+number set forth above; provided that notices given by facsimile shall not be
+effective, unless either (a) a duplicate copy of such facsimile notice is
+promptly given by depositing the same in the mail, postage prepaid and addressed
+to the party as set forth below or (b) the receiving party delivers a written
+confirmation of receipt for such notice by any other method permitted under this
+paragraph; and further provided that any notice given by facsimile received
+after 5:00 p.m. (recipient's time) or on a non-business day shall be deemed
+received on the next business day; (iii) five (5) business days after deposit in
+the United States mail, certified, return receipt requested, postage prepaid,
+and addressed to the party as set forth below; or (iv) the next business day
+after deposit with an international overnight delivery service, postage prepaid,
+addressed to the party as set forth below with next business day delivery
+guaranteed; provided that the sending party receives confirmation of delivery
+from the delivery service provider.
+
+     5.3  No Rights as Shareholder; Limitation of Liability.  This Warrant shall
+not entitle the Holder to any of the rights of a shareholder of the Company
+except upon exercise in accordance with the terms hereof. No provision hereof,
+in the absence of affirmative action by the Holder to purchase shares of Common
+Stock, and no mere enumeration herein of the rights or privileges of the Holder,
+shall give rise to any liability of the Holder for the Warrant Price hereunder
+or as a shareholder of the Company, whether such liability is asserted by the
+Company or by creditors of the Company.
+
+     5.4  Governing Law.  This Warrant shall be governed by and construed in
+accordance with the laws of the State of California as applied to agreements
+among California residents made and to be performed entirely within the State of
+California, without giving effect to the conflict of law principles thereof.
+
+     5.5  Binding Effect on Successors.  This Warrant shall be binding upon any
+corporation succeeding the Company by merger, consolidation or acquisition of
+all or substantially all of the Company's assets and/or securities. All of the
+obligations of the Company relating to the Shares issuable upon the exercise of
+this Warrant shall survive the exercise and termination of this Warrant. All of
+the covenants and agreements of the Company shall inure to the benefit of the
+successors and assigns of the Holder.
+
+     5.6  Waiver, Amendments and Headings.  This Warrant and any provision
+hereof may be changed, waived, discharged or terminated only by an instrument in
+writing signed by both parties (either generally or in a particular instance and
+either retroactively or prospectively). The headings in this Warrant are for
+purposes of reference only and shall not affect the meaning or construction of
+any of the provisions hereof.
+
+     5.7  Jurisdiction.  Each of the parties irrevocably agrees that any and all
+suits or proceedings based on or arising under this Agreement may be brought
+only in and shall be resolved in the federal or state courts located in the City
+of Los Angeles, California and consents to the jurisdiction of such courts for
+such purpose. Each of the parties irrevocably waives the defense of an
+inconvenient forum to the maintenance of such suit or proceeding in any such
+court. Each of the parties further agrees that service of process upon such
+party mailed by first class mail to the address set forth in Section 5.1 shall
+be deemed in every respect effective service of process upon such party in any
+such suit or proceeding. Nothing herein shall affect the right of a Holder to
+serve process in any other manner permitted by law. Each of the parties agrees
+that a final non-appealable judgment in any such suit or proceeding shall be
+conclusive and may be enforced in other jurisdictions by suit on such judgment
+or in any other lawful manner.
+
+     5.8  Attorneys' Fees and Disbursements.  If any action at law or in equity
+is necessary to enforce or interpret the terms of this Agreement, the prevailing
+party or parties shall be entitled to receive from the other party or parties
+reasonable attorneys' fees and disbursements in addition to any other relief to
+which the prevailing party or parties may be entitled.
+
+                                       C-5
+  </page>
+  <page>
+   IN WITNESS WHEREOF, the Company has caused this Warrant to be signed by its
+duly authorized officer this      day of          , 2004.
+
+COMPANY:                                  M-WAVE, INC.
+
+                                          By
+                                           -------------------------------------
+                                            Print Name: Joseph A. Turek
+                                            Title: President
+
+                                       C-6
+  </page>
+  <page>
+   SCHEDULE A
+
+                           FORM OF NOTICE OF EXERCISE
+                [TO BE SIGNED ONLY UPON EXERCISE OF THE WARRANT]
+
+                    TO BE EXECUTED BY THE REGISTERED HOLDER
+                         TO EXERCISE THE WITHIN WARRANT
+
+     The undersigned hereby elects to purchase           shares of Common Stock
+(the "Shares") of M-Wave, Inc. under the Warrant to Purchase Common Stock dated
+          , 2004, which the undersigned is entitled to purchase pursuant to the
+terms of such Warrant. The undersigned has delivered $          , the aggregate
+Warrant Price for           Shares purchased herewith, in full in cash or by
+certified or official bank check or wire transfer.
+
+     Please issue a certificate or certificates representing such shares of
+Common Stock in the name of the undersigned or in such other name as is
+specified below and in the denominations as is set forth below:
+
+     ---------------------------------------------------------------------------
+     [Type Name of Holder as it should appear on the stock certificate]
+
+     ---------------------------------------------------------------------------
+     [Requested Denominations -- if no denomination is specified, a single
+     certificate will be issued]
+
+     The initial address of such Holder to be entered on the books of Company
+     shall be:
+
+     ---------------------------------------------------------------------------
+
+     ---------------------------------------------------------------------------
+
+     ---------------------------------------------------------------------------
+
+     The undersigned hereby represents and warrants that the undersigned is
+acquiring such shares for his own account for investment purposes only, and not
+for resale or with a view to distribution of such shares or any part thereof.
+
+                                          By:
+                                            ------------------------------------
+
+                                          Print Name:
+                                                    ----------------------------
+
+                                          Title:
+                                               ---------------------------------
+
+                                          Dated:
+                                               ---------------------------------
+  </page>
+  <page>
+   PROXY
+
+                                  M-WAVE, INC.
+                 SPECIAL MEETING OF STOCKHOLDERS, JULY 27, 2004
+           THIS PROXY IS SOLICITED ON BEHALF OF THE BOARD OF DIRECTORS
+
+         The undersigned hereby (i) appoints Joseph A. Turek and Jim Mayer and
+each of them as proxy holders and attorneys, with full power of substitution, to
+appear and vote all of the shares of Common Stock of M-Wave, Inc. that the
+undersigned shall be entitled to vote at the Special Meeting of Stockholders of
+M-Wave, Inc., to be held at 475 Industrial Drive, West Chicago, IL 60185, on
+Tuesday, July 27, 2004, at 10:00 a.m. local time, and at any adjournments
+thereof, hereby revoking any and all proxies heretofore given and (ii)
+authorizes and directs said proxy holders to vote all of the shares of Common
+Stock of M-Wave, Inc. represented by this proxy as follows, with the
+understanding that if no directions are given below, said shares will be voted
+"For" the election of the Directors nominated by the Board of Directors, "For"
+the proposal to ratify the appointment of McGladrey &amp; Pullen, LLP as the
+independent auditors of M-Wave, Inc., "For" the amendment to the Company's
+certificate of incorporation; and "For" the sale and issuance of the Company's
+preferred stock and warrants.
+
+           PLEASE VOTE, SIGN, DATE AND RETURN THE PROXY CARD PROMPTLY
+                          USING THE ENCLOSED ENVELOPE.
+
+                  (CONTINUED AND TO BE SIGNED ON REVERSE SIDE.)
+
+
+--------------------------------------------------------------------------------
+  </page>
+  <page>
+   <table>
+    <s>
+     <c>
+      1.  Election of Directors    FOR   WITHHOLD     2. Ratify appointment of independent auditors  FOR    AGAINST   ABSTAIN
+
+    Nominees:                                                                                  [ ]      [ ]       [ ]
+
+    Lavern D. Kramer         [ ]    [ ]
+                                                3. Approval of amendment to certificate of     FOR    AGAINST   ABSTAIN
+                                                   incorporation
+    Gary L. Castagna         [ ]    [ ]                                                        [ ]      [ ]       [ ]
+
+                                                                                               FOR    AGAINST   ABSTAIN
+                                                4. Approval of Sale of Preferred Stock and
+    Jim Mayer                [ ]    [ ]            Warrants                                    [ ]      [ ]       [ ]
+
+                                                5. In their discretion to act on any other     FOR    AGAINST   ABSTAIN
+                                                   matters which may properly come before      [ ]      [ ]       [ ]
+                                                   the special meeting.
+
+                                                   The Board of Directors recommends you vote
+                                                   FOR the above proposals
+
+                                                   Dated:                              , 2004
+                                                          -----------------------------
+
+                                                   Signatures(s)
+                                                                 ---------------------------------------------
+
+                                                   -----------------------------------------------------------
+
+                                                   Your signature to this proxy card should be
+                                                   exactly the same as the name imprinted
+                                                   herein. Persons signing as executors,
+                                                   administrators, trustees or in similar
+                                                   capacities should so indicate. For joint
+                                                   accounts, the name of each joint owner must
+                                                   be signed.
+     </c>
+    </s>
+   </table>
+   -------------------------------------------------------------------------------
+                            - FOLD AND DETACH HERE -
+
+                             YOUR VOTE IS IMPORTANT!
+
+       PLEASE MARK, SIGN, DATE AND MAIL THE PROXY CARD PROMPTLY USING THE
+                               ENCLOSED ENVELOPE
+  </page>
+ </pre>
+</body>
+</html>

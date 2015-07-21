@@ -69,8 +69,15 @@ class MySoup(object):
         df['paragraph'] = df.new_paragraph.cumsum()
         self.elements = df
 
-    def get_range(self, start, end):
-        path = self.elements.path
+    def set_highlights(self, path):
+        with open(path) as f:
+            d = json.load(f)
+        self.highlights = d['rows']
+        return self
+
+    def get_range(self, start, end, startOffset, endOffset):
+        df = self.elements
+        path = df.path
         a = path.map(lambda s: s.endswith(start))
         assert a.sum() == 1
         b = path.map(lambda s: s.endswith(end))
@@ -79,10 +86,12 @@ class MySoup(object):
         # Given endOffset is typically larger than zero we almost
         # always need to grab one extra element.
         upper = b.index[b][0] + 1
-        return self.elements.ix[lower:upper]
 
-    def set_highlights(self, path):
-        with open(path) as f:
-            d = json.load(f)
-        self.highlights = d['rows']
-        return self
+        section = df.ix[lower:upper]
+        block = section.ix[section.has_text & -section.is_comment]
+        text = list(block.text + block['tail'])
+
+        # Handle the offsets
+        text[0] = text[0][startOffset:]
+        text[-1] = text[-1][:endOffset]
+        return ''.join(text).strip()
