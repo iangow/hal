@@ -3,123 +3,123 @@
   "rows": [
     {
       "quote": "GREGORY E. MEYER, 54, has been a director since December 2000. Mr. Meyer\nheld various positions at Chemdal Corporation, a subsidiary of Amcol\nInternational Corporation, from 1986 to 2000, the most recent of which was\nExecutive Vice President of Chemdal International.", 
-      "uri": "http://hal.marder.io/highlight/883842/000095013704005471", 
+      "uri": "http://127.0.0.1:8000/highlight/883842/000095013704005471", 
       "permissions": {
         "read": [
           "group:__consumer__"
         ]
       }, 
-      "username": "LaurelMcMechan@gmail.com", 
-      "updated": "2015-06-30T14:43:59.007427+00:00", 
+      "username": "amarder", 
+      "updated": "2015-07-21T20:59:20.530792+00:00", 
       "user": "alice", 
-      "created": "2015-06-30T14:43:59.007396+00:00", 
+      "created": "2015-07-21T20:59:20.530759+00:00", 
       "text": "Meyer, Gregory", 
       "consumer": "mockconsumer", 
       "ranges": [
         {
-          "start": "/pre/page[7]", 
-          "end": "/pre/page[7]", 
-          "startOffset": 3036, 
-          "endOffset": 3304
+          "start": "/pre", 
+          "end": "/pre", 
+          "startOffset": 22716, 
+          "endOffset": 22983
         }
       ], 
-      "id": "AU5E7K-gVxF_lhEmao6z"
+      "id": "AU6yaeJTVxF_lhEmbLw-"
     }, 
     {
       "quote": "JOSEPH A. TUREK, 47, is the founder of the Company and has acted as\nChairman and Chief Executive Officer since June 1993, and has served as a\ndirector of the Company since 1988. Mr. Turek served as President of the Company\nfrom 1988 to February 1997. Mr. Turek served for more than five years in various\npositions at West-Tronics, Inc., a manufacturer of low-frequency circuit boards\nand a contract assembler of electronic products, with his last position as\nPresident in 1987 and 1988. West-Tronics entered into an assignment for the\nbenefit of creditors in December 1988 pursuant to which the Company purchased\nthe assets and assumed certain liabilities of West-Tronics, Inc. Mr. Turek\nreceived a B.S.E.E. degree from the University of Notre Dame and an M.B.A.\ndegree from Northwestern University.", 
-      "uri": "http://hal.marder.io/highlight/883842/000095013704005471", 
+      "uri": "http://127.0.0.1:8000/highlight/883842/000095013704005471", 
       "permissions": {
         "read": [
           "group:__consumer__"
         ]
       }, 
-      "username": "LaurelMcMechan@gmail.com", 
-      "updated": "2015-06-30T14:43:54.497271+00:00", 
+      "username": "amarder", 
+      "updated": "2015-07-21T20:59:04.590834+00:00", 
       "user": "alice", 
-      "created": "2015-06-30T14:43:54.497237+00:00", 
+      "created": "2015-07-21T20:59:04.590798+00:00", 
       "text": "Turek, Joseph", 
       "consumer": "mockconsumer", 
       "ranges": [
         {
-          "start": "/pre/page[7]", 
-          "end": "/pre/page[7]", 
-          "startOffset": 2153, 
-          "endOffset": 2953
+          "start": "/pre", 
+          "end": "/pre", 
+          "startOffset": 21833, 
+          "endOffset": 22632
         }
       ], 
-      "id": "AU5E7J4BVxF_lhEmao6y"
+      "id": "AU6yaaQPVxF_lhEmbLw9"
     }, 
     {
       "quote": "JIM MAYER, 53, has been our Chief Financial Officer and Chief\nAdministrative Officer since May 1, 2004. He has 18 years of experience,\nincluding 12 years as CEO of DiversiCorp, Inc., has managed or directed more\nthan 50 engagements with troubled companies, and has provided a variety of\nservices directly to clients, including due diligence, workout, collateral\ncontrol, corporate restructuring, bankruptcy support, cross-border secured\nfinance and interim management. Mr. Mayer has served on several boards of\ndirectors including the Turnaround Management Association. He has been the\nManaging Member of Credit Support International, a specialized consulting firm\ndevoted to transitional and troubled middle market companies, since 1985.\nPursuant to an agreement between Credit Support International and the Company,\nMr. Mayer acted as Chief Restructuring Advisor to the Board of Directors of the\nCompany from April 15, 2003 through April 30, 2004. The Company agreed to\nnominate Mr. Mayer to the Board of Directors pursuant to an agreement amendment\neffective May 1, 2004. See \"Certain Transactions\" below.", 
-      "uri": "http://hal.marder.io/highlight/883842/000095013704005471", 
+      "uri": "http://127.0.0.1:8000/highlight/883842/000095013704005471", 
       "permissions": {
         "read": [
           "group:__consumer__"
         ]
       }, 
-      "username": "LaurelMcMechan@gmail.com", 
-      "updated": "2015-06-30T14:43:49.993182+00:00", 
+      "username": "amarder", 
+      "updated": "2015-07-21T20:58:56.109329+00:00", 
       "user": "alice", 
-      "created": "2015-06-30T14:43:49.993159+00:00", 
+      "created": "2015-07-21T20:58:56.109306+00:00", 
       "text": "Mayer, Jim", 
       "consumer": "mockconsumer", 
       "ranges": [
         {
-          "start": "/pre/page[7]", 
-          "end": "/pre/page[7]", 
-          "startOffset": 958, 
-          "endOffset": 2067
+          "start": "/pre", 
+          "end": "/pre", 
+          "startOffset": 20638, 
+          "endOffset": 21746
         }
       ], 
-      "id": "AU5E7IxpVxF_lhEmao6x"
+      "id": "AU6yaYLtVxF_lhEmbLw8"
     }, 
     {
       "quote": "GARY L. CASTAGNA, 42, has been a director of the Company since January\n2001. Mr. Castagna presently serves as Chief Financial Officer of Amcol\nInternational Corporation, a company that is engaged in the materials and\nenvironmental industries. Mr. Castagna has been the Senior Vice President of\nAmcol since February 2001. Mr. Castagna was a consultant to Amcol from June 2000\nto February 2001 and Vice President of Chemical International Corporation, a\nformer subsidiary of Amcol, from August 1997 to May 2000.", 
-      "uri": "http://hal.marder.io/highlight/883842/000095013704005471", 
+      "uri": "http://127.0.0.1:8000/highlight/883842/000095013704005471", 
       "permissions": {
         "read": [
           "group:__consumer__"
         ]
       }, 
-      "username": "LaurelMcMechan@gmail.com", 
-      "updated": "2015-06-30T14:43:44.665382+00:00", 
+      "username": "amarder", 
+      "updated": "2015-07-21T20:58:48.467268+00:00", 
       "user": "alice", 
-      "created": "2015-06-30T14:43:44.665358+00:00", 
+      "created": "2015-07-21T20:58:48.467245+00:00", 
       "text": "Castagna, Gary", 
       "consumer": "mockconsumer", 
       "ranges": [
         {
-          "start": "/pre/page[7]", 
-          "end": "/pre/page[7]", 
-          "startOffset": 422, 
-          "endOffset": 932
+          "start": "/pre", 
+          "end": "/pre", 
+          "startOffset": 20102, 
+          "endOffset": 20611
         }
       ], 
-      "id": "AU5E7HeaVxF_lhEmao6w"
+      "id": "AU6yaWUTVxF_lhEmbLw7"
     }, 
     {
       "quote": "LAVERN D. KRAMER, 67, has been a director of the Company since April 1992.\nMr. Kramer was the President of Kester Solder, a division of Litton Industries,\nfrom 1970 to 2000. He is a member of the Board of Directors of the Lead\nIndustries Association.", 
-      "uri": "http://hal.marder.io/highlight/883842/000095013704005471", 
+      "uri": "http://127.0.0.1:8000/highlight/883842/000095013704005471", 
       "permissions": {
         "read": [
           "group:__consumer__"
         ]
       }, 
-      "username": "LaurelMcMechan@gmail.com", 
-      "updated": "2015-06-30T14:43:40.270119+00:00", 
+      "username": "amarder", 
+      "updated": "2015-07-21T20:58:42.383778+00:00", 
       "user": "alice", 
-      "created": "2015-06-30T14:43:40.270085+00:00", 
+      "created": "2015-07-21T20:58:42.383748+00:00", 
       "text": "Kramer, Lavern", 
       "consumer": "mockconsumer", 
       "ranges": [
         {
-          "start": "/pre/page[7]", 
-          "end": "/pre/page[7]", 
-          "startOffset": 164, 
-          "endOffset": 416
+          "start": "/pre", 
+          "end": "/pre", 
+          "startOffset": 19845, 
+          "endOffset": 20095
         }
       ], 
-      "id": "AU5E7GZuVxF_lhEmao6v"
+      "id": "AU6yaU1QVxF_lhEmbLw6"
     }
   ]
 }
