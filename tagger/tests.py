@@ -24,10 +24,10 @@ class MyTestCase(TestCase):
                 'html': 'data_filing.html',
                 'json': 'data_highlights.json',
             },
-            # {
-            #     'html': 'data_text_filing.html',
-            #     'json': 'data_text_highlights.json',
-            # }
+            {
+                'html': 'data_text_filing.html',
+                'json': 'data_text_highlights.json',
+            }
         ]
         for d in data:
             self._test_get_range(d)
