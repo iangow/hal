@@ -75,23 +75,45 @@ class MySoup(object):
         self.highlights = d['rows']
         return self
 
+    def _iter_depth_first(self, e):
+        '''
+        Iterate through the text contained in this element and its
+        children, yielding (xpath, text) pairs as we go along.
+        '''
+        e_path = path(self.tree, e)
+
+        if e.text and not is_comment(e):
+            yield e_path, e.text
+
+        for c in e.getchildren():
+            for c_path, c_text in self._iter_depth_first(c):
+                yield c_path, c_text
+
+        if e.tail:
+            yield e_path, e.tail
+
     def get_range(self, start, end, startOffset, endOffset):
-        df = self.elements
-        path = df.path
-        a = path.map(lambda s: s.endswith(start))
-        assert a.sum() == 1
-        b = path.map(lambda s: s.endswith(end))
-        assert b.sum() == 1
-        lower = a.index[a][0]
-        # Given endOffset is typically larger than zero we almost
-        # always need to grab one extra element.
-        upper = b.index[b][0] + 1
+        my_iter = self._iter_depth_first(self.tree.getroot())
 
-        section = df.ix[lower:upper]
-        block = section.ix[section.has_text & -section.is_comment]
-        text = list(block.text + block['tail'])
+        started = False
+        ended = False
 
-        # Handle the offsets
-        text[0] = text[0][startOffset:]
-        text[-1] = text[-1][:endOffset]
-        return ''.join(text).strip()
+        nchars_past_end = 0
+        result = ''
+
+        for path, text in my_iter:
+            if path.endswith(start):
+                started = True
+            if path.endswith(end):
+                ended = True
+
+            if started:
+                result += text
+            if ended:
+                nchars_past_end += len(text)
+
+            if nchars_past_end >= endOffset:
+                break
+
+        cutoff = nchars_past_end - endOffset
+        return result[startOffset:(len(result) - cutoff)]

@@ -17,15 +17,17 @@ _fix = lambda s: s.encode('latin-1').decode('windows-1252')
 class MyTestCase(TestCase):
 
     def test_get_range(self):
+        self.maxDiff = None
+
         data = [
             {
                 'html': 'data_filing.html',
-                'json': 'data_highlights.json'
+                'json': 'data_highlights.json',
             },
-            {
-                'html': 'data_text_filing.html',
-                'json': 'data_text_highlights.json'
-            }
+            # {
+            #     'html': 'data_text_filing.html',
+            #     'json': 'data_text_highlights.json',
+            # }
         ]
         for d in data:
             self._test_get_range(d)
@@ -38,9 +40,6 @@ class MyTestCase(TestCase):
         for d in obj.highlights:
             ranges = d['ranges']
             assert len(ranges) == 1
-            text = obj.get_range(**ranges[0])
-
-            actual = paragraphs(text)
-            expected = paragraphs(d['quote'])
-            for a, b in zip(actual, expected):
-                self.assertEquals(_fix(a), b)
+            actual = obj.get_range(**ranges[0])
+            expected = d['quote']
+            self.assertEquals(_fix(actual), expected)
