@@ -1,0 +1,23 @@
+---
+title: Extracting director biographies from EDGAR filings
+output: pdf_document
+---
+
+The graph below illustrates how we extract the region of director biographies from a DEF 14A filing. The x-axis is the line number in the filing. The y-axis is the predicted probability that the line is part of the biography region. The predicted probabilities were estimated using keywords that appear more often in biographies than not, and director names. The actual bio region is shaded in pink, and the predicted region is shaded in blue. The bio region is found by maximizing the following objective function
+\[
+\max_{s, t} \sum_{i = s}^t \hat{P}(y_i=1 | x_i) - 0.05.
+\]
+We can see that for the filing on page 2 the predicted region is too small, and the filing on page 12 has a predicted region that is too large. But, overall, the algorithm for extracting bio regions is working quite well.
+
+\vspace{1in}
+
+```{r, echo=FALSE, message=FALSE, results='asis'}
+source('graph.R')
+print_detailed_graphs()
+```
+
+One graph for each filing cannot give us a bird's-eye view of how well we're pulling director biographies out of filings. The graph below has 16 line segments, one for each filing in our corpus. The left-most point in a line segment compares the start of the actual region to the start of the predicted region, the right-most point compares the end of the actual region to the end of the predicted region. If our algorithm was working perfectly we would see every line segment lying on the identity line of $y = x$ which is highlighted in blue. From this graph we can see our algorithm is working extremely well overall. The main blemish is the filing from page 2 where the predicted region starts later than the actual region.
+
+```{r, echo=FALSE, fig.align='center'}
+compare_regions()
+```

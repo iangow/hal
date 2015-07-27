@@ -1,0 +1,312 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{dsfont}
+\newcommand{\1}{\mathds{1}}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{color}
+\newcommand{\red}[1]{{\color{red}#1}}
+
+\title{Disclosure of Controversial Directorships in SEC Filings}
+\author{Andrew Marder}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{quote}
+  Effective February 28, 2010\dots Additional disclosure of any
+  directorships held by each director and nominee at any time during
+  the past five years at any public company or registered investment
+  company.
+
+  \url{https://www.sec.gov/rules/final/2009/33-9089.pdf}
+\end{quote}
+
+Did this change in disclosure rules affect how director nominees
+report their board memberships in proxy filings?  EDGAR filings
+provide board membership data; we know every instance where
+individual $i$ is on the board of company $c$ at time $t$. If
+individual $i$ is also on the board of company $c'$, we're interested
+to see when she does or does not disclose her membership on board
+$c'$ in the filing of company $c$. Let $B_i(t)$ be the set of boards that individual $i$ has served
+on prior to time $t$. Suppose individual $i$ is nominated for a board
+seat for company $c$ at time $t$, she has a choice of whether to
+disclose her other board memberships $B_i(t) - \{ c \}$. The data set
+we need to construct has a row for each membership that could be
+disclosed. Our dependent variable of interest is
+\[
+y_{ictc'} = \begin{cases}
+1 & \text{$i$ disclosed $c'$ membership in filing of company $c$ at time $t$}, \\
+0 & \text{otherwise}.
+\end{cases}
+\]
+
+There are a number of factors we would expect to impact an
+individual's choice to disclose board membership:
+\begin{enumerate}
+\item the reputation of company $c'$ at time $t$,
+\item the number of years since individual $i$ was last a member of
+  board $c'$,
+\item the disclosure policy at time $t$.
+\end{enumerate}
+Table \ref{tab:vardefs} provides a description of how these factors are
+operationalized.
+
+\begin{table}
+\centering
+\begin{tabular}{lp{3in}}
+\toprule
+Variable & Description \\
+\midrule
+$\text{BADREP}_{tc'}$ & company $c'$ has a bad reputation at time $t$ \\
+$\text{RECENT}_{itc'}$ & individual $i$'s membership on board $c'$
+                      expired less than five years before time $t$ \\
+$\text{POST}_t$ & time $t$ falls after policy change - February 28, 2010 \\
+$\text{TREAT}_{itc'}$ & $\text{BADREP}_{tc'} * \text{RECENT}_{itc'}$ \\
+\bottomrule
+\end{tabular}
+\caption{\label{tab:vardefs}Variable Definitions}
+\end{table}
+
+Using the variable definitions from Table \ref{tab:vardefs}, we use a
+difference-in-differences specification to measure the average
+treatment effect of the policy change.
+\[
+y_{ictc'} = \beta_0 + \beta_1 \text{POST}_{t} + \beta_2
+\text{TREAT}_{itc'} + \beta_3 \text{POST}_{t}
+\text{TREAT}_{itc'} + \epsilon_{ictc'}
+\]
+The coefficient $\beta_3$ measures the average treatment effect. After the
+policy change, how much did reporting of recent directorships on
+boards with bad reputations increase?
+
+\section*{Project Road Map}
+
+What needs to be done?
+\begin{enumerate}
+\item Each biography needs to be extracted from the DEF 14A filings and
+  associated with the appropriate nominee.
+\item Individuals need to be matched across filings. Individuals can
+  be matched using name, birth year, and gender.
+\item Board membership disclosures need to be extracted from each
+  biography. Looking at individual $i$'s biography in the filing for
+  company $c$ we need to see if $i$'s membership in $c'$ is reported.
+\item The final data set needs to be constructed and the regression
+  model estimated.
+\end{enumerate}
+Each section of this document describes how I plan to
+construct the data needed for each component of this project.
+
+\renewcommand*\contentsname{Outline}
+\tableofcontents
+
+\clearpage
+
+\section{Extracting Biographies from Filings}
+
+We have a large number of SEC filings. Let's index those filings using
+the variable $i$ which ranges from $1$ to $I$. Each document has a
+number of lines, let's index those lines using the variable $t$, which
+ranges from $1$ to $T_i$. Notice that the number of lines in a filing
+changes from filing to filing. Filing $i$ provides biographies of
+$J_i$ directors on the board. Again notice the number of directors
+changes across filings. We want to extract the lines in each
+filing that discuss a director, and link those lines with the specific
+director they discuss. To fit this application into a typical discrete
+choice model let
+\[
+y_{itj} = \begin{cases}
+1 & \text{line $t$ in filing $i$ is part of director $j$'s biography,} \\
+0 & \text{otherwise.}
+\end{cases}
+\]
+To make each line in filing $i$ about exactly one director we
+use $j = 0$ to mark lines that do not belong to director
+biographies. If $y_{it0} = 1$ then we know that line $t$ of filing $i$
+is not part of a director biography. By setting the data up in this
+way we know that 
+\[
+\sum_{j = 0}^{J_i} y_{itj} = 1
+\]
+for all $i$ and $t$. In other words, line $t$ in filing $i$ belongs to
+exactly one director biography or it belongs to no director
+biographies.
+
+Let $x_{itj}$ be a vector of characteristics of line $t$ in filing $i$
+with respect to director $j$. We are interested in predicting the
+probability that line $t$ is part of director $j$'s biography,
+$P(y_{itj} = 1 | x_{itj})$. We have two levers we can use
+to improve our predictions: (1) the model we use to estimate the
+conditional probabilities and (2) the characteristics we include in the vector of covariates
+$x_{itj}$.
+
+\subsection{Model}
+
+To start, I use a conditional logit model to predict the probability
+that each line is part of director $j$'s biography:
+\[
+P(y_{itj} = 1 | x_{itj}) = \frac{\exp(x_{itj} \beta)}{\sum_{j'=0}^{J_i}
+\exp(x_{itj'} \beta)}.
+\]
+I need to set the code up so it is relatively easy to use different
+models. That way we can evaluate a variety of models, as it isn't
+obvious what model will perform best on this task.
+
+It really seems like we want a nested logit. Thinking about it like a
+nested problem will help thinking about setting up the features.
+
+\subsection{Features}
+
+%% https://github.com/jeffdumont/RSGHB/blob/master/Examples/Advanced%20Example%20-%20Nested%20Logit/NL.R#L101
+
+This classification problem has two steps (1) is this line part of a
+director biography (2) if it is part of a biography which director is
+it about? The second step seems much easier to model. Assuming a line
+is part of a biography, the following two variables seem most useful
+in assigning that line to a given director:
+
+\begin{itemize}
+\item Density of director $j$'s last name in this line.
+\item Density of director $j$'s first name in this line.
+\end{itemize}
+
+The first step seems a bit harder at the moment.
+
+\begin{itemize}
+\item Dummy variable indicating if this row is about no director,
+  $\1(j=0)$. It is important to recognize that observations with $j=0$
+  are very different from observations with $j>0$. This dummy variable
+  may have interesting interactions with other covariates that should
+  be considered.
+\item More than one director last name contained in this line.
+\item No director last name contained in this line.
+\item Density of bio words contained in this line.
+\end{itemize}
+
+%% TODO: Describe how I chose these words.
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+Variable & Regular Expression \\
+\hline
+education & \texttt{(college|university|school|bachelor)} \\
+founding & \texttt{(co-)?found(ed|er|ing)?} \\
+verb & \texttt{(retired|spent|gained|brings)} \\
+pronoun & \texttt{(he|she)} \\
+position & \texttt{(chairman|chief|executive|officer|president)} \\
+\end{tabular}
+\end{table}
+
+\begin{verbatim}
+\end{verbatim}
+
+\subsection{Evaluation}
+
+Let $A$ and $B$ be finite sets, the Jaccard index is the ratio of
+the number of elements in both sets over the number of elements in
+either set
+\[
+\mathcal{J}(A, B) = \frac{ \| A \cap B \| }{ \| A \cup B \| }.
+\]
+The Jaccard index ranges from $0$ to $1$ with higher values
+representing a higher degree of similarity between the two sets.
+
+Let $A_{ij} = \{ t : y_{itj} = 1 \}$ be the set of lines in document
+$i$ about director $j$, and $\hat{A}_{ij}$ be the set of lines in
+document $i$ the model predicts to be about director $j$. I evaluate
+model predictions using the following metric
+\[
+\bar{\mathcal{J}}(\hat{A}) = \frac{1}{\sum_{i = 1}^I (J_i + 1)} \sum_{i = 1}^I \sum_{j = 0}^{J_i} \mathcal{J}(A_{ij}, \hat{A}_{ij}).
+\]
+This metric is the mean Jaccard index across all documents and all
+directors. This function returns a single number between $0$ and $1$
+describing how similar our predictions match reality.
+
+To avoid over fitting the model, I use k-fold cross validation to
+estimate model coefficients with a training set and evaluate the model
+fit with a test set.
+
+\subsection{Continuous Improvement}
+
+\[
+\begin{array}[c]{ccc}
+\text{Corpus} & \red{-\; estimate \rightarrow} & \text{Model Parameters} \\
+\red{\uparrow} & & \red{|} \\
+\red{update} & & \red{predict} \\
+\red{|} & & \red{\downarrow}\\
+\text{Problem Children} & \red{\leftarrow identify \;-} & \text{Biographies}
+\end{array}
+\]
+
+Some thoughts on continuous improvement:
+
+Identifying problem children should be unsupervised.
+
+The update step should allow for modifying the model and manually
+coding filings to add to the corpus.
+
+\section{Matching Individuals Across Filings\label{sec:matchit}}
+
+\section{Extracting Directorships from Biographies}
+
+To illustrate this step of the process, I have quoted the first
+biography from the first filing in the corpus. It comes from a filing
+for the Waters Corporation. I have highlighted Mr. Berthiaume's
+disclosed directorship in red. This filing is available
+online.\footnote{\url{http://www.sec.gov/Archives/edgar/data/1000697/000095013509002483/b73860dfdef14a.htm}}
+
+\begin{quote}
+Douglas A. Berthiaume, 60, has served as Chairman of the Board since
+February 1996 and has served as President, Chief Executive Officer and
+a Director of the Company since August 1994 (except from January 2002
+to March 2003, during which time he did not serve as President). From
+1990 to 1994, Mr. Berthiaume served as President of the Waters
+Chromatography Division of Millipore Corporation, the predecessor
+business of the Company, which was purchased in 1994. Mr. Berthiaume
+is the Chairman of the Children's Hospital Trust Board, and a
+trustee of the Children's Hospital Medical Center, The
+University of Massachusetts Amherst Foundation, and a
+director of \red{Genzyme Corporation}.
+\end{quote}
+
+There are 7,980 company names in the Equilar database. A naive
+comparison of the company names in the database against this biography
+would return two matches \texttt{GENZYME CORP} and
+\texttt{MILLIPORE CORP /MA}. Notice that interpreting the second match
+as a directorship would be a mistake. As an alternative, I propose the
+following method to determine whether a directorship is disclosed in a
+biography. Suppose we are examining individual $i$'s biography from
+company $c$ at time $t$:
+\begin{enumerate}
+\item Using the table constructed in Section \ref{sec:matchit}, select
+  all companies individual $i$ has been a director for with a start
+  date prior to time $t$.
+\item For each company name use the fuzzywuzzy library to
+  calculate the partial ratio of company name to biography text
+\[
+\text{partial\_ratio}(\text{NAME}_{c'}, \text{BIOGRAPHY}_{ict}).
+\]
+A value of 100 lets us know the name of company $c'$ occurs in the
+biography, a value of 0 lets us know it does not occur, and the closer
+the value gets to 100 the more similar a substring of the biography is
+to the company name. Record this measure in the database.
+\item Plot the distribution of partial ratios across all $ictc'$
+  combinations to see if there is an obvious cut point we can use to
+  define a disclosed variable
+\[
+\text{DISCLOSED}_{ictc'} = \text{partial\_ratio}(\text{NAME}_{c'},
+\text{BIOGRAPHY}_{ict}) \ge \text{cutoff}.
+\]
+\end{enumerate}
+
+TODO: This last point is inaccurate. We are going to have RAs mark
+whether a filing discloses each directorship expected. We'll use this
+data to estimate the optimal cutoff.
+
+
+\section{Pulling It All Together}
+
+\end{document}
