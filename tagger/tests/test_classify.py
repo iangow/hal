@@ -1,4 +1,4 @@
-from edgar import classify
+from .. import classify
 from StringIO import StringIO
 import pandas as pd
 import glob

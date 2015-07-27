@@ -7,7 +7,7 @@ from sqlalchemy import Column, String, Integer, Text
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from edgar.html2text import clean, paragraphs
+from html2text import clean, paragraphs
 import numpy as np
 import os
 import pandas as pd

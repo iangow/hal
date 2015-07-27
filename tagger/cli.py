@@ -9,7 +9,7 @@ downloaded from the SEC yet and downloads them, saving the data to the
 database.
 '''
 
-from edgar.models import engine, Filing, clean, session
+from models import engine, Filing, clean, session
 from sec_ftp import Client
 import json
 import os
@@ -17,11 +17,6 @@ import pandas as pd
 import random
 import sec_ftp
 import sys
-
-
-def _get_corpus_folders():
-    with open('corpus/corpus.txt') as f:
-        return f.read().split()
 
 
 def _get_director_names():
@@ -74,10 +69,6 @@ def _get_random_folders(n):
 def print_random_folders(n):
     folders = _get_random_folders(int(n))
     print '\n'.join(folders)
-
-
-with open(os.path.join('corpus', 'corpus.txt')) as f:
-    CORPUS_FOLDERS = [l.strip() for l in f]
 
 
 def write_corpus():

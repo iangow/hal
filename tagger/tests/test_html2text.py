@@ -1,11 +1,11 @@
-from edgar.html2text import clean, paragraphs
+from ..html2text import clean, paragraphs
 from nose.tools import assert_equal
 import codecs
 import re
 from nose.plugins.attrib import attr
 
 
-with codecs.open('tests/def14a.html', encoding='latin-1') as f:
+with codecs.open('tagger/tests/def14a.html', encoding='latin-1') as f:
     EXAMPLE_DEF14A = f.read()
 
 

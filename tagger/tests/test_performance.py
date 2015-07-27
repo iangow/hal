@@ -1,4 +1,4 @@
-from edgar.classify import Classifier, Corpus
+from ..classify import Classifier, Corpus
 from sklearn.cross_validation import KFold
 from nose.plugins.attrib import attr
 from nose.tools import assert_equal

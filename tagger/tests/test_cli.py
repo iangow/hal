@@ -1,6 +1,6 @@
 from unittest import TestCase
-from edgar.models import paragraphs, matching_paragraphs, Filing, session
-from edgar import cli
+from ..models import paragraphs, matching_paragraphs, Filing, session
+from .. import cli
 import requests
 import warnings
 import sqlalchemy

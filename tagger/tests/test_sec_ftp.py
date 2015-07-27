@@ -1,4 +1,4 @@
-from edgar.sec_ftp import Client, _parse
+from ..sec_ftp import Client, _parse
 from nose.plugins.attrib import attr
 import re
 
