@@ -67,27 +67,3 @@ Move Postgres to Linode
 Add director-id to existing entries in elastic search
 
 Nertagger of all bio segments
-
-
-I should copy the tests from here to make sure annotator can communicate with my app.
-
-https://github.com/openannotation/annotator-store/tree/master/tests
-
-create
-read
-update
-delete
-
-search1
-
-
-
- public | companies                  | table | postgres
- public | crosswalk                  | table | postgres
-
-public | equilar_proxies            | table | postgres
-public | director                   | table | postgres
- 
-public | matched_director_ids       | table | postgres
-public | mirror_biographysegment    | table | postgres
-public | mirror_filing              | table | postgres
