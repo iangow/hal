@@ -3,7 +3,7 @@ from models import Annotation
 import json
 
 
-class AnnotationTests(TestCase):
+class APITests(TestCase):
 
     def setUp(self):
         self.data = {
@@ -64,3 +64,12 @@ class AnnotationTests(TestCase):
     def test_delete(self):
         Client().delete('/annotations/1')
         self._check_count(0)
+
+
+class ModelTests(TestCase):
+
+    def test_timestamps(self):
+        a = Annotation.objects.create()
+        a.quote = 'hi'
+        a.save()
+        self.assertTrue(a.updated > a.created)
