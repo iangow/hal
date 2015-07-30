@@ -1,12 +1,3 @@
-'''
-Describe how we are saving data to the database. Also describe how we
-clean HTML filings to strict markdown.
-'''
-
-from sqlalchemy import Column, String, Integer, Text
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 from html2text import clean, paragraphs
 import numpy as np
 import os
@@ -15,24 +6,17 @@ import re
 import tempfile
 
 
-DATABASE_URL = 'sqlite:///%s' % os.environ.get('DATABASE', 'db.sqlite')
-engine = create_engine(DATABASE_URL)
-Session = sessionmaker(bind=engine)
-session = Session()
-Base = declarative_base()
-
-
-class Filing(Base):
+class Filing(object):
 
     __tablename__ = 'filings'
     HTTP_ROOT = 'http://www.sec.gov/Archives/edgar/data/'
 
-    id = Column(Integer, primary_key=True)
-    url = Column(String(75), unique=True)
-    type = Column(String(7), default='')
-    html = Column(Text, default='')
-    text = Column(Text, default='')
-    bios = Column(Text, default='')
+    # id = Column(Integer, primary_key=True)
+    # url = Column(String(75), unique=True)
+    # type = Column(String(7), default='')
+    # html = Column(Text, default='')
+    # text = Column(Text, default='')
+    # bios = Column(Text, default='')
 
     def path(self):
         return self.url.replace(self.HTTP_ROOT, '')
@@ -144,7 +128,3 @@ def matching_paragraphs(text, last_names):
     pattern = '(%s)' % '|'.join(last_names)
     matching = [p for p in paragraphs(text) if re.search(pattern, p, re.IGNORECASE)]
     return matching
-
-
-# TODO: Maybe we should put this somewhere else.
-Base.metadata.create_all(engine)

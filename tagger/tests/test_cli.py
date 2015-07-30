@@ -1,11 +1,9 @@
 from unittest import TestCase
-from ..models import paragraphs, matching_paragraphs, Filing, session
+from ..models import paragraphs, matching_paragraphs, Filing
 from .. import cli
 import requests
 import warnings
-import sqlalchemy
 import os
-from nose.plugins.attrib import attr
 
 
 class TestExtract(TestCase):

@@ -69,6 +69,17 @@ Add director-id to existing entries in elastic search
 Nertagger of all bio segments
 
 
+I should copy the tests from here to make sure annotator can communicate with my app.
+
+https://github.com/openannotation/annotator-store/tree/master/tests
+
+create
+read
+update
+delete
+
+search1
+
 
 
  public | companies                  | table | postgres

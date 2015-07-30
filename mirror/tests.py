@@ -1,5 +1,5 @@
 from django.test import TestCase
-from models import Filing, Db, DirectorFiling, other_directorships, Highlight
+from models import Filing, Db, DirectorFiling, other_directorships
 import os
 from django.test import Client
 from django.core.urlresolvers import reverse

@@ -42,11 +42,10 @@
     }
   },
   {
-    "model": "mirror.highlight",
-    "pk": "AU4iAVm1AHa09eOsU8PV",
+    "model": "annotation.annotation",
+    "pk": "1",
     "fields": {
-      "uri": "http://hal.marder.io/highlight/822663/000082266303000019",
-      "highlighted_by": 1,
+      "uri": "/highlight/822663/000082266303000019",
       "quote": "Philippe Santi\n \n\n\n Philippe Santi, age 41 and a Director since December 1999, has been the Director of Finance and the Chief Financial Officer of Inter Parfums, S.A. since February 1995. Mr. Santi is a Certified Accountant and Statutory Auditor in France.",
       "text": "Santi, Philippe",
       "ranges": [
@@ -56,9 +55,7 @@
           "startOffset": 3, 
           "endOffset": 0
         }
-      ],
-      "created": "2015-06-23T19:59:50.708730+00:00",
-      "updated": "2015-06-23T19:59:50.708753+00:00"
+      ]
     }
   },
   {
@@ -101,6 +98,3 @@
     }
   }
 ]
-
-
-
