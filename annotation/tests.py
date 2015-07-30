@@ -14,18 +14,34 @@ class AnnotationTests(TestCase):
             "uri": "/highlight/101271/000110465907029331"
         }
         self._check_count(0)
-        self._create_annotation()
+        self._create_annotation(self.data)
         self._check_count(1)
 
     def _check_count(self, n):
         self.assertEquals(Annotation.objects.count(), n)
 
-    def _create_annotation(self):
+    def _create_annotation(self, data):
         path = '/annotations'
-        Client().post(path, self.data)
+        Client().post(path, data)
+
+    def _search(self, path):
+        response = Client().get(path)
+        return json.loads(response.content)
 
     def test_search(self):
-        pass
+        new_data = {
+            "quote": ".",
+            "ranges": ".",
+            "text": ".",
+            "uri": "/new/page"
+        }
+        self._create_annotation(new_data)
+        path = '/search?format=json&uri=%2Fhighlight%2F101271%2F000110465907029331'
+        data = self._search(path)
+        self.assertEquals(len(data), 1)
+        path = '/search?format=json'
+        data = self._search(path)
+        self.assertEquals(len(data), 2)
 
     def test_create(self):
         a = Annotation.objects.all()[0]
