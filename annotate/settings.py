@@ -36,12 +36,14 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    # 'reversion',
 
     'mirror',
     'annotation',
 )
 
 MIDDLEWARE_CLASSES = (
+    # 'reversion.middleware.RevisionMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
