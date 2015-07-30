@@ -1,4 +1,14 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<script src="/static/js.cookie.js"></script>
+<script>
+  var csrftoken = Cookies.get('csrftoken');
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      }
+  });
+</script>
+
 <script src="//assets.annotateit.org/annotator/v1.1.0/annotator-full.min.js"></script>
 <link rel="stylesheet" href="//assets.annotateit.org/annotator/v1.1.0/annotator.min.css">
 
@@ -22,7 +32,7 @@ jQuery(function ($) {
 
         // Attach the uri of the current page to all annotations to allow search.
         annotationData: {
-            'uri': window.location.href,
+            'uri': '{{ url }}',
             'username': '{{ user.username }}'
         },
 
@@ -30,8 +40,8 @@ jQuery(function ($) {
         // request the last 50 annotations for the current url.
         // eg. /store/endpoint/search?limit=20&uri=http://this/document/only
         loadFromSearch: {
-            'limit': 50,
-            'uri': window.location.href
+            'format': 'json',
+            'uri': '{{ url }}'
         }
     });
 

@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import connection, OperationalError
 from django.db import models, ProgrammingError
-from jsonfield import JSONField
 from sec_ftp import Client
 import json
 import match_directors_across_filings
@@ -150,107 +149,6 @@ def other_directorships(director_id):
     cursor.execute(sql)
     rows = cursor.fetchall()
     return rows
-
-
-class Highlight(models.Model):
-    id = models.TextField(primary_key=True, unique=True, editable=False)
-    uri = models.TextField()
-    quote = models.TextField()
-    text = models.TextField()
-    ranges = JSONField()
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    highlighted_by = models.ForeignKey(User, null=True)
-
-    TO_COPY = [
-        'id',
-        'uri',
-        'quote',
-        'text',
-        'ranges',
-        'created',
-        'updated',
-    ]
-
-    @classmethod
-    def create(cls, **kwargs):
-        # l = kwargs['uri'].split('/')
-        # folder = '/'.join(l[-2:len(l)])
-        # 'filing': Filing.objects.get(folder=folder),
-        try:
-            user = User.objects.get(username=kwargs['username'])
-        except User.DoesNotExist:
-            user = None
-            
-        d = {
-            'highlighted_by': user
-        }
-        for k in cls.TO_COPY:
-            d[k] = kwargs[k]
-        return cls.objects.create(**d)
-
-    @classmethod
-    def get_or_create(cls, **kwargs):
-        try:
-            return cls.objects.get(id=kwargs['id'])
-        except cls.DoesNotExist:
-            return cls.create(**kwargs)
-
-    @classmethod
-    def _load_highlights_for(cls, folder):
-        uri = 'http://hal.marder.io/highlight/' + folder
-        url = os.environ['STORE_URL'] + '/search?uri=' + uri
-        response = requests.get(url)
-        d = json.loads(response.content)
-        for row in d['rows']:
-            cls.get_or_create(**row)
-
-    @classmethod
-    def load_highlights(cls):
-        rows = Filing.objects.filter(type='DEF 14A').values('folder')
-        for r in rows:
-            cls._load_highlights_for(r['folder'])
-            print '.'
-
-    def clean_quote(self):
-        blocks = re.split('\n\s*\n', self.quote)
-        stripped = [s.strip() for s in blocks]
-        paragraphs = [s for s in stripped if s]
-        f = lambda s: '\n'.join(textwrap.wrap(s))
-        wrapped = map(f, paragraphs)
-        return '\n\n'.join(wrapped)
-
-    def to_html(self):
-        return render_to_string('disclosures.html', self)
-
-    TYPES = {
-        'BIO': 'BiographySegment',
-    }
-
-    def type(self):
-        if '/highlight/' in self.uri:
-            return self.TYPES['BIO']
-
-    def folder(self):
-        assert self.type() == self.TYPES['BIO']
-        return self.uri.replace('http://hal.marder.io/highlight/', '')
-
-    def director_name(self):
-        assert self.type() == self.TYPES['BIO']
-        return self.text
-
-    @classmethod
-    def _find_example(cls):
-        for h in cls.objects.all()[0:200]:
-            l = h.other_directorships()
-            if len(l) > 1:
-                break
-        return h
-
-    def other_directorships(self, clean=True):
-        sql = render_to_string('get_other_boards.sql', {'bio': self})
-        rows = Db.execute(sql)
-        return [str(r[0]) for r in rows]
 
 
 class Db(object):

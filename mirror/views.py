@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from models import Filing, Highlight, Db
+from models import Filing, Db
 from random import randint
 import json
 from django.contrib.auth.decorators import login_required
@@ -58,8 +58,9 @@ def highlight(request, folder):
     director_names = json.dumps(f.director_names())
     highlight_html = render_to_string('highlight.html', {
         'director_names': director_names,
-        'STORE_URL': os.environ['STORE_URL'],
-        'user': request.user
+        'STORE_URL': 'http://' + request.get_host(),
+        'user': request.user,
+        'url': request.path,
     })
     html = _insert(filing_html, highlight_html)
     return HttpResponse(html)

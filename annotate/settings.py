@@ -34,7 +34,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
+
     'mirror',
+    'annotation',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -45,6 +49,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 )
 
 ROOT_URLCONF = 'annotate.urls'
@@ -98,3 +104,12 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+
+
+# REST
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
+CORS_ORIGIN_ALLOW_ALL = True
